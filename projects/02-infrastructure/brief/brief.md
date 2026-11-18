@@ -1,8 +1,8 @@
 # Phase 2 infrastructure brief
 
-Plan: Prepare local drafts, close the 72-service review, then submit the proposed cloud changes to Buddy for Founder approval.
+Plan: Document the free-only plan now and defer provisioning until phase 1 acceptance and Founder approval.
 
-Version 1.0 · 2026-11-17 ET
+Version 1.1 · 2026-11-17 ET
 
 - Owner: Orchestrator. Delivery lead and DevOps own implementation after approval.
 - Goal: Keep source control, pilot data and recovery usable within the $0 budget.
@@ -11,3 +11,5 @@ Version 1.0 · 2026-11-17 ET
 - Acceptance: Review provider terms and account-specific limits, verify private repository access and recovery from a synthetic test backup, and confirm all costs remain $0.
 - Target: 2026-12-05 ET for launch readiness; cloud provisioning follows phase 1 acceptance and Founder approval.
 - Output: [Draft](../work/implementation.md) and a short Russian report for Buddy.
+
+- Draft acceptance: Verify the three providers against their official documentation, record account-specific checks as pending, and leave all hosted resources untouched.
