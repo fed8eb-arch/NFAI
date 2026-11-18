@@ -55,7 +55,7 @@ def timestamp(message):
     return value.astimezone(ET)
 
 
-def inventory(export, start, end):
+def inventory(export, start, end, *, oldest_first=False):
     chat = json.loads(export.read_text(encoding="utf-8-sig"))
     if not isinstance(chat, dict) or not isinstance(chat.get("messages"), list):
         raise ValueError("Export a single chat as JSON. A full account export is outside scope.")
@@ -85,9 +85,10 @@ def inventory(export, start, end):
                 "posts": [source],
             }
     items = [found[key] for key in sorted(found)]
+    newest_first = not oldest_first
     for item in items:
-        item["posts"].sort(key=post_time, reverse=True)
-    return sorted(items, key=lambda item: post_time(item["posts"][0]), reverse=True)
+        item["posts"].sort(key=post_time, reverse=newest_first)
+    return sorted(items, key=lambda item: post_time(item["posts"][0]), reverse=newest_first)
 
 
 def post_time(post):
@@ -99,12 +100,14 @@ def main():
     parser.add_argument("export", type=Path)
     parser.add_argument("--from", dest="start", type=date.fromisoformat, required=True)
     parser.add_argument("--through", dest="end", type=date.fromisoformat, required=True)
+    parser.add_argument("--oldest-first", action="store_true",
+                        help="Order videos by their earliest post in the selected date range")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     if args.start > args.end:
         parser.error("--from must be on or before --through")
     try:
-        items = inventory(args.export.resolve(), args.start, args.end)
+        items = inventory(args.export.resolve(), args.start, args.end, oldest_first=args.oldest_first)
         with args.out.open("x", encoding="utf-8") as stream:
             json.dump(items, stream, ensure_ascii=False, indent=2)
             stream.write("\n")
