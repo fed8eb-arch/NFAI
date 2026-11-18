@@ -46,6 +46,17 @@ def youtube_id(url):
     return value if VIDEO_ID.fullmatch(value) else None
 
 
+def reviewed_video_ids(directory):
+    if not directory.is_dir():
+        raise ValueError(f"Reviewed results directory does not exist: {directory}")
+    return {
+        video_id
+        for note in directory.glob("*.md")
+        for link in URL.findall(note.read_text(encoding="utf-8-sig"))
+        if (video_id := youtube_id(link))
+    }
+
+
 def timestamp(message):
     if message.get("date_unixtime"):
         return datetime.fromtimestamp(int(message["date_unixtime"]), ET)
@@ -102,12 +113,17 @@ def main():
     parser.add_argument("--through", dest="end", type=date.fromisoformat, required=True)
     parser.add_argument("--oldest-first", action="store_true",
                         help="Order videos by their earliest post in the selected date range")
+    parser.add_argument("--exclude-reviewed", type=Path, metavar="RESULTS_DIR",
+                        help="Skip YouTube IDs already linked by Markdown notes in RESULTS_DIR")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     if args.start > args.end:
         parser.error("--from must be on or before --through")
     try:
         items = inventory(args.export.resolve(), args.start, args.end, oldest_first=args.oldest_first)
+        if args.exclude_reviewed:
+            reviewed = reviewed_video_ids(args.exclude_reviewed)
+            items = [item for item in items if item["kind"] != "youtube" or youtube_id(item["url"]) not in reviewed]
         with args.out.open("x", encoding="utf-8") as stream:
             json.dump(items, stream, ensure_ascii=False, indent=2)
             stream.write("\n")
