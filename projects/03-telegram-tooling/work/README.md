@@ -12,3 +12,7 @@ Dates are inclusive in America/New_York. The inventory contains canonical YouTub
 Use the inventory to collect transcripts and extract tools with timestamped evidence. Publish only reviewed, non-confidential findings and approved code to NFAI.
 
 To resume, add `--exclude-reviewed projects/03-telegram-tooling/results`. This skips exact YouTube IDs already linked in Markdown results, including links in another YouTube URL format. Local video attachments remain in the inventory. Compare the remaining items against previous findings by claim before publishing new evidence.
+
+## Deliverable checks
+
+Run `python3 projects/03-telegram-tooling/work/test_deliverable_checks.py -v` with `python-pptx` available. The tests create temporary performance reports and PowerPoint files, including a redirect and damaged slide XML. See the [performance check](../results/23-site-performance.md) and [presentation check](../results/24-presentation-acceptance.md) for the individual commands and their limits.
