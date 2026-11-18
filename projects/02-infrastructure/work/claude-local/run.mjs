@@ -1,9 +1,10 @@
 import { spawn, execFileSync } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
-import { chmodSync, existsSync, mkdtempSync, openSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { accessSync, chmodSync, closeSync, constants, existsSync, mkdtempSync, openSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { tmpdir } from 'node:os';
+import { createServer } from 'node:net';
 
 process.umask(0o077);
 const root = dirname(fileURLToPath(import.meta.url));
@@ -28,34 +29,95 @@ if (args[0] === '--document') {
 const prompt = args.join(' ').trim();
 const runtime = resolve(gatewayHome, 'qwen3-4b-state');
 const keyPath = resolve(runtime, 'claude-gateway.key');
-mkdirSync(runtime, { recursive: true });
-process.env.DATA_DIR = runtime;
-const gateway = 'http://127.0.0.1:20129';
-const runner = 'http://127.0.0.1:11435';
+const host = '127.0.0.1';
+const gatewayPort = 20129;
+const runnerPort = 11435;
+const gateway = `http://${host}:${gatewayPort}`;
+const runner = `http://${host}:${runnerPort}`;
 const model = 'qwen3-4b';
-let taskDir;
-const env = {
-  ...process.env,
-  OMNIROUTE_SERVER_HOST: '127.0.0.1',
-  OMNIROUTE_PROXY_ECHO_URL: runner + '/health',
-  REQUIRE_API_KEY: 'true',
-  NEXT_TELEMETRY_DISABLED: '1',
-};
-const llamaLog = openSync(resolve(runtime, 'llama.log'), 'w');
-const omniLog = openSync(resolve(runtime, 'omni.log'), 'w');
-const llama = spawn(resolve(gatewayHome, 'llama-b12494/llama-server'), [
-  '--host', '127.0.0.1', '--port', '11435', '-m', resolve(gatewayHome, 'models/qwen3-4b-q4.gguf'),
-  '--alias', model, '-c', '16384', '-t', '4', '--parallel', '1', '-ngl', '0', '--jinja', '--reasoning', 'off',
-], { stdio: ['ignore', llamaLog, llamaLog] });
-const omni = spawn(resolve(omniPackage, 'bin/omniroute.mjs'), [
-  'serve', '--port', '20129', '--headless', '--no-open', '--no-tray', '--no-recovery',
-], { env, stdio: ['ignore', omniLog, omniLog], detached: true });
+const llamaPath = resolve(gatewayHome, 'llama-b12494/llama-server');
+const modelPath = resolve(gatewayHome, 'models/qwen3-4b-q4.gguf');
+const omniPath = resolve(omniPackage, 'bin/omniroute.mjs');
+const tokenPath = resolve(omniPackage, 'bin/cli/utils/cliToken.mjs');
+const launcherLock = `/tmp/nfai-claude-local-${process.getuid()}-11435-20129.lock`;
+let llama, omni, taskDir, lockFd;
+
+function acquireLauncherLock() {
+  try {
+    lockFd = openSync(launcherLock, 'wx', 0o600);
+  } catch (error) {
+    if (error.code === 'EEXIST') {
+      throw new Error(`Another NFAI Claude launcher owns the local ports or left a lock: ${launcherLock}`);
+    }
+    throw error;
+  }
+  writeFileSync(lockFd, String(process.pid) + '\n');
+}
+
+function requireFile(path, mode, label) {
+  try {
+    accessSync(path, mode);
+    if (statSync(path).isFile()) return;
+  } catch {}
+  throw new Error(`Missing or inaccessible ${label}: ${path}`);
+}
+
+function listen(server, options) {
+  return new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(options, () => {
+      server.off('error', reject);
+      resolve();
+    });
+  });
+}
+
+async function checkPort(port) {
+  const probe = createServer(socket => socket.destroy());
+  try {
+    await listen(probe, { host, port, exclusive: true });
+  } catch (error) {
+    throw new Error(`Cannot bind local port ${port}: ${error.code ?? error.message}`);
+  }
+  await new Promise(resolve => probe.close(resolve));
+}
+
+function spawnLogged(command, args, log, options = {}) {
+  const fd = openSync(resolve(runtime, log), 'a');
+  try {
+    const child = spawn(command, args, { ...options, stdio: ['ignore', fd, fd] });
+    child.once('error', error => { child.startError = error; });
+    return child;
+  } finally {
+    closeSync(fd);
+  }
+}
+
+function reportUsage(source, usage) {
+  const counters = {};
+  for (const field of ['input_tokens', 'output_tokens', 'cache_creation_input_tokens', 'cache_read_input_tokens']) {
+    const count = usage?.[field];
+    counters[field] = Number.isSafeInteger(count) && count >= 0 ? count : null;
+  }
+  console.log(`Usage ${source}:`, JSON.stringify(counters));
+}
+
+async function stopChild(child, processGroup = false) {
+  if (!child?.pid || child.exitCode !== null || child.signalCode) return;
+  const closed = new Promise(resolve => child.once('close', resolve));
+  try {
+    if (processGroup) process.kill(-child.pid);
+    else child.kill();
+  } catch {}
+  await Promise.race([closed, delay(2000, undefined, { ref: false })]);
+}
 
 async function ready(url, child) {
   for (let attempt = 0; attempt < 45; attempt++) {
+    if (child.startError) throw child.startError;
+    if (child.exitCode !== null || child.signalCode) throw new Error(`Server stopped before health check: ${url} (${child.signalCode ?? "exit " + child.exitCode})`);
     const response = await fetch(url, { signal: AbortSignal.timeout(1000) }).catch(() => null);
     if (response?.ok) return;
-    if (child.exitCode !== null) throw new Error('Server stopped before health check: ' + url);
     await delay(1000);
   }
   throw new Error('Health check timed out: ' + url);
@@ -79,8 +141,32 @@ async function post(path, body, headers, retries = 0) {
 }
 
 try {
+  requireFile(llamaPath, constants.X_OK, 'llama-server');
+  requireFile(modelPath, constants.R_OK, 'GGUF model');
+  requireFile(omniPath, constants.X_OK, 'OmniRoute launcher');
+  requireFile(tokenPath, constants.R_OK, 'OmniRoute token module');
+  requireFile(claudePath, constants.X_OK, 'Claude Code launcher');
+  acquireLauncherLock();
+  await checkPort(runnerPort);
+  await checkPort(gatewayPort);
+  mkdirSync(runtime, { recursive: true });
+  process.env.DATA_DIR = runtime;
+  const env = {
+    ...process.env,
+    OMNIROUTE_SERVER_HOST: host,
+    OMNIROUTE_PROXY_ECHO_URL: runner + '/health',
+    REQUIRE_API_KEY: 'true',
+    NEXT_TELEMETRY_DISABLED: '1',
+  };
+  llama = spawnLogged(llamaPath, [
+    '--host', host, '--port', String(runnerPort), '-m', modelPath,
+    '--alias', model, '-c', '16384', '-t', '4', '--parallel', '1', '-ngl', '0', '--jinja', '--reasoning', 'off',
+  ], 'llama.log');
+  omni = spawnLogged(omniPath, [
+    'serve', '--port', String(gatewayPort), '--headless', '--no-open', '--no-tray', '--no-recovery',
+  ], 'omni.log', { env, detached: true });
   await Promise.all([ready(runner + '/health', llama), ready(gateway + '/api/health', omni)]);
-  const tokenModule = pathToFileURL(resolve(omniPackage, 'bin/cli/utils/cliToken.mjs'));
+  const tokenModule = pathToFileURL(tokenPath);
   const { getCliToken, CLI_TOKEN_HEADER } = await import(tokenModule.href);
   const management = { [CLI_TOKEN_HEADER]: await getCliToken() };
   let key;
@@ -104,6 +190,7 @@ try {
     const answer = response.content?.map(part => part.text).join('').trim();
     if (answer !== '43') throw new Error('Unexpected gateway response: ' + answer);
     console.log('Gateway result:', answer);
+    reportUsage('gateway', response.usage);
   }
   const cliEnv = {
     ...env, ANTHROPIC_BASE_URL: gateway, ANTHROPIC_AUTH_TOKEN: key, ANTHROPIC_API_KEY: '',
@@ -134,6 +221,7 @@ try {
   const code = await new Promise((done, failed) => { cli.on('close', done); cli.on('error', failed); });
   const events = output.trim().split('\n').filter(Boolean).map(line => JSON.parse(line));
   const result = events.findLast(event => event.type === 'result');
+  if (result) reportUsage('claude', result.usage);
   if (inputPath) {
     const calls = events.flatMap(event => event.message?.content ?? [])
       .filter(part => part.type === 'tool_use').map(part => part.name);
@@ -156,7 +244,10 @@ try {
   console.error(error.message);
   process.exitCode = 1;
 } finally {
+  await Promise.all([stopChild(llama), stopChild(omni, true)]);
   if (taskDir) rmSync(taskDir, { recursive: true, force: true });
-  llama.kill();
-  try { process.kill(-omni.pid); } catch {}
+  if (lockFd !== undefined) {
+    closeSync(lockFd);
+    rmSync(launcherLock, { force: true });
+  }
 }
