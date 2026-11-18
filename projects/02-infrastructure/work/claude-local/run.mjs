@@ -37,6 +37,7 @@ let taskDir;
 const env = {
   ...process.env,
   OMNIROUTE_SERVER_HOST: '127.0.0.1',
+  OMNIROUTE_PROXY_ECHO_URL: runner + '/health',
   REQUIRE_API_KEY: 'true',
   NEXT_TELEMETRY_DISABLED: '1',
 };
@@ -44,7 +45,7 @@ const llamaLog = openSync(resolve(runtime, 'llama.log'), 'w');
 const omniLog = openSync(resolve(runtime, 'omni.log'), 'w');
 const llama = spawn(resolve(gatewayHome, 'llama-b12494/llama-server'), [
   '--host', '127.0.0.1', '--port', '11435', '-m', resolve(gatewayHome, 'models/qwen3-4b-q4.gguf'),
-  '--alias', model, '-c', '16384', '-t', '8', '-ngl', '0', '--jinja', '--reasoning', 'off',
+  '--alias', model, '-c', '16384', '-t', '4', '--parallel', '1', '-ngl', '0', '--jinja', '--reasoning', 'off',
 ], { stdio: ['ignore', llamaLog, llamaLog] });
 const omni = spawn(resolve(omniPackage, 'bin/omniroute.mjs'), [
   'serve', '--port', '20129', '--headless', '--no-open', '--no-tray', '--no-recovery',
