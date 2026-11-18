@@ -11,6 +11,17 @@
           }
         ]
       }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s\\n' 'For the NFAI handoff, preserve the active task, completed checks with evidence, the current branch or commit if known, unresolved blockers, and the next verification step. Keep only paths and public evidence needed to resume. Omit credentials, personal data, and raw private material.'",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   }
 }
