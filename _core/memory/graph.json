@@ -441,6 +441,15 @@
         "AGENTS.md",
         "_core/staff/rule-joker.md"
       ]
+    },
+    {
+      "id": "telegram-tooling",
+      "kind": "task",
+      "label": "Разбор подборки Telegram и внедрение инструментов",
+      "sources": [
+        "projects/03-telegram-tooling/brief/brief.md",
+        "status.md"
+      ]
     }
   ],
   "edges": [
@@ -881,6 +890,30 @@
       "relation": "implementation_after_approval",
       "target": "devops-engineer",
       "evidence": "projects/02-infrastructure/brief/brief.md"
+    },
+    {
+      "source": "telegram-tooling",
+      "relation": "assigned_to",
+      "target": "telegram-parser",
+      "evidence": "projects/03-telegram-tooling/brief/brief.md"
+    },
+    {
+      "source": "telegram-tooling",
+      "relation": "requires_review_from",
+      "target": "tester",
+      "evidence": "projects/03-telegram-tooling/brief/brief.md"
+    },
+    {
+      "source": "telegram-tooling",
+      "relation": "tracked_in",
+      "target": "status",
+      "evidence": "projects/03-telegram-tooling/brief/brief.md"
+    },
+    {
+      "source": "telegram-tooling",
+      "relation": "governed_by",
+      "target": "zero-spend",
+      "evidence": "projects/03-telegram-tooling/brief/brief.md"
     }
   ]
 }
