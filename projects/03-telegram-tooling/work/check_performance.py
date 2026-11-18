@@ -18,13 +18,21 @@ PROFILE_FIELDS = ("formFactor", "throttlingMethod", "throttling", "screenEmulati
 
 def read_report(path):
     report = json.loads(path.read_text(encoding="utf-8"))
-    if report.get("runtimeError") or report.get("gatherMode", "navigation") != "navigation":
-        raise ValueError("A successful Lighthouse navigation report is required")
     settings = report["configSettings"]
+    if report.get("runtimeError") or report.get("gatherMode", settings.get("gatherMode", "navigation")) != "navigation":
+        raise ValueError("A successful Lighthouse navigation report is required")
     route = urlsplit(report["requestedUrl"])
+    final_url = report.get("finalDisplayedUrl") or report.get("finalUrl")
+    destination = None
+    if final_url:
+        final_route = urlsplit(final_url)
+        if final_route.netloc != route.netloc:
+            raise ValueError("Report redirects to a different host")
+        destination = (final_route.path or "/", final_route.query)
     profile = (
         route.path or "/",
         route.query,
+        destination,
         report["lighthouseVersion"],
         *(settings[field] for field in PROFILE_FIELDS),
     )
@@ -62,7 +70,7 @@ def main():
         baseline_profile, baseline = read_report(args.baseline)
         candidate_profile, candidate = read_report(args.candidate)
         if baseline_profile != candidate_profile:
-            raise ValueError("Reports must use the same route, Lighthouse version and measurement profile")
+            raise ValueError("Reports must use the same requested and final route, Lighthouse version and measurement profile")
     except (OSError, AttributeError, KeyError, TypeError, ValueError) as error:
         print(f"Cannot compare reports: {error}", file=sys.stderr)
         return 2

@@ -2,11 +2,13 @@
 
 import argparse
 from pathlib import Path
+from zipfile import BadZipFile
+
+from lxml.etree import XMLSyntaxError
 
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 from pptx.exc import PackageNotFoundError
-from zipfile import BadZipFile
 
 
 def has_editable_text(shapes):
@@ -31,7 +33,7 @@ def main():
         slides = Presentation(args.presentation).slides
         count = len(slides)
         editable = sum(has_editable_text(slide.shapes) for slide in slides)
-    except (OSError, PackageNotFoundError, BadZipFile, ValueError, KeyError) as error:
+    except (OSError, PackageNotFoundError, BadZipFile, XMLSyntaxError, ValueError, KeyError) as error:
         parser.exit(2, f"Cannot open PowerPoint file: {error}\n")
     print(f"Slides: {count}/{args.slides}")
     print(f"Slides with editable text: {editable}/{count}")
