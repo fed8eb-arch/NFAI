@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "nfai-memory": {
+      "command": "uv",
+      "args": ["run", "--with", "mcp==1.26.0", "python", "_core/memory/mcp_server.py"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["--yes", "@playwright/mcp@0.0.85", "--headless", "--isolated"]
+    }
+  }
+}
