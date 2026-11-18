@@ -84,7 +84,14 @@ def inventory(export, start, end):
                 "kind": "attachment", "media": str(candidate.relative_to(export.parent)) if available else None,
                 "posts": [source],
             }
-    return [found[key] for key in sorted(found)]
+    items = [found[key] for key in sorted(found)]
+    for item in items:
+        item["posts"].sort(key=post_time, reverse=True)
+    return sorted(items, key=lambda item: post_time(item["posts"][0]), reverse=True)
+
+
+def post_time(post):
+    return datetime.fromisoformat(post["posted_et"])
 
 
 def main():
