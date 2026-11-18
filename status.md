@@ -18,7 +18,12 @@
 |---|---|---|---|---|
 | Оркестратор | Poe | 17.11.2026 · blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения · Бонус/данные: — (не проверено) | — | [_core/pilot/accounts.md](_core/pilot/accounts.md); сверка по [_core/pilot/status.md](_core/pilot/status.md) |
 | Оркестратор | Google (AI Studio) | 17.11.2026 · blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения · Бонус/данные: — (не проверено) | — | [_core/pilot/accounts.md](_core/pilot/accounts.md); сверка по [_core/pilot/status.md](_core/pilot/status.md) |
-| Оркестратор | Groq | 17.11.2026 · blocked: signup_blocked (IP/region likely) — оба раза после magic link; повтор 14:06 Ref 39e18c6e…; аккаунт НЕ создан · Бонус/данные: — (не проверено) | — | [_core/pilot/accounts.md](_core/pilot/accounts.md); сверка по [_core/pilot/status.md](_core/pilot/status.md) |
+| Пётр | Groq | Подключён вручную, открыт Default Project. API и бонус не проверены | — | [Журнал](journal.md), 20:36 и 20:48 ET |
+| Пётр | Mistral | Подключён вручную. API и бонус не проверены после входа | — | [Журнал](journal.md), 20:36 и 20:48 ET |
+| Пётр | Viggle | Аккаунт открыт вручную. API и бонус не проверены | — | [Журнал](journal.md), 20:38 и 20:48 ET |
+| Пётр | Leonardo | Подключён вручную. API и бонус не проверены | — | [Журнал](journal.md), 20:48 ET |
+| Джокер | NightCafe / Microsoft Copilot / HeyGen | HOLD, не повторять. Cloudflare / необычные действия / письмо не пришло | — | [Журнал](journal.md), 20:48 ET |
+| Джокер | Фаза 1 и план фазы 2 | В работе. Сверка очереди и подготовка локального плана $0 | 05.12 | [Бриф фазы 1](projects/01-services-signup/brief/brief.md) |
 | Оркестратор | OpenRouter | 17.11.2026 · created 14:11 (email verified); баланс $0.00, 0 транзакций; 2 ключа «Default key» (лимит $100 каждый, не скопированы) — оставить, не отзывать (решение Основателя через Директора 14:18); логин в Vault «OpenRouter (agency)» · Бонус/данные: нет: Credits $0.00, 0 tx; $100 — лимит ключа, не подарок; промо/стартап — проверка в очереди | — | [_core/pilot/accounts.md](_core/pilot/accounts.md); сверка по [_core/pilot/status.md](_core/pilot/status.md) |
 | Оркестратор | Z.ai | 2026-11-17 · dropped 15:14 (Founder t343u): slider-captcha; форма заполнена, не отправлена; Vault 5158815 · Бонус/данные: нет (бонусов не видно); скрин 4d4a8cf9… | — | [_core/pilot/accounts.md](_core/pilot/accounts.md); сверка по [_core/pilot/status.md](_core/pilot/status.md) |
 | Оркестратор | GitHub | 2026-11-17 · blocked: HTTP 403 на github.com/signup (вероятно блок бота/IP); аккаунт НЕ создан | — | [_core/pilot/accounts.md](_core/pilot/accounts.md); сверка по [_core/pilot/status.md](_core/pilot/status.md) |
