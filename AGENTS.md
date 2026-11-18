@@ -78,3 +78,7 @@ const browser = await chromium.launch({
 
 ## Доступ к роутеру
 Перед вызовом роутера загрузи ключ, не печатая его: `set -a; . ~/secrets/agency-llm.env; set +a`, затем заголовок `Authorization: Bearer $LITELLM_MASTER_KEY`. Модели: free-chat, gemini-free, llm7-free, cf-free. Ключ никогда не выводить и не коммитить.
+
+## Общий граф памяти агентов
+
+При получении или передаче задачи сверяй свою роль и связи задачи с [общим графом памяти](_core/memory/README.md), затем открывай первоисточники. При изменении связей обновляй граф вместе с исходными файлами. Перед коммитом запускай `python3 _core/memory/query.py check`.

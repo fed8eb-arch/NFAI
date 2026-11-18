@@ -1,0 +1,886 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "founder",
+      "kind": "role",
+      "label": "Пётр, Основатель",
+      "sources": [
+        "AGENTS.md"
+      ]
+    },
+    {
+      "id": "buddy",
+      "kind": "role",
+      "label": "Бадди, Директор",
+      "sources": [
+        "AGENTS.md"
+      ]
+    },
+    {
+      "id": "account-manager",
+      "kind": "role",
+      "label": "Account Manager (Менеджер по клиентам)",
+      "sources": [
+        "_core/staff/account-manager.md"
+      ]
+    },
+    {
+      "id": "ads-specialist",
+      "kind": "role",
+      "label": "Ads Specialist (Рекламные кампании)",
+      "sources": [
+        "_core/staff/ads-specialist.md"
+      ]
+    },
+    {
+      "id": "ai-certified-mentor",
+      "kind": "role",
+      "label": "AI Mentor (ИИ-ментор, технологический) / Mentor Council member",
+      "sources": [
+        "_core/staff/ai-certified-mentor.md"
+      ]
+    },
+    {
+      "id": "architect",
+      "kind": "role",
+      "label": "Architect (Архитектор)",
+      "sources": [
+        "_core/staff/architect.md"
+      ]
+    },
+    {
+      "id": "billing",
+      "kind": "role",
+      "label": "Billing (Биллинг)",
+      "sources": [
+        "_core/staff/billing.md"
+      ]
+    },
+    {
+      "id": "business-angel",
+      "kind": "role",
+      "label": "Business Angel (Бизнес-ангел) / Mentor Council",
+      "sources": [
+        "_core/staff/business-angel.md"
+      ]
+    },
+    {
+      "id": "client-head",
+      "kind": "role",
+      "label": "Head of Client Relations (Глава клиентского департамента)",
+      "sources": [
+        "_core/staff/client-head.md"
+      ]
+    },
+    {
+      "id": "client-requirements-analyst",
+      "kind": "role",
+      "label": "Client Requirements Analyst (Аналитик требований заказчика)",
+      "sources": [
+        "_core/staff/client-requirements-analyst.md"
+      ]
+    },
+    {
+      "id": "client-support",
+      "kind": "role",
+      "label": "Client Support (Поддержка клиентов)",
+      "sources": [
+        "_core/staff/client-support.md"
+      ]
+    },
+    {
+      "id": "codex-joker",
+      "kind": "role",
+      "label": "Joker (Codex) — Staff Role",
+      "sources": [
+        "_core/staff/codex-joker.md"
+      ]
+    },
+    {
+      "id": "content-manager",
+      "kind": "role",
+      "label": "Content Manager (Контент-менеджер)",
+      "sources": [
+        "_core/staff/content-manager.md"
+      ]
+    },
+    {
+      "id": "cost-controller",
+      "kind": "role",
+      "label": "Cost Controller (Контроль расходов)",
+      "sources": [
+        "_core/staff/cost-controller.md"
+      ]
+    },
+    {
+      "id": "counterintelligence",
+      "kind": "role",
+      "label": "Counterintelligence Officer (Контрразведчик)",
+      "sources": [
+        "_core/staff/counterintelligence.md"
+      ]
+    },
+    {
+      "id": "delivery-head",
+      "kind": "role",
+      "label": "Head of Delivery (Глава департамента доставки)",
+      "sources": [
+        "_core/staff/delivery-head.md"
+      ]
+    },
+    {
+      "id": "delivery-support",
+      "kind": "role",
+      "label": "Delivery Support (Поддержка доставки)",
+      "sources": [
+        "_core/staff/delivery-support.md"
+      ]
+    },
+    {
+      "id": "developer",
+      "kind": "role",
+      "label": "Developer (Разработчик)",
+      "sources": [
+        "_core/staff/developer.md"
+      ]
+    },
+    {
+      "id": "devops-engineer",
+      "kind": "role",
+      "label": "DevOps Engineer (DevOps-инженер)",
+      "sources": [
+        "_core/staff/devops-engineer.md"
+      ]
+    },
+    {
+      "id": "finance-head",
+      "kind": "role",
+      "label": "Head of Finance (Глава финансового департамента)",
+      "sources": [
+        "_core/staff/finance-head.md"
+      ]
+    },
+    {
+      "id": "financial-analyst",
+      "kind": "role",
+      "label": "Financial Analyst (Финансовый аналитик)",
+      "sources": [
+        "_core/staff/financial-analyst.md"
+      ]
+    },
+    {
+      "id": "hr-head",
+      "kind": "role",
+      "label": "Head of HR (Глава HR)",
+      "sources": [
+        "_core/staff/hr-head.md"
+      ]
+    },
+    {
+      "id": "integration-developer",
+      "kind": "role",
+      "label": "Integration Developer (Разработчик интеграций)",
+      "sources": [
+        "_core/staff/integration-developer.md"
+      ]
+    },
+    {
+      "id": "intelligence-head-vatican",
+      "kind": "role",
+      "label": "Intelligence Head, \"Vatican\" (Разведка, Ватикан)",
+      "sources": [
+        "_core/staff/intelligence-head-vatican.md"
+      ]
+    },
+    {
+      "id": "internal-security-head",
+      "kind": "role",
+      "label": "Head of Internal Security (Глава внутренней безопасности)",
+      "sources": [
+        "_core/staff/internal-security-head.md"
+      ]
+    },
+    {
+      "id": "lawyer",
+      "kind": "role",
+      "label": "Lawyer (Юрист)",
+      "sources": [
+        "_core/staff/lawyer.md"
+      ]
+    },
+    {
+      "id": "legal-head",
+      "kind": "role",
+      "label": "Head of Legal (Глава юридического департамента)",
+      "sources": [
+        "_core/staff/legal-head.md"
+      ]
+    },
+    {
+      "id": "market-competitor-researcher",
+      "kind": "role",
+      "label": "Market & Competitor Researcher (Исследователь рынка и конкурентов)",
+      "sources": [
+        "_core/staff/market-competitor-researcher.md"
+      ]
+    },
+    {
+      "id": "marketer",
+      "kind": "role",
+      "label": "Marketer (Маркетолог)",
+      "sources": [
+        "_core/staff/marketer.md"
+      ]
+    },
+    {
+      "id": "marketing-head",
+      "kind": "role",
+      "label": "Head of Marketing (Глава маркетингового департамента)",
+      "sources": [
+        "_core/staff/marketing-head.md"
+      ]
+    },
+    {
+      "id": "orchestrator",
+      "kind": "role",
+      "label": "Orchestrator (Оркестратор)",
+      "sources": [
+        "_core/staff/orchestrator.md"
+      ]
+    },
+    {
+      "id": "order-intelligence",
+      "kind": "role",
+      "label": "Order Intelligence (Орденская разведка)",
+      "sources": [
+        "_core/staff/order-intelligence.md"
+      ]
+    },
+    {
+      "id": "osint-scout",
+      "kind": "role",
+      "label": "OSINT Scout (ОСИНТ-разведчик)",
+      "sources": [
+        "_core/staff/osint-scout.md"
+      ]
+    },
+    {
+      "id": "product-head",
+      "kind": "role",
+      "label": "Head of Product (Глава продуктового департамента)",
+      "sources": [
+        "_core/staff/product-head.md"
+      ]
+    },
+    {
+      "id": "product-manager",
+      "kind": "role",
+      "label": "Product Manager (Менеджер продукта)",
+      "sources": [
+        "_core/staff/product-manager.md"
+      ]
+    },
+    {
+      "id": "professor",
+      "kind": "role",
+      "label": "Professor (Профессор)",
+      "sources": [
+        "_core/staff/professor.md"
+      ]
+    },
+    {
+      "id": "prompt-engineer",
+      "kind": "role",
+      "label": "Prompt Engineer (Промпт-инженер)",
+      "sources": [
+        "_core/staff/prompt-engineer.md"
+      ]
+    },
+    {
+      "id": "recruiter",
+      "kind": "role",
+      "label": "Recruiter (Рекрутер)",
+      "sources": [
+        "_core/staff/recruiter.md"
+      ]
+    },
+    {
+      "id": "seo-specialist",
+      "kind": "role",
+      "label": "SEO Specialist (SEO-специалист)",
+      "sources": [
+        "_core/staff/seo-specialist.md"
+      ]
+    },
+    {
+      "id": "telegram-parser",
+      "kind": "role",
+      "label": "Telegram Parser (Парсер Telegram)",
+      "sources": [
+        "_core/staff/telegram-parser.md"
+      ]
+    },
+    {
+      "id": "tester",
+      "kind": "role",
+      "label": "Tester (Тестировщик)",
+      "sources": [
+        "_core/staff/tester.md"
+      ]
+    },
+    {
+      "id": "web-designer",
+      "kind": "role",
+      "label": "Web Designer (Веб-дизайнер)",
+      "sources": [
+        "_core/staff/web-designer.md"
+      ]
+    },
+    {
+      "id": "rules",
+      "kind": "source",
+      "label": "Рабочие правила и границы полномочий",
+      "sources": [
+        "AGENTS.md",
+        "_core/pilot/rules.md"
+      ]
+    },
+    {
+      "id": "status",
+      "kind": "source",
+      "label": "Состояние и доказательства",
+      "sources": [
+        "status.md"
+      ]
+    },
+    {
+      "id": "journal",
+      "kind": "source",
+      "label": "История решений и проверок",
+      "sources": [
+        "journal.md",
+        "_core/staff/errors-log.md"
+      ]
+    },
+    {
+      "id": "inbox",
+      "kind": "source",
+      "label": "Ручные шаги и запросы на приёмку",
+      "sources": [
+        "inbox/needs.md"
+      ]
+    },
+    {
+      "id": "launch",
+      "kind": "source",
+      "label": "План запуска",
+      "sources": [
+        "_core/staff/launch-plan.md"
+      ]
+    },
+    {
+      "id": "phase-1",
+      "kind": "task",
+      "label": "Фаза 1 · Подключение сервисов",
+      "sources": [
+        "projects/01-services-signup/brief/brief.md",
+        "status.md"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "kind": "task",
+      "label": "Фаза 2 · Инфраструктура",
+      "sources": [
+        "projects/02-infrastructure/brief/brief.md",
+        "projects/02-infrastructure/work/implementation.md",
+        "status.md"
+      ]
+    },
+    {
+      "id": "document-workflow",
+      "kind": "task",
+      "label": "Приёмка Claude Code для документов",
+      "sources": [
+        "projects/02-infrastructure/work/claude-local/README.md",
+        "inbox/needs.md",
+        "status.md"
+      ]
+    },
+    {
+      "id": "manual-signup",
+      "kind": "blocker",
+      "label": "Ручные шаги регистрации и входа",
+      "sources": [
+        "inbox/needs.md"
+      ]
+    },
+    {
+      "id": "phase-1-acceptance",
+      "kind": "blocker",
+      "label": "Приёмка фазы 1 перед развёртыванием фазы 2",
+      "sources": [
+        "AGENTS.md",
+        "projects/02-infrastructure/brief/brief.md"
+      ]
+    },
+    {
+      "id": "zero-spend",
+      "kind": "decision",
+      "label": "Новые расходы $0",
+      "sources": [
+        "AGENTS.md"
+      ]
+    },
+    {
+      "id": "signup-stops",
+      "kind": "decision",
+      "label": "Границы разрешённых регистраций",
+      "sources": [
+        "AGENTS.md",
+        "_core/staff/rule-joker.md"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "buddy",
+      "relation": "reports_to",
+      "target": "founder",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "account-manager",
+      "relation": "reports_to",
+      "target": "client-head",
+      "evidence": "_core/staff/account-manager.md"
+    },
+    {
+      "source": "ads-specialist",
+      "relation": "reports_to",
+      "target": "marketing-head",
+      "evidence": "_core/staff/ads-specialist.md"
+    },
+    {
+      "source": "architect",
+      "relation": "reports_to",
+      "target": "product-head",
+      "evidence": "_core/staff/architect.md"
+    },
+    {
+      "source": "billing",
+      "relation": "reports_to",
+      "target": "finance-head",
+      "evidence": "_core/staff/billing.md"
+    },
+    {
+      "source": "client-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/client-head.md"
+    },
+    {
+      "source": "client-requirements-analyst",
+      "relation": "reports_to",
+      "target": "client-head",
+      "evidence": "_core/staff/client-requirements-analyst.md"
+    },
+    {
+      "source": "client-support",
+      "relation": "reports_to",
+      "target": "client-head",
+      "evidence": "_core/staff/client-support.md"
+    },
+    {
+      "source": "codex-joker",
+      "relation": "reports_to",
+      "target": "intelligence-head-vatican",
+      "evidence": "_core/staff/codex-joker.md"
+    },
+    {
+      "source": "content-manager",
+      "relation": "reports_to",
+      "target": "marketing-head",
+      "evidence": "_core/staff/content-manager.md"
+    },
+    {
+      "source": "cost-controller",
+      "relation": "reports_to",
+      "target": "finance-head",
+      "evidence": "_core/staff/cost-controller.md"
+    },
+    {
+      "source": "counterintelligence",
+      "relation": "reports_to",
+      "target": "internal-security-head",
+      "evidence": "_core/staff/counterintelligence.md"
+    },
+    {
+      "source": "delivery-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/delivery-head.md"
+    },
+    {
+      "source": "delivery-support",
+      "relation": "reports_to",
+      "target": "delivery-head",
+      "evidence": "_core/staff/delivery-support.md"
+    },
+    {
+      "source": "developer",
+      "relation": "reports_to",
+      "target": "product-head",
+      "evidence": "_core/staff/developer.md"
+    },
+    {
+      "source": "devops-engineer",
+      "relation": "reports_to",
+      "target": "delivery-head",
+      "evidence": "_core/staff/devops-engineer.md"
+    },
+    {
+      "source": "finance-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/finance-head.md"
+    },
+    {
+      "source": "financial-analyst",
+      "relation": "reports_to",
+      "target": "finance-head",
+      "evidence": "_core/staff/financial-analyst.md"
+    },
+    {
+      "source": "hr-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/hr-head.md"
+    },
+    {
+      "source": "integration-developer",
+      "relation": "reports_to",
+      "target": "product-head",
+      "evidence": "_core/staff/integration-developer.md"
+    },
+    {
+      "source": "intelligence-head-vatican",
+      "relation": "reports_to",
+      "target": "internal-security-head",
+      "evidence": "_core/staff/intelligence-head-vatican.md"
+    },
+    {
+      "source": "internal-security-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/internal-security-head.md"
+    },
+    {
+      "source": "lawyer",
+      "relation": "reports_to",
+      "target": "legal-head",
+      "evidence": "_core/staff/lawyer.md"
+    },
+    {
+      "source": "legal-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/legal-head.md"
+    },
+    {
+      "source": "market-competitor-researcher",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/market-competitor-researcher.md"
+    },
+    {
+      "source": "marketer",
+      "relation": "reports_to",
+      "target": "marketing-head",
+      "evidence": "_core/staff/marketer.md"
+    },
+    {
+      "source": "marketing-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/marketing-head.md"
+    },
+    {
+      "source": "orchestrator",
+      "relation": "reports_to",
+      "target": "buddy",
+      "evidence": "_core/staff/orchestrator.md"
+    },
+    {
+      "source": "order-intelligence",
+      "relation": "reports_to",
+      "target": "internal-security-head",
+      "evidence": "_core/staff/order-intelligence.md"
+    },
+    {
+      "source": "osint-scout",
+      "relation": "reports_to",
+      "target": "internal-security-head",
+      "evidence": "_core/staff/osint-scout.md"
+    },
+    {
+      "source": "product-head",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/product-head.md"
+    },
+    {
+      "source": "product-manager",
+      "relation": "reports_to",
+      "target": "product-head",
+      "evidence": "_core/staff/product-manager.md"
+    },
+    {
+      "source": "professor",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/professor.md"
+    },
+    {
+      "source": "prompt-engineer",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/prompt-engineer.md"
+    },
+    {
+      "source": "recruiter",
+      "relation": "reports_to",
+      "target": "hr-head",
+      "evidence": "_core/staff/recruiter.md"
+    },
+    {
+      "source": "seo-specialist",
+      "relation": "reports_to",
+      "target": "marketing-head",
+      "evidence": "_core/staff/seo-specialist.md"
+    },
+    {
+      "source": "telegram-parser",
+      "relation": "reports_to",
+      "target": "orchestrator",
+      "evidence": "_core/staff/telegram-parser.md"
+    },
+    {
+      "source": "tester",
+      "relation": "reports_to",
+      "target": "product-head",
+      "evidence": "_core/staff/tester.md"
+    },
+    {
+      "source": "web-designer",
+      "relation": "reports_to",
+      "target": "delivery-head",
+      "evidence": "_core/staff/web-designer.md"
+    },
+    {
+      "source": "business-angel",
+      "relation": "advises",
+      "target": "founder",
+      "evidence": "_core/staff/business-angel.md"
+    },
+    {
+      "source": "business-angel",
+      "relation": "advises",
+      "target": "buddy",
+      "evidence": "_core/staff/business-angel.md"
+    },
+    {
+      "source": "ai-certified-mentor",
+      "relation": "advises",
+      "target": "founder",
+      "evidence": "_core/staff/ai-certified-mentor.md"
+    },
+    {
+      "source": "ai-certified-mentor",
+      "relation": "advises",
+      "target": "buddy",
+      "evidence": "_core/staff/ai-certified-mentor.md"
+    },
+    {
+      "source": "professor",
+      "relation": "advises",
+      "target": "buddy",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "buddy",
+      "relation": "reviews",
+      "target": "codex-joker",
+      "evidence": "_core/staff/rule-joker.md"
+    },
+    {
+      "source": "prompt-engineer",
+      "relation": "clears_with",
+      "target": "internal-security-head",
+      "evidence": "_core/staff/prompt-engineer.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "tracked_in",
+      "target": "status",
+      "evidence": "status.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "tracked_in",
+      "target": "status",
+      "evidence": "status.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "tracked_in",
+      "target": "status",
+      "evidence": "status.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "assigned_to",
+      "target": "orchestrator",
+      "evidence": "status.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "implemented_by",
+      "target": "codex-joker",
+      "evidence": "status.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "has_manual_steps",
+      "target": "manual-signup",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "manual-signup",
+      "relation": "tracked_in",
+      "target": "inbox",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "manual-signup",
+      "relation": "requires_action_from",
+      "target": "founder",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "manual-signup",
+      "relation": "requires_action_from",
+      "target": "buddy",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "depends_on",
+      "target": "phase-1-acceptance",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "phase-1-acceptance",
+      "relation": "acceptance_of",
+      "target": "phase-1",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "includes",
+      "target": "document-workflow",
+      "evidence": "projects/02-infrastructure/work/claude-local/README.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "implemented_by",
+      "target": "codex-joker",
+      "evidence": "status.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "requires_review_from",
+      "target": "buddy",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "tracked_in",
+      "target": "inbox",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "recorded_in",
+      "target": "journal",
+      "evidence": "journal.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "governed_by",
+      "target": "signup-stops",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "governed_by",
+      "target": "zero-spend",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "governed_by",
+      "target": "zero-spend",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "governed_by",
+      "target": "zero-spend",
+      "evidence": "inbox/needs.md"
+    },
+    {
+      "source": "phase-1",
+      "relation": "planned_in",
+      "target": "launch",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "planned_in",
+      "target": "launch",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "zero-spend",
+      "relation": "defined_in",
+      "target": "rules",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "signup-stops",
+      "relation": "defined_in",
+      "target": "rules",
+      "evidence": "AGENTS.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "assigned_to",
+      "target": "orchestrator",
+      "evidence": "projects/02-infrastructure/brief/brief.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "implementation_after_approval",
+      "target": "delivery-head",
+      "evidence": "projects/02-infrastructure/brief/brief.md"
+    },
+    {
+      "source": "phase-2",
+      "relation": "implementation_after_approval",
+      "target": "devops-engineer",
+      "evidence": "projects/02-infrastructure/brief/brief.md"
+    }
+  ]
+}
