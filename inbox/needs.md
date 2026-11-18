@@ -10,3 +10,15 @@
 | 19:27 | Microsoft Copilot | Вход | Пётр / Бадди | Войти в существующий Microsoft-аккаунт. Chrome перенаправлен на login.microsoftonline.com; доступ до входа не подтверждён. |
 | 19:28 | HeyGen | Подтверждение по почте | Пётр / Бадди | Проверить, пришла ли ссылка от HeyGen, и при наличии открыть её вручную, затем подтвердить план Free. Нажатие Send a secure magic link выполнено один раз; экран отправку не подтвердил. |
 | 2026-11-17 20:24 EST | Groq | Ссылка входа по почте | Пётр / Бадди | Открыть ссылку входа из письма Groq вручную. Экран «Check your email» подтвердил отправку. |
+| 2026-11-17 22:29 EST | Z.ai | Пароль | Пётр / Бадди | Открыть шаг регистрации вручную. Экран «Enter Your Password», projects/01-services-signup/results/signup-evidence/12.jpg. |
+| 2026-11-17 22:29 EST | ElevenLabs | Пароль | Пётр / Бадди | Ввести пароль вручную на шаге «Create an account». Поле «Password», projects/01-services-signup/results/signup-evidence/13.jpg. |
+| 2026-11-17 22:29 EST | SeeVio | CAPTCHA | Пётр / Бадди | Открыть форму вручную и пройти проверку. Виджет Cloudflare «Verifying…», projects/01-services-signup/results/signup-evidence/37.jpg. |
+| 2026-11-17 22:29 EST | Poe | Проверка браузера | Пётр / Бадди | Для возобновления использовать ручной вход. «Performing security verification», projects/01-services-signup/results/signup-evidence/30.jpg. |
+| 2026-11-17 22:29 EST | Ideogram | CAPTCHA | Пётр / Бадди | Открыть страницу вручную и пройти проверку. «Performing security verification», projects/01-services-signup/results/signup-evidence/43.jpg. |
+| 2026-11-17 22:29 EST | notrack.ai | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/54.jpg. |
+| 2026-11-17 22:29 EST | unrestricted.chat | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/62.jpg. |
+| 2026-11-17 22:29 EST | NoFilterGPT | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/63.jpg. |
+| 2026-11-17 22:29 EST | uncensored.chat | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/64.jpg. |
+| 2026-11-17 22:29 EST | Nastia | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/65.jpg. |
+| 2026-11-17 22:29 EST | EroGPT | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/68.jpg. |
+| 2026-11-17 22:29 EST | Kupid AI | Пароль | Пётр / Бадди | Ввести пароль вручную. Поле видно на снимке projects/01-services-signup/results/signup-evidence/72.jpg. |

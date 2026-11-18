@@ -229,3 +229,5 @@
 | Джокер | Фаза 1 | Частично · 2026-11-17 19:29 EST · 72 в сводке, 27 в Chrome | 05.12 | projects/01-services-signup/results/queue-2026-11-17.md |
 | Оркестратор | Groq | Отправка ссылки подтверждена экраном · 2026-11-17 20:24 EST | — | inbox/groq-link.png |
 | 2026-11-17 20:36 | Groq | аккаунт создан (asdf150780), консоль открыта, скриншот у Петра | Mistral | подключён Петром |
+| Оркестратор | Регистрация фазы 1 | Запущена проверка в 4 вкладках | — | projects/01-services-signup/work/signup-batch.cjs |
+| Оркестратор | Регистрация фазы 1 | Прогон завершён · 2026-11-17 22:30 EST · 47 открытых позиций, 5 отмечены по брифу, 0 новых аккаунтов | — | projects/01-services-signup/results/failed.md; projects/01-services-signup/results/done.md |
