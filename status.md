@@ -240,3 +240,4 @@
 | Джокер | Координация НФАИ на паузе Бадди | Черновая проверка через локальный Claude Code, результат сверяет Джокер | — | [Порядок работы](projects/03-telegram-tooling/brief/execution.md) |
 | Тестировщик | Граф и MCP | Хук проверен на входных событиях. Memory MCP проверен запросами. Playwright MCP отвечает, запуск браузера заблокирован | — | [Проверки MCP](projects/03-telegram-tooling/review/mcp.md) |
 | Джокер | Восстановление NFAI из Git bundle | Локальное восстановление и сверка дерева пройдены | — | [Результат проверки](projects/02-infrastructure/review/recovery-2026-11-18.md) |
+| Джокер | Oracle Always Free и Lowfat | Условия Oracle сверены. Для Lowfat записан контрольный замер штатных команд Git | — | [Oracle](projects/03-telegram-tooling/results/oracle-always-free.md), [Lowfat](projects/03-telegram-tooling/results/04-lowfat.md) |
