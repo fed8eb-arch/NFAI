@@ -222,3 +222,4 @@
 | Джокер | AiHere | Шаблоны публично доступны · 2026-11-17 19:29 EST | 05.12 | projects/01-services-signup/results/browser-2026-11-17.md |
 | Джокер | LiteLLM | HTTP 401; виртуальный ключ Джокера недоступен · 2026-11-17 19:29 EST | 05.12 | projects/01-services-signup/results/browser-2026-11-17.md |
 | Джокер | Фаза 1 | Частично · 2026-11-17 19:29 EST · 72 в сводке, 27 в Chrome | 05.12 | projects/01-services-signup/results/queue-2026-11-17.md |
+| Оркестратор | Groq | Отправка ссылки подтверждена экраном · 2026-11-17 20:24 EST | — | inbox/groq-link.png |
