@@ -1,0 +1,31 @@
+# P1c — провайдеры LLM API для роутера (кроме OpenRouter)
+
+Версия: v0.2 | 17.11.2026 15:45 ET | Составил: Оркестратор
+Правка v0.2: замечания Codex (`p1c-codex-verdict.txt`, VERDICT ISSUES) — один проход, повторной проверки Codex не было.
+Источники (без браузера, без регистраций): `router-design.md` v0.4, `catalog.md` (проверка 17.11.2026), `accounts.md` v0.1, `router/config.yaml` v0.1.
+Неизвестно = «нет данных». Ничего не выдумано.
+
+**Уже сделано (в таблицу не входит):** OpenRouter — аккаунт создан 14:11, ключ «agency-router» в keydrop, в `config.yaml` только он (`:free`, 50 RPD, кредиты не покупаем).
+
+**Роутер должен использовать (design §3 итог, §4.1, черновик §6):** Groq, Google AI Studio (Gemini API, без ПДн), Z.ai (бесплатные Flash), Qwen / Alibaba Model Studio (квота 90 дней, только с «Free Quota Only»).
+
+**Исключены дизайном (zero-spend, §3; не регистрируем в P1c):** Mistral, Hugging Face Inference Providers, DeepSeek, Poe — в официальных docs нет бесплатного API. Catalog это подтверждает для HF / DeepSeek / Poe (💳). У Mistral в catalog противоречие: docs требуют активацию биллинга для API, help (12.08.2026) пишет про Free mode с минимальными лимитами; design всё равно исключает по официальным docs. Perplexity в design нет; в catalog он в топ-10, Директор 13:32 поставил в резерв: разовый кредит $10 не всем новым аккаунтам, сгорает за 60 дней; карта в catalog — «нет данных» (формулировка: «Аккаунт + оплата/автосписание»).
+
+Текущий `config.yaml`: только OpenRouter. Остальные провайдеры ещё не подключены.
+
+Порядок строк: сначала EMAIL (по ценности для роутера), затем HANDOFF, затем SKIP.
+
+| Провайдер | Зачем роутеру (из router-design) | Бесплатная API-квота (из catalog) | Метод регистрации | Телефон | Карта | РФ / регион | Статус в accounts.md | Полоса |
+|---|---|---|---|---|---|---|---|---|
+| Alibaba Cloud Model Studio (Qwen) | §3 free upstream; §4.1 ярус 3 (order 3), тратить, пока действует 90-дневная квота; в черновике config — `general-large`. До первого вызова включить «Free Quota Only» (иначе pay-as-you-go). Кандидат в design §9 (решение Директора 13:32): qwen3.7-max, подтвердить в консоли. Catalog: qwen3.7-max и qwen3.8-max без даты нет в списках снятых квот (29.10 / 15.11) — qwen3.8-max тоже только после проверки в консоли | ~1M токенов на модель (где квота ещё выдаётся), 90 дней, только Singapore/International. У многих текстовых моделей квота для новых снята (списки 29.10 и 15.11.2026). OAuth: 2 000 вызовов/сутки | нет данных (в catalog не указан; URL: https://www.alibabacloud.com/product/modelstudio) | нет данных (обязательное заполнение данных аккаунта с 15.09; состав полей, в т.ч. KYC, не опубликован) | нет данных | нет данных | нет в файле (не начато) | EMAIL условно — явного требования телефона/карты в catalog нет, но метод, телефон, карта и KYC неизвестны. Пробуем регистрацию; при запросе телефона/карты/KYC — СТОП и в HANDOFF. После входа сразу «Free Quota Only» |
+| Google AI Studio (Gemini API) | §3 free upstream; §4.1 ярус 1 (order 1); в черновике config — `general-small` (Flash / Flash-Lite). Free-контент идёт на улучшение продуктов Google — без ПДн и клиентских тайн. Директор 13:25: Gemini включён, вызовы с общего компьютера, без VPN | Токены бесплатно на моделях Free tier (срок не указан). Точные RPM/TPM/RPD в docs нет — только в AI Studio (нужен вход). RPD сброс в полночь PT. Новому проекту: gemini-4-hydrogen / 3.8-flash / 3.5-flash-lite; 2.5 Pro/Flash — только старым пользователям. Картинки (Nano Banana) и часть Pro — не free | browser-only (факт попытки 17.11). URL: https://aistudio.google.com | да (accounts.md: запрошен телефон) | нет данных (catalog явно не пишет, что карта для Free не нужна) | РФ нет в списке доступных регионов. EEA/CH/UK — только платно (catalog). Формулировки «вне РФ» недостаточно: нужен регион из official available-regions, не EEA/CH/UK | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения | HANDOFF — телефон |
+| Z.ai (GLM) | §3 free Flash; §4.1 ярус 1 (зависит от класса) / в черновике config — `general-large` order 2. Платный GLM-5.3-Flash не подключать | Бесплатно: GLM-4.7-Flash, GLM-4.5-Flash, GLM-4.6V-Flash («Free» в прайсе, без срока). Лимиты RPM/RPD: нет данных (только в консоли) | browser-only (факт попытки 17.11, форма + слайдер-капча). URL: https://z.ai (форма была на chat.z.ai/auth) | нет данных (catalog: Email; в попытке 17.11 телефон не зафиксирован) | нет данных | ToS запрещает Иран, КНДР, Кубу, Крым, Донецк, Запорожье — РФ в списке нет (это не подтверждение доступности) | dropped 15:14 (Founder t343u): slider-captcha; форма заполнена, не отправлена | SKIP — Основатель снял попытку (t343u, слайдер-капча). В accounts.md / design / catalog перезапуск не зафиксирован. Чтобы добить форму, снова понадобится экран Основателя — только после нового «да» |
+| Groq (GroqCloud) | §3 free upstream; §4.1 ярус 2 (order 2); в черновике config — `general-large` и `general-small`. Пример лимитов в design: 30 RPM / 1K RPD (таблица «Developer plan»; совпадает ли с Free — в design «нет данных», в catalog — лимиты указаны как Free по модели) | Free tier (срок действия: нет данных). На модель, напр. gpt-oss-120b: 30 RPM, 1K RPD, 8K TPM, 200K TPD. Карта нужна только для Developer | email-link (accounts.md: оба раза после magic link). URL: https://console.groq.com | нет данных (catalog пишет Email; это не доказательство, что телефон никогда не потребуется) | нет для Free (catalog: карта не нужна для Free, нужна для Developer) | catalog: нет данных (США, санкционные оговорки не проверены). В accounts.md причина блока — «IP/region likely» (предположение, не факт) | blocked: signup_blocked (IP/region likely) — дважды после magic link; аккаунт НЕ создан | SKIP — уже заблокирован, две попытки 17.11. В список экранной передачи (телефон/QR/карта) не входит. Повтор — только по решению Основателя (например, с другой сети) |
+
+## Сводка полос
+
+- EMAIL (условно, регистрировать сейчас; стоп при телефоне/карте/KYC): 1 — Alibaba / Qwen. URL: https://www.alibabacloud.com/product/modelstudio
+- HANDOFF (один экран Основателя): 1 — Google AI Studio, телефон. URL: https://aistudio.google.com
+- SKIP: 2 — Z.ai (dropped t343u, слайдер-капча; URL https://z.ai); Groq (signup_blocked, IP/region likely; URL https://console.groq.com)
+
+Регистраций в этом шаге нет.

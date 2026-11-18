@@ -1,0 +1,463 @@
+Reading additional input from stdin...
+OpenAI Codex v0.169.0
+--------
+workdir: /workspace/pilot
+model: gpt-6.2-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: low
+reasoning summaries: none
+session id: 01a1eb47-9c81-76e0-9c3a-58203a45f873
+--------
+user
+Check signup-queue-all.md against catalog.md and accounts.md in this folder: lanes consistent with catalog facts? invented facts? Reply VERDICT OK/ISSUES + max 5 bullets.
+codex
+I’ll check the queue’s lane assignments and factual claims against the catalog and accounts files.
+exec
+/bin/bash -lc 'ls -la && wc -l signup-queue-all.md catalog.md accounts.md' in /workspace/pilot
+ succeeded in 0ms:
+total 596
+drwxr-xr-x   8 box box  4096 Nov 17 15:51 .
+drwxr-xr-x. 26 box box  4096 Nov 17 14:09 ..
+-rw-r--r--   1 box box  2760 Nov 17 15:50 accounts.md
+-rw-r--r--   1 box box 35275 Nov 17 15:16 bonuses.md
+-rw-r--r--   1 box box 36668 Nov 17 13:33 catalog-api-review.md
+-rw-r--r--   1 box box 33458 Nov 17 13:25 catalog-api-review.md.bak-v1.0
+-rw-r--r--   1 box box 33605 Nov 17 13:33 catalog-api-review.md.bak-v1.1
+-rw-r--r--   1 box box 69123 Nov 17 13:35 catalog.md
+-rw-r--r--   1 box box 39116 Nov 17 13:51 chatgpt-modes.md
+-rw-r--r--   1 box box 35685 Nov 17 13:45 fable-access.md
+-rw-r--r--   1 box box  7281 Nov 17 13:56 key-storage.md
+drwxr-xr-x   2 box box  4096 Nov 17 12:58 materials
+drwxr-xr-x   2 box box  4096 Nov 17 15:19 mentor-notes
+-rw-r--r--   1 box box  5495 Nov 17 13:34 model-policy.md
+-rw-r--r--   1 box box  2454 Nov 17 15:45 p1c-codex-verdict.txt
+-rw-r--r--   1 box box  9219 Nov 17 15:45 p1c-providers.md
+-rw-r--r--   1 box box 13467 Nov 17 13:58 paid-needs.md
+drwxr-xr-x   2 box box  4096 Nov 17 13:53 proposals
+drwxr-xr-x  12 box box  4096 Nov 17 15:07 research_raw
+drwxr-xr-x   4 box box  4096 Nov 17 15:23 router
+-rw-r--r--   1 box box 36234 Nov 17 13:36 router-design.md
+-rw-r--r--   1 box box 31371 Nov 17 13:25 router-design.md.bak-v0.1
+-rw-r--r--   1 box box 31702 Nov 17 13:33 router-design.md.bak-v0.2
+-rw-r--r--   1 box box 32963 Nov 17 13:36 router-design.md.bak-v0.3
+-rw-r--r--   1 box box 16282 Nov 17 15:40 rules.md
+-rw-r--r--   1 box box 15743 Nov 17 15:40 rules.md.bak-v1.8
+-rw-r--r--   1 box box 20211 Nov 17 15:51 signup-queue-all.md
+-rw-r--r--   1 box box   558 Nov 17 15:51 signup-queue-codex-verdict.txt
+-rw-r--r--   1 box box  5848 Nov 17 13:51 signup-queue.md
+-rw-r--r--   1 box box 21261 Nov 17 15:50 status.md
+drwxr-xr-x   3 box box  4096 Nov 17 15:24 tools
+  112 signup-queue-all.md
+  196 catalog.md
+   11 accounts.md
+  319 total
+
+exec
+/bin/bash -lc 'nl -ba signup-queue-all.md' in /workspace/pilot
+ succeeded in 0ms:
+     1	# Очередь регистраций: все сервисы каталога
+     2	
+     3	Версия: v1.0 | 17.11.2026 15:46 ET | Ведёт: Оркестратор
+     4	Источники (только они): `/workspace/pilot/catalog.md` (все таблицы, 72 уникальных сервиса = 30+22+20; Табл. 2b — служебные дубли, в очередь не входят отдельными строками, но факты о веб-free из неё учтены), `/workspace/pilot/accounts.md`.
+     5	Никаких фактов вне этих файлов. Неизвестно в источнике = «нет данных».
+     6	
+     7	## Правила колонок и полос
+     8	
+     9	- **URL** — как в колонке URL каталога (это официальный URL сервиса, не обязательно `/signup`).
+    10	- **Value / Ease** — из V/E/R таблиц 1–2. У Treblo в каталоге «4 (веб) / 3 / 2» → Value=4, Ease=3. В таблице 3 колонок Value/Ease нет → «нет данных».
+    11	- **signup method** — в каталоге отдельной колонки нет (значения API/web/email-link/browser-only почти нигде не названы). Исключение: в accounts.md у Groq зафиксирован magic link → `email-link`. Остальные — «нет данных». Не выводим метод из названия таблицы (API-трек / ручной трек).
+    12	- **phone / card** — `y` / `n` / `нет данных` только по явным формулировкам каталога или accounts.md. Телефон Mistral («по сторонним данным») официально не подтверждён → «нет данных». «Карта для free — нет (сторонние данные)» у Magic Hour записано в каталоге как отсутствие карты → `n`. Телефон Poe и Google AI Studio — из accounts.md (`y`).
+    13	- **Полосы (lane):**
+    14	  - `EMAIL` — карта и телефон не известны как нужные (оба не `y`) → регистрация с нашей почты.
+    15	  - `HANDOFF` — в источниках известно, что нужен телефон, QR или карта → один список на передачу экрана Основателю.
+    16	  - `X` — исключить, с причиной: вся таблица 3 Uncensored/18+; ToS запрещает автоматизацию (и Решение Директора «только вручную», Arena.ai); Решение Директора «только личное / не для клиентских работ» (Dola); 💳 paid-only / нет бесплатного тарифа, если в каталоге (строка или Табл. 2b) не описан бесплатный объём.
+    17	  - `DONE` / `BLOCKED` / `DROPPED` — статус из accounts.md (OpenRouter, Groq, Z.ai).
+    18	  - `IN_PROGRESS` — Alibaba (текущая регистрация; в accounts.md строки нет).
+    19	  - Poe и Google AI Studio в accounts.md со статусом blocked: phone, но полоса — `HANDOFF` (нужен экран Основателя), не BLOCKED.
+    20	- Если применимы и X, и HANDOFF (нужен телефон, но сервис исключён) — полоса `X`, телефон всё равно `y` (Dola).
+    21	- 💳 у API при этом в каталоге/Табл. 2b есть бесплатный веб, playground, ChatGPT Free, DeepSeek Chat, Grok Free, TTS HeyGen до 30.11, Scenario 50 CU/сутки, Krea 100 CU/сутки, SeeVio «free video» — это не «нет бесплатного тарифа», полоса не X только из-за 💳 API.
+    22	- GitHub есть в accounts.md, но нет в catalog.md — в эту таблицу не входит.
+    23	- Сортировка: Value по убыванию, затем Ease по убыванию; «нет данных» в конце; при равенстве — номер таблицы каталога, затем исходный #.
+    24	
+    25	## Таблица
+    26	
+    27	| # | service | official signup URL (from catalog) | Value | Ease | signup method | phone | card | lane | status from accounts.md |
+    28	|---|---|---|---|---|---|---|---|---|---|
+    29	| 1 | Google Gemini API / AI Studio (+ приложение Gemini, Flow) | https://aistudio.google.com | 5 | 4 | нет данных | y | нет данных | HANDOFF | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения |
+    30	| 2 | Arena.ai (бывш. LMArena) | https://arena.ai | 5 | 4 | нет данных | нет данных | нет данных | X: Решение Директора 17.11.2026 13:32 ET — только вручную, только внутренние задачи, автоматизация запрещена; ToU 23.02.2026 — запрет программного/автоматизированного доступа, не более одного аккаунта | — |
+    31	| 3 | OpenRouter | https://openrouter.ai | 4 | 5 | нет данных | нет данных | n | DONE | created 14:11 (email verified); баланс $0.00, 0 транзакций; 2 ключа «Default key» (лимит $100 каждый, не скопированы) — оставить, не отзывать (решение Основателя через Директора 14:18); логин в Vault «OpenRouter (agency)» |
+    32	| 4 | Groq (GroqCloud) | https://console.groq.com | 4 | 5 | email-link | нет данных | n | BLOCKED | blocked: signup_blocked (IP/region likely) — оба раза после magic link; повтор 14:06 Ref 39e18c6e…; аккаунт НЕ создан |
+    33	| 5 | Duck.ai (DuckDuckGo) | https://duck.ai | 4 | 5 | нет данных | n | n | EMAIL | — |
+    34	| 6 | Bolt.new | https://bolt.new | 4 | 5 | нет данных | нет данных | нет данных | EMAIL | — |
+    35	| 7 | Design Arena (по указанию основателя) | https://www.designarena.ai | 4 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    36	| 8 | NotebookLM (Gemini Notebook) | https://notebooklm.google.com | 4 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    37	| 9 | Treblo (Melodia API + веб) | https://treblo.com | 4 | 3 | нет данных | нет данных | нет данных | EMAIL | — |
+    38	| 10 | Canva AI (Magic Studio) | https://www.canva.com | 3 | 5 | нет данных | нет данных | нет данных | EMAIL | — |
+    39	| 11 | Lovable | https://lovable.dev | 3 | 5 | нет данных | нет данных | нет данных | EMAIL | — |
+    40	| 12 | Z.ai (GLM) | https://z.ai (docs.z.ai) | 3 | 4 | нет данных | нет данных | нет данных | DROPPED | dropped 15:14 (Founder t343u): slider-captcha; форма заполнена, не отправлена; Vault 5158815 |
+    41	| 13 | ElevenLabs | https://elevenlabs.io | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    42	| 14 | Google Flow | https://labs.google/fx/tools/flow/ | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    43	| 15 | Tensor.Art | https://tensor.art | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    44	| 16 | SeaArt AI | https://www.seaart.ai | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    45	| 17 | Dreamina (CapCut) | https://dreamina.capcut.com | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    46	| 18 | Adobe Firefly | https://firefly.adobe.com | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    47	| 19 | Microsoft Copilot | https://copilot.microsoft.com | 3 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    48	| 20 | Alibaba Cloud Model Studio (Qwen) | https://www.alibabacloud.com/product/modelstudio (чат: chat.qwen.ai) | 3 | 3 | нет данных | нет данных | нет данных | IN_PROGRESS | in progress (в accounts.md строки нет) |
+    49	| 21 | Dola (бывш. Cici) | https://dola.com | 3 | 3 | нет данных | y | нет данных | X: ToS — только private and non-commercial use, запрет автоматизации сверх лимитов и скрейпинга; Решение Директора 17.11.2026 13:32 ET — только личное использование, не для клиентских работ | — |
+    50	| 22 | Suno | https://suno.com | 2 | 5 | нет данных | нет данных | нет данных | EMAIL | — |
+    51	| 23 | v0 (Vercel) | https://v0.app | 2 | 5 | нет данных | нет данных | нет данных | EMAIL | — |
+    52	| 24 | Magic Hour | https://magichour.ai | 2 | 4 | нет данных | нет данных | n | EMAIL | — |
+    53	| 25 | Viggle (+ веб) | https://viggle.ai | 2 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    54	| 26 | Udio | https://www.udio.com | 2 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    55	| 27 | NightCafe | https://creator.nightcafe.studio | 2 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    56	| 28 | Microsoft Designer | https://designer.microsoft.com | 2 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    57	| 29 | Vidnoz AI | https://ru.vidnoz.com | 2 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
+    58	| 30 | Poe API (Quora) | https://poe.com | 2 | 3 | нет данных | y | нет данных | HANDOFF | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения |
+    59	| 31 | HeyGen | https://developers.heygen.com | 2 | 3 | нет данных | нет данных | нет данных | EMAIL | — |
+    60	| 32 | Mistral AI Studio (+ Le Chat) | https://console.mistral.ai | 2 | 2 | нет данных | нет данных | нет данных | EMAIL | — |
+    61	| 33 | Hugging Face Inference Providers (+ HuggingChat) | https://huggingface.co | 1 | 5 | нет данных | нет данных | нет данных | X: 💳 Free users: None; HuggingChat — у free-аккаунта кредитов нет | — |
+    62	| 34 | aihere.ru (шаблоны промптов) | https://aihere.ru/templates/ | 1 | 5 | нет данных | нет данных | нет данных | EMAIL | — |
+    63	| 35 | DeepSeek API (+ chat.deepseek.com) | https://platform.deepseek.com | 1 | 3 | нет данных | нет данных | нет данных | EMAIL | — |
+    64	| 36 | uncensored.com (Developers API) | https://uncensored.com/api | 1 | 3 | нет данных | нет данных | нет данных | X: 💳 бесплатных кредитов в docs нет, предоплаченный баланс | — |
+    65	| 37 | SeeVio (+ веб) | https://seevio.ai | 1 | 3 | нет данных | нет данных | нет данных | EMAIL | — |
+    66	| 38 | Meta AI | https://www.meta.ai | 1 | 3 | нет данных | нет данных | нет данных | EMAIL | — |
+    67	| 39 | xAI API (+ grok.com) | https://console.x.ai | 1 | 2 | нет данных | нет данных | нет данных | EMAIL | — |
+    68	| 40 | OpenAI API (+ ChatGPT) | https://platform.openai.com | 1 | 2 | нет данных | нет данных | нет данных | EMAIL | — |
+    69	| 41 | Perplexity API (Sonar/Agent API) | https://docs.perplexity.ai | 1 | 2 | нет данных | нет данных | y | HANDOFF | — |
+    70	| 42 | Leonardo.Ai | https://leonardo.ai | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 API access отдельно, нужно купить API-кредиты; бесплатный веб-объём в каталоге не подтверждён | — |
+    71	| 43 | Ideogram | https://ideogram.ai | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 в каталоге (бесплатный API-лимит не указан — нет данных; оплата — нет данных; веб-free не проверялся) | — |
+    72	| 44 | Recraft | https://www.recraft.ai | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 нет бесплатного API: pay-as-you-go; веб-free не проверялся | — |
+    73	| 45 | Kling AI | https://kling.ai/dev | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 нет бесплатного API; веб-free не проверялся | — |
+    74	| 46 | MiniMax (Hailuo) | https://platform.minimax.io | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 бесплатной квоты на странице цен нет (Recharge); веб-free не проверялся | — |
+    75	| 47 | PixVerse | https://platform.pixverse.ai | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 бесплатных API-кредитов не найдено; веб-free не проверялся | — |
+    76	| 48 | Vidu | https://platform.vidu.com | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 кредиты платные; веб-free не проверялся | — |
+    77	| 49 | Hedra | https://www.hedra.com | 1 | 2 | нет данных | нет данных | нет данных | X: 💳 нет: кошелёк $0, без пополнения 402; кредиты Studio не оплачивают API | — |
+    78	| 50 | Krea | https://www.krea.ai | 1 | 2 | нет данных | нет данных | нет данных | EMAIL | — |
+    79	| 51 | Freepik (API → Magnific API) | https://www.freepik.com | 1 | 1 | нет данных | нет данных | нет данных | X: 💳 API на кредитах платных планов; «Unlimited» в вебе не покрывает API | — |
+    80	| 52 | Scenario | https://www.scenario.com | 1 | 1 | нет данных | нет данных | нет данных | EMAIL | — |
+    81	| 53 | uncensored.com (веб; API — Табл. 1 #15) | https://uncensored.com | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    82	| 54 | notrack.ai | https://notrack.ai | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    83	| 55 | aiwithnorestrictions.com | https://aiwithnorestrictions.com/chat | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    84	| 56 | getnotrack.com | https://getnotrack.com/chat | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    85	| 57 | deepshi.ai | https://deepshi.ai/chat | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    86	| 58 | unfilteredai.ai | https://unfilteredai.ai/chat | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    87	| 59 | uncensored.ai | https://uncensored.ai/chat | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    88	| 60 | uncensoredgpt.ai | https://uncensoredgpt.ai/ru | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    89	| 61 | Secrypt | https://www.secrypt.space | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    90	| 62 | unrestricted.chat | https://unrestricted.chat | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    91	| 63 | NoFilterGPT | https://nofiltergpt.com/chat/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    92	| 64 | uncensored.chat | https://uncensored.chat/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    93	| 65 | Nastia | https://www.nastia.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    94	| 66 | SpicyChat | https://spicychat.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    95	| 67 | Flirton | https://flirton.ai | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    96	| 68 | EroGPT | https://erogpt.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    97	| 69 | HoneyChat | https://honeychat.bot/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    98	| 70 | Janitor AI | https://janitorai.com/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+    99	| 71 | Secrets AI | https://www.secrets.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+   100	| 72 | Kupid AI | https://www.kupid.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+   101	
+   102	## Сводка полос
+   103	
+   104	- EMAIL: 32
+   105	- HANDOFF: 3
+   106	- X: 33
+   107	- DONE: 1
+   108	- BLOCKED: 1
+   109	- DROPPED: 1
+   110	- IN_PROGRESS: 1
+   111	- Всего строк: 72 (ожидалось 72)
+   112	
+
+exec
+/bin/bash -lc 'nl -ba accounts.md' in /workspace/pilot
+ succeeded in 0ms:
+     1	# Аккаунты агентства (без паролей и ключей)
+     2	Версия: v0.1 | 17.11.2026 13:57 ET | Ведёт: Оркестратор | Основание: бриф Директора v2, п. 4; SA-001
+     3	| Сервис | Почта для входа | Дата | Версия/дата ToS | Статус | bonus (что, сумма, срок, скриншот) |
+     4	|---|---|---|---|---|---|
+     5	| Poe | 6pwffefm+poe@mail.grokbot.com | 17.11.2026 | poe.com/tos (прочитано 17.11) | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения | — (не проверено) |
+     6	| Google (AI Studio) | 6pwffefm@mail.grokbot.com (базовый адрес; одобрил Директор 13:57) | 17.11.2026 | — | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения | — (не проверено) |
+     7	| Groq | 6pwffefm+groq@ (1-я попытка), 6pwffefm@mail.grokbot.com (повтор) | 17.11.2026 | — | blocked: signup_blocked (IP/region likely) — оба раза после magic link; повтор 14:06 Ref 39e18c6e…; аккаунт НЕ создан | — (не проверено) |
+     8	| OpenRouter | 6pwffefm+openrouter@mail.grokbot.com | 17.11.2026 | openrouter.ai/terms (31.08.2026) | created 14:11 (email verified); баланс $0.00, 0 транзакций; 2 ключа «Default key» (лимит $100 каждый, не скопированы) — оставить, не отзывать (решение Основателя через Директора 14:18); логин в Vault «OpenRouter (agency)» | нет: Credits $0.00, 0 tx; $100 — лимит ключа, не подарок; промо/стартап — проверка в очереди |
+     9	| Z.ai | 6pwffefm+zai@mail.grokbot.com | 2026-11-17 | footer link, дата не видна | dropped 15:14 (Founder t343u): slider-captcha; форма заполнена, не отправлена; Vault 5158815 | нет (бонусов не видно); скрин 4d4a8cf9… |
+    10	| GitHub | — | 2026-11-17 | — | blocked: HTTP 403 на github.com/signup (вероятно блок бота/IP); аккаунт НЕ создан | — |
+    11	| Alibaba Cloud (Model Studio/Qwen) | 6pwffefm@mail.grokbot.com (base; "+" rejected) | 2026-11-17 | Membership Agreement/Product Terms/ToU (дата не видна) | account CREATED 15:50; next step asks mobile (/basic/security/mobile) → Model Studio activation + Free Quota Only = Founder handoff list; Vault 5164459 | нет на странице (Enterprise: «up to $5,000 credits» — не для физлица); скрин 138b7454… |
+
+exec
+/bin/bash -lc "rg -n '"'^#|''^'"\\|' catalog.md | cut -c1-335" in /workspace/pilot
+ succeeded in 0ms:
+1:# Каталог бесплатных ИИ-сервисов из материалов основателя (задача R1)
+16:## Таблица 1. API-трек (сервисы с API для разработчиков)
+18:| # | Сервис | URL | Модели (на дату проверки) | Бесплатный лимит + срок | Требования (email/тел/карта/KYC/VPN; РФ) | OpenAI-совм. + base URL | Rate limits | Пункты ToS free-tier | V/E/R | Источник + дата | Надёжн. | Hop (LLM) |
+19:|---|---|---|---|---|---|---|---|---|---|---|---|---|
+20:| 1 | OpenRouter | https://openrouter.ai | Агрегатор 471 модели; 14 бесплатных `:free` (напр. google/gemma-4-31b-it:free, nvidia/nemotron-3-ultra-550b-a55b:free, cohere/north-mini-code:free) | Только `:free`-модели: 20 RPM, **50 запросов/сутки**; 1000/сутки, если ку�
+21:| 2 | Groq (GroqCloud) | https://console.groq.com | openai/gpt-oss-120b, gpt-oss-20b, qwen/qwen3.8-27b, whisper-large-v3(-turbo), llama-prompt-guard-2, orpheus TTS | Free tier бесплатно (срок действия Free: нет данных — в docs/billing FAQ не указан), по лимитам на модель (�
+22:| 3 | Google Gemini API / AI Studio (+ приложение Gemini, Flow) | https://aistudio.google.com | Free tier (цены): gemini-4-hydrogen, gemini-3.8-flash, 3.6-flash, 3.5-flash-lite, 3.1-flash-lite, 3-flash-preview, 3.8-live, 3.8-flash-tts / flash-lite-tts, 2.5-flash-lite, embeddings, Gemma 4. **Для НОВОГО про
+23:| 4 | Z.ai (GLM) | https://z.ai (docs.z.ai) | Бесплатно: GLM-4.7-Flash, GLM-4.5-Flash, GLM-4.6V-Flash. Платно: GLM-5.3, 5.3-Flash и др. | Модели *-Flash выше — «Free» (без срока в прайсе) | Email; карта для free — нет данных. Регион: ToS запрещает И�
+24:| 5 | Alibaba Cloud Model Studio (Qwen) | https://www.alibabacloud.com/product/modelstudio (чат: chat.qwen.ai) | qwen3.8-max, qwen3.7-max (без даты) и др.; список моделей с действующей квотой — только в консоли («нужен вход») | ~1 000 000 токенов на к
+25:| 6 | Mistral AI Studio (+ Le Chat) | https://console.mistral.ai | Mistral Large 4, Small 4, Codestral/Vibe, OCR 4.1, Voxtral; сторонние GLM 5.3, DeepSeek V4.1 Flash | **Противоречие:** официальные docs: «Free mode… doesn't include API access. Creating API keys and using the API require billing a
+26:| 7 | DeepSeek API (+ chat.deepseek.com) | https://platform.deepseek.com | deepseek-flash (V4.1-Flash-1017), deepseek-v4-pro | 💳 Бесплатного API-лимита в docs не найдено (предоплата) | Email/телефон — нет данных. ToS: санкционные оговорки (страны п
+27:| 8 | Hugging Face Inference Providers (+ HuggingChat) | https://huggingface.co | 200+ моделей у провайдеров (DeepSeek, Llama, FLUX и т.д.) | 💳 **Free users: None** (только покупка кредитов). PRO ($) — $2/мес | Email. РФ: ToS — экспортный контроль США | Д
+28:| 9 | Poe API (Quora) | https://poe.com | Сотни моделей/ботов (Claude-Opus-4.7, Gemini-3.1-Pro, GPT-5.4, Grok-4.20…) | 💳 API тратит очки подписки; бесплатный API-лимит в docs не указан | Аккаунт Poe; подписка/доп. очки. ⚠️ ToS: «not located 
+29:| 10 | xAI API (+ grok.com) | https://console.x.ai | grok-4.7, 4.6, 4.5, 4.3, 4.20, grok-build-0.1; Imagine image/video; voice | 💳 Нет: нужно пополнить кредиты (бета-кредиты $25/мес закончились в 2024). Playground — бесплатно | Аккаунт; предоплата. To
+30:| 11 | OpenAI API (+ ChatGPT) | https://platform.openai.com | GPT-линейка | 💳 Нет бесплатных кредитов: предоплата, минимум $5 (help-центр, через поиск) | ⚠️ **РФ НЕТ в списке поддерживаемых стран**; доступ вне списка �
+31:| 12 | Perplexity API (Sonar/Agent API) | https://docs.perplexity.ai | Orchestrator/Agent API (сторонние модели), Search, Embeddings, Decisions | Части новых аккаунтов — разовый sign-up кредит $10, сгорает через 60 дней (не всем: «some new accounts»); без 
+32:| 13 | ElevenLabs | https://elevenlabs.io | TTS v4/v4 Turbo/v3, Scribe v3 STT, Music, SFX, Dubbing | **Free: 10 000 кредитов/мес** (~10 мин TTS), обновляется ежемесячно | Email; для некоммерческого использования — личный email. **РФ: ToS (п.15 Export Cont
+33:| 14 | Magic Hour | https://magichour.ai | Видео/картинки/аудио (face swap, lip sync, image-to-video…) | «Start with the Free tier», стартовые кредиты «may be available». По сторонним данным: 400 кредитов при регистрации + 100/сутки до 7 раз |
+34:| 15 | uncensored.com (Developers API) | https://uncensored.com/api | 100+ чат-моделей, 20+ image, 40+ video (Flux, Seedream, Wan, Seedance…) | 💳 Бесплатных кредитов в docs нет; предоплаченный баланс | Аккаунт; пополнение. РФ: нет данных | Да (�
+35:| 16 | Leonardo.Ai | https://leonardo.ai | Image/video модели Leonardo | 💳 Нет: «API access is separate from free or web app subscriptions», нужно купить API-кредиты | Аккаунт + покупка | Нет; `https://cloud.leonardo.ai/api/rest/v1` | Конкурентность ограничен�
+36:| 17 | Ideogram | https://ideogram.ai | Ideogram 4.5/4.0, + GPT Image, Nano Banana, Seedance, MiniMax H3, Kling | 💳 Бесплатный API-лимит не указан (нет данных) | Ключ через Setup guide; оплата — нет данных | Нет; `https://api.ideogram.ai` | 10 одновременны
+37:| 18 | Recraft | https://www.recraft.ai | V4.1 / V4 / V3 / V2 (raster+vector) | 💳 Нет: pay-as-you-go, $1 = 1000 юнитов, от $0.007/изобр. | Покупка юнитов | Нет данных | Нет данных | Пакеты невозвратные | 1/2/2 | https://www.recraft.ai/docs/api-reference/pricing (2
+38:| 19 | Kling AI | https://kling.ai/dev | Kling 4.0 / 4.0 Flash / 3.0 / Omni | 💳 Нет бесплатного API; «Flexible Prepaid Packages»; тариф в Units: Kling 4.0 — 1.0 Unit/с (720p), 1.5 (1080p); 4.0 Flash — 0.6 Unit/с. Пробный пакет ($9/$9.80, 30 дней) — только сторонний и
+39:| 20 | MiniMax (Hailuo) | https://platform.minimax.io | MiniMax-M3 / M3.1-Flash (LLM), H3 video, TTS | 💳 Бесплатной квоты на странице цен нет (pay-as-you-go «Recharge») | Пополнение. РФ: нет данных | Да (OpenAI SDK), `https://api.minimax.io/v1` (docs рекомендуют
+40:| 21 | PixVerse | https://platform.pixverse.ai | Видео-модели PixVerse | 💳 API-кредиты отдельны от приложения; бесплатных API-кредитов не найдено | Покупка кредитов | Нет | Нет данных | — | 1/2/2 | https://docs.platform.pixverse.ai/ (2
+41:| 22 | Vidu | https://platform.vidu.com | Vidu Q4 preview, Q3, Q2, Q1, S2 digital human, audio, image | 💳 Кредиты платные (1 кредит = 0.03125 RMB, пакеты от 500 RMB). Бонус за профиль — нет данных | Покупка (RMB). РФ: нет данных | Нет | ≤5 одновр�
+42:| 23 | HeyGen | https://developers.heygen.com | Аватары, видео-перевод, HeyGen Voice (Turbo/Turbo Free) | 💳 Бесплатных API-кредитов нет с февраля 2026 (мин. $5). Исключение: TTS `heygen-voice-1-turbo-free` бесплатно **до 30.11.2026** | Аккаунт; оп�
+43:| 24 | Hedra | https://www.hedra.com | 110+ моделей (Veo, MiniMax H3, Kling, Seedance, ElevenLabs) + текст | 💳 Нет: кошелёк $0, без пополнения 402 | Пополнение | Частично: `POST /v3/chat/completions` (OpenAI-формат для текста) | Нет данных | Креди
+44:| 25 | Freepik (API → Magnific API) | https://www.freepik.com | Генерация изображений/видео/аудио, апскейл, сток | 💳 API на кредитах платных планов; «Unlimited» в веб не покрывает API | Платный план | Нет | Сток: 100 загру�
+45:| 26 | Scenario | https://www.scenario.com | Генерация игровых ассетов | 💳 API только со Starter ($15/мес); Free = 50 CU/сутки только в вебе | Платный план | Нет | Нет данных | — | 1/1/2 | help.scenario.com/articles/7934059476 (через поиск) (20
+46:| 27 | Krea | https://www.krea.ai | Image/video модели Krea и партнёров | 💳 API — отдельный предоплаченный баланс от $5; free 100 CU/сутки только в вебе | Пополнение | Нет данных | Нет данных | — | 1/2/2 | krea.ai/docs/developers/api-
+47:| 28 | Viggle (+ веб) | https://viggle.ai | Анимация персонажей/motion, 3D-риг (FBX/GLB) | API: **новым аккаунтам 100 бесплатных кредитов**, далее $0.01/кредит. Веб Free: кредиты обновляются ежедневно, 1 генерация одновр
+48:| 29 | SeeVio (+ веб) | https://seevio.ai | Seedance 2.5 / 2.0 и др. видео/изображения | 💳 «API access uses available credits from a plan or credit pack». Веб: «free video» после входа (объём — нет данных) | Аккаунт; план/пакет для API | Нет данны
+49:| 30 | Treblo (Melodia API + веб) | https://treblo.com | Melodia v3 (музыка/песни) | Веб: «$0.00 Truly free. Unlimited songs… No daily limits» (заявление сервиса). API: цена/бесплатный лимит — нет данных | Email. РФ: нет данных | Нет; `https://api.tre
+55:## Таблица 2. Ручной трек (веб-инструменты без API для агентов)
+59:| # | Сервис | URL | Модели / что делает | Бесплатный лимит + срок | Требования (email/тел/карта/VPN; РФ) | Пункты ToS free-tier | V/E/R | Лучшее применение для проектов агентства | Источник + дата | Надёжн. |
+60:|---|---|---|---|---|---|---|---|---|---|---|
+61:| 1 | Arena.ai (бывш. LMArena) | https://arena.ai | 421 модель в рейтинге (Gemini 4 Carbon/Argon, Claude Fable 5/5.1, Opus 5.5, GPT-5.6 Sol…). Режимы Battle / Side by Side / Direct; Fable в Direct/Side-by-side нет («No models found», 17.11), есть в рейтинге Agents | Бесплатно;
+62:| 2 | Design Arena (по указанию основателя) | https://www.designarena.ai | Генерация сайтов, приложений, игр, слайдов, SVG, 3D, картинок, видео, TTS на топ-моделях с голосованием; есть Claude Fable 5/5.1/5.2 в рейтинге | Terms
+63:| 3 | Duck.ai (DuckDuckGo) | https://duck.ai | Бесплатно: Claude Haiku 5.5, Mistral Small 4, GPT-6 Luna, GPT-5.4 mini, gpt-oss-120b, Gemma 4 31B | Дневной лимит (число не публикуется), сброс в полночь UTC; без аккаунта | Аккаунт не нужен. РФ: нет д�
+64:| 4 | Google Flow | https://labs.google/fx/tools/flow/ | Генерация видео (Veo) | 50 Flow-кредитов/сутки для не-подписчиков, не копятся | Google-аккаунт; регион — см. help «Where you can use Google Flow» (РФ — нет данных) | — | 3/4/3 | Корот�
+65:| 5 | NotebookLM (Gemini Notebook) | https://notebooklm.google.com | Работа с документами, Audio/Video Overviews, отчёты | Free: 100 блокнотов, 50 источников на блокнот; дневные квоты (сброс 24 ч) | Google-аккаунт; РФ — нет данных | Указ�
+66:| 6 | Dola (бывш. Cici) | https://dola.com | ИИ-ассистент: чат, поиск, картинки, видео (Seedance) | Free: базовый чат + ограниченное число генераций в день (число официально не публикуется; dola.com/free показывает т
+67:| 7 | Suno | https://suno.com | Генерация песен | Free навсегда: 50 кредитов/сутки, только бесплатные модели | Email | ⚠️ Free: **нет загрузок и нет коммерческих прав** (только платные планы) | 2/5/3 | Черновые д�
+68:| 8 | Udio | https://www.udio.com | Генерация музыки | Free: 10 кредитов/сутки + 100/мес, не переносятся; free-аккаунт — до 3 песен по 130 с в сутки | Email | Нет данных о коммерции на free (ToS не читался) | 2/4/3 | Черновые
+69:| 9 | Tensor.Art | https://tensor.art | Генерация изображений, LoRA, ComfyUI | Free: пополнение ДО 50 кредитов/сутки в 04:00 по местному времени | Email. Страница цен отдала защиту от ботов | Нет данных | 3/4/2 | Изображе�
+70:| 10 | SeaArt AI | https://www.seaart.ai | Изображения/видео | Free: 130 Stamina/сутки (~21 изобр.), не копится | Email | Нет данных | 3/4/2 | Массовые иллюстрации | https://www.seaart.ai/mall ; docs.seaart.ai/guide-1/pricing-and-credits (через поиск) (2026-1
+71:| 11 | NightCafe | https://creator.nightcafe.studio | Изображения (много моделей) | Ежедневное пополнение 5 кредитов: забирается в инбоксе уведомлений, раз в сутки после полуночи UTC (сторонние данные о бонус�
+72:| 12 | Dreamina (CapCut) | https://dreamina.capcut.com | Изображения и видео (ByteDance) | «free access to get you started» — объём нет данных | Аккаунт CapCut/TikTok/Google. РФ: нет данных | Нет данных | 3/4/3 | Картинки/видео для соцсетей | htt
+73:| 13 | Canva AI (Magic Studio) | https://www.canva.com | Дизайн + ИИ-функции | Free: «Limited access to Standard and Premium AI», без Ultra AI; объём ИИ зависит от плана. Цифра «20 использований/мес» — только сторонний источник, на офиц.
+74:| 14 | Adobe Firefly | https://firefly.adobe.com | Изображения, видео, аудио (Adobe + партнёрские модели) | Free: ежедневные бесплатные генерации (число не публикуется) | Adobe ID. РФ: нет данных | Нет данных о коммерц�
+75:| 15 | Microsoft Designer | https://designer.microsoft.com | Изображения/дизайн | Бесплатно, AI-кредиты (объём зависит от плана M365) | Аккаунт Microsoft. РФ: нет данных | Нет данных | 2/4/3 | Простые картинки/открытки | support.m
+76:| 16 | Microsoft Copilot | https://copilot.microsoft.com | Чат-ассистент | Бесплатная версия есть; платная = «higher usage than free» (объём free — нет данных) | Аккаунт Microsoft; страница M365 показала «not available in your market» для наше
+77:| 17 | Meta AI | https://www.meta.ai | Чат/изображения (Muse) | Нет данных | Доступен «только в некоторых странах»; **в РФ официально недоступен** | — | 1/3/5 | Не использовать (регион) | meta.com/ru-ru/help/artificial-intelligence
+78:| 18 | Vidnoz AI | https://ru.vidnoz.com | Говорящие аватары, видео из текста | Акция «60 Free Credits Every Day» (разовая); на сайте есть ссылка «API Credentials» — API не проверен | Email | Нет данных | 2/4/2 | Видео с виртуальным
+79:| 19 | Bolt.new | https://bolt.new | Генерация веб-приложений | Free навсегда, без карты: 1M токенов/мес, 300K/сутки | Email | Брендинг Bolt на сайтах free | 4/5/2 | Прототипы сайтов/приложений | https://bolt.new/pricing (2026-11-17) | hi
+80:| 20 | Lovable | https://lovable.dev | Генерация веб-приложений | Free: 5 кредитов/сутки, макс. 30/мес | Email | Нет данных | 3/5/2 | Прототипы приложений | lovable.dev/pricing ; docs.lovable.dev/introduction/credits-and-usage (2026-11-17) | high (наличие
+81:| 21 | v0 (Vercel) | https://v0.app | Генерация UI/приложений | Free: 7 сообщений/сутки | Аккаунт Vercel | Нет данных | 2/5/2 | UI-компоненты | https://v0.app/pricing (2026-11-17) | high |
+82:| 22 | aihere.ru (шаблоны промптов) | https://aihere.ru/templates/ | Библиотека трендовых промптов (не нейросеть): «4 646 шаблонов для фото и видео» | Нет данных (лимиты/доступ не указаны) | — | — | 1/5/1 | Идеи про
+86:### Таблица 2b. Бесплатные веб-версии сервисов из Таблицы 1 (для ручной работы, с Hop-порядком для текстовых задач)
+88:| # | Веб-сервис | URL | Бесплатно (как написано у сервиса) | РФ / требования | Hop (чат) | Источник + дата | Надёжн. |
+89:|---|---|---|---|---|---|---|---|
+90:| 1 | Arena.ai (Direct/Battle) | https://arena.ai | См. Табл. 2 #1 — **Решение Директора 17.11.2026 13:32 ET: только вручную, внутренние задачи, без данных клиентов, без автоматизации** | см. выше | 1 | arena.ai/faq (2026-11-17) | high |
+91:| 2 | Duck.ai | https://duck.ai | См. Табл. 2 #3 | без аккаунта | 2 | DDG help (2026-11-17) | high |
+92:| 3 | ChatGPT Free | https://chatgpt.com | «Unlimited everyday text chats» с защитой от злоупотреблений; файлы/картинки/голос — отдельные лимиты | ⚠️ РФ нет в списке поддерживаемых стран | — (РФ) | help.openai.com/en/articles/92752
+93:| 4 | Gemini (приложение) | https://gemini.google.com | Free: лимит по вычислениям, сброс каждые 5 ч + недельный потолок; контекст 32k | ⚠️ РФ — нет в списке регионов Gemini API (для приложения отдельный список, н
+94:| 5 | Qwen Chat | https://chat.qwen.ai | Бесплатно, лимиты не публикуются; 40 видео-кредитов/сутки (сторонний источник) | Нет данных | 3 | blog.laozhang.ai (сторонний) (2026-11-17) | low |
+95:| 6 | DeepSeek Chat | https://chat.deepseek.com | Бесплатно, лимит сообщений не публикуется | Нет данных | 4 | zaobao.com.sg (сторонний) (2026-11-17) | low |
+96:| 7 | Z.ai Chat | https://chat.z.ai | Бесплатный веб-чат (лимиты не публикуются) | Нет данных | 5 | aifreetoday.com (сторонний) (2026-11-17) | low |
+97:| 8 | Mistral Vibe (бывш. Le Chat) | https://chat.mistral.ai | Free с ограниченными сообщениями/поиском (без цифр) | Нет данных | 6 | felloai.com (сторонний) (2026-11-17) | low |
+98:| 9 | Grok | https://grok.com | Free: ограниченные Chat/Voice/Imagine в день (цифры не публикуются) | Нет данных | 7 | ai-toolbox.co (сторонний) (2026-11-17) | low |
+99:| 10 | Perplexity Free | https://www.perplexity.ai | Базовый поиск практически без лимита, 3 Pro Search/сутки, 1 Research/мес | Нет данных | 8 (поиск) | perplexity.ai/help-center/en/articles/11187416 (через поиск) (2026-11-17) | med |
+100:| 11 | Poe (веб) | https://poe.com | Ежедневные бесплатные очки (по навигатору; на офиц. стр. не проверено); Claude-Fable-5.1/5.2 есть как боты | ToS: санкционные юрисдикции США | 9 | poe.com/Claude-Fable-5.2 (2026-11-17) | low (лими
+101:| 12 | HuggingChat | https://huggingface.co/chat | 💳 Тратит кредиты Inference Providers; у free-аккаунта кредитов нет | — | — | HF pricing (2026-11-17) | med |
+102:| 13 | Kling / Hailuo / PixVerse / Vidu / Leonardo / Ideogram / Recraft / Krea / ElevenLabs (веб) | см. Табл. 1 | Бесплатные веб-кредиты есть у части (Krea 100 CU/сутки, Scenario 50 CU/сутки — из Табл. 1); у остальных объём веб-free не проверялс
+110:## Таблица 3. Uncensored / 18+
+116:| # | Сервис | URL | 18+ | Что заявлено на главной | Бесплатно (как заявлено) | Terms/Privacy на сайте | Пункты ToS | Risk (1–5) | Источник + дата | Надёжн. |
+117:|---|---|---|---|---|---|---|---|---|---|---|
+118:| 1 | uncensored.com (веб; API — Табл. 1 #15) | https://uncensored.com | нет | Чат/картинки/видео «без цензуры», API для разработчиков; в каталоге API есть Claude Fable 5/5.1/5.2 | Веб: «Free usage and included allowances are capacity-based and may vary with
+119:| 2 | notrack.ai | https://notrack.ai | нет | «Uncensored AI Chat — Free, Private, No Account» | Бесплатно, без аккаунта (заявлено) | /terms, /privacy | нет данных | 4 | https://notrack.ai (2026-11-17) | low |
+120:| 3 | aiwithnorestrictions.com | https://aiwithnorestrictions.com/chat | нет | Чат; счётчик «saves left today» | Дневной лимит (число нет данных) | ссылки не найдены | нет данных | 5 | https://aiwithnorestrictions.com/chat (2026-11-17) | low |
+121:| 4 | getnotrack.com | https://getnotrack.com/chat | нет | Тот же шаблон, что #3 (вероятно один владелец — не проверено) | Дневной лимит | ссылки не найдены | нет данных | 5 | https://getnotrack.com/chat (2026-11-17) | low |
+122:| 5 | deepshi.ai | https://deepshi.ai/chat | нет | Заголовок «Chat - Hypercove»; Free + Credits | Есть free (объём нет данных) | ссылки не найдены | нет данных | 5 | https://deepshi.ai/chat (2026-11-17) | low |
+123:| 6 | unfilteredai.ai | https://unfilteredai.ai/chat | нет | Тот же шаблон, что #3 | Дневной лимит | ссылки не найдены | нет данных | 5 | https://unfilteredai.ai/chat (2026-11-17) | low |
+124:| 7 | uncensored.ai | https://uncensored.ai/chat | нет | «Unfiltered Chat & Voice Assistant» | «Free tier available» | нет данных | нет данных | 4 | https://uncensored.ai/chat (2026-11-17) | low |
+125:| 8 | uncensoredgpt.ai | https://uncensoredgpt.ai/ru | нет | «спрашивайте что угодно, без ограничений» (RU-интерфейс) | free (объём нет данных) | #privacy (якорь) | нет данных | 5 | https://uncensoredgpt.ai/ru (2026-11-17) | low |
+126:| 9 | Secrypt | https://www.secrypt.space | нет | «Private AI Chat» | «Free tier available» | /privacy, /privacy-pledge | нет данных | 4 | https://www.secrypt.space (2026-11-17) | low |
+127:| 10 | unrestricted.chat | https://unrestricted.chat | нет | «Free to start — your chats are never used for training» | Free to start | /privacy, /terms | нет данных | 4 | https://unrestricted.chat (2026-11-17) | low |
+128:| 11 | NoFilterGPT | https://nofiltergpt.com/chat/ | нет | «Unfiltered, Uncensored, Anonymous ChatGPT», Beta v5.0.0 | нет данных | ссылки не найдены | нет данных | 5 | https://nofiltergpt.com/chat/ (2026-11-17) | low |
+129:| 12 | uncensored.chat | https://uncensored.chat/ | нет | «Free ChatGPT Alternative, No Filters»; по материалам — без регистрации | Бесплатно (заявлено) | /privacy-policy, /terms-and-conditions | нет данных | 4 | https://uncensored.chat/ (2026-11-17) | low |
+130:| 13 | Nastia | https://www.nastia.ai/ | **18+** | «Uncensored AI Companion» | «free tier that includes daily messages» | /privacy | нет данных | 5 | https://www.nastia.ai/ (2026-11-17) | low |
+131:| 14 | SpicyChat | https://spicychat.ai/ | **18+** | «NSFW AI Chatbots and Roleplay for Adults», 386 862 персонажа (главная через r.jina.ai) | нет данных | нет данных | нет данных | 5 | https://spicychat.ai/ (через r.jina.ai, 2026-11-17); ToS не читался | low |
+132:| 15 | Flirton | https://flirton.ai | **18+** | «Chat with AI Characters, Roleplay & Companions» | «Free to start» | /documents/terms, /documents/privacy-policy | нет данных | 5 | https://flirton.ai (2026-11-17) | low |
+133:| 16 | EroGPT | https://erogpt.ai/ | **18+** | «AI Adult Chat» | Free (заявлено) | /terms, /privacy | нет данных | 5 | https://erogpt.ai/ (2026-11-17) | low |
+134:| 17 | HoneyChat | https://honeychat.bot/ | **18+** | «AI Characters 18+ — Free Chat, Roleplay & Voice» | Free (заявлено) | /legal/#terms, #privacy | нет данных | 5 | https://honeychat.bot/en/feed (2026-11-17) | low |
+135:| 18 | Janitor AI | https://janitorai.com/ | **18+** | Платформа персонажей | нет данных | нет данных | нет данных | 5 | https://janitorai.com/ (2026-11-17) | low |
+136:| 19 | Secrets AI | https://www.secrets.ai/ | **18+** | «AI Girlfriend Website» | Free (заявлено) | /terms | нет данных | 5 | https://www.secrets.ai/ (2026-11-17) | low |
+137:| 20 | Kupid AI | https://www.kupid.ai/ | **18+** | AI-чат с персонажами | Free (заявлено) | /terms-of-service, /privacy-policy | нет данных | 5 | https://www.kupid.ai/ (2026-11-17) | low |
+141:## Наличие Fable и других сильных моделей по сервисам (по публичным спискам моделей)
+143:| Сервис | Fable (версия, режим) | Другие сильные модели в списке | Источник + дата |
+144:|---|---|---|---|
+145:| Arena.ai | Claude Fable 5.2 (Max) #1 и 5.1 (Max) #6 в «Top 10 Agents» (режим Agent); в Direct/Side-by-side «No models found»; «только Battle» — гайд основателя, не подтверждено | Gemini 4 Carbon/Argon, Claude Opus 5.5, Muse Wonder, GPT-5.6 Sol, Kimi K3 | arena.ai/leaderboard, ar
+146:| Design Arena | Claude Fable 5 / 5.1 / 5.2 в /models (без входа); Overall Agentic: 5.2 #3, 5.1 #6, 5 #14; выбор модели — нужен вход | (полный список — designarena.ai/models) | designarena.ai/models, /leaderboard (2026-11-17), high |
+147:| Poe | Claude-Fable-5.1, 5.2 — веб-боты (страница poe.com/Claude-Fable-5.2 существует, 17.11); **в публичном списке API `https://api.poe.com/v1/models` (306 моделей, 17.11) Fable НЕТ** → API-доступ не подтверждён | Claude-Opus-4.7, Gemini-3.1-Pro, GPT-5.4,
+148:| OpenRouter | anthropic/claude-fable-5 / 5.1 / 5.2 — API, платно (не `:free`) | 471 модель; бесплатно только 14 `:free` (крупнейшая — nvidia/nemotron-3-ultra-550b) | openrouter.ai/api/v1/models (2026-11-17) |
+149:| uncensored.com | Веб /models: Claude Fable 5.1 Uncensored, Fable 5 Uncensored, Fable 5 Roleplay / Dungeon Delvers Uncensored (чат); API: claude-fable-5/5.1/5.2 платно; лимит 3 запроса/8 ч — Основатель, 17.11.2026, не проверено | claude-opus-5-5, sonnet-5-5 и др. (112 текст
+150:| Duck.ai | нет | Claude Haiku 5.5, GPT-6 Luna, GPT-5.4 mini, Mistral Small 4 (free) | duckduckgo help (2026-11-17) |
+151:| Google Gemini API | нет (не Anthropic) | Free: gemini-4-hydrogen, gemini-3.8-flash; платно: gemini-4-carbon/argon | ai.google.dev pricing (2026-11-17) |
+152:| Groq | нет | gpt-oss-120b, qwen3.8-27b | console.groq.com/docs/rate-limits (2026-11-17) |
+153:| Z.ai / Qwen / DeepSeek / Mistral / xAI | нет (собственные модели) | GLM-5.3; qwen3.7-max; deepseek-v4-pro; Mistral Large 4; grok-4.7 | см. Табл. 1 (2026-11-17) |
+154:| Остальные сервисы Табл. 1–2 | не проверялось / нет данных (медиа-сервисы, LLM Fable не относится) | — | — |
+156:## Топ-10 API (шорт-лист для Разработчика интеграций)
+174:## Итог по счёту строк
+183:## Пробелы
+
+exec
+/bin/bash -lc "sed -n '22,53p;103,109p;174,196p' catalog.md | awk -F'|' '{if(NF>10) print NR+21,"'$3,$4,$6,$7,$8,$9; else print}'"'" in /workspace/pilot
+ succeeded in 0ms:
+22  Google Gemini API / AI Studio (+ приложение Gemini, Flow)   https://aistudio.google.com   Free tier: токены бесплатно на перечисленных моделях (срок не указан); точные лимиты RPM/TPM/RPD на проект в docs не опубликованы — «can be viewed in Google AI Studio» (нужен вход); RPD сброс в полночь PT; preview/experimental — строже. Grounding с Google Search на Free tier: только 2.5 Flash/Flash-Lite — до 500 RPD (общий лимит); для 2.5 Pro и Gemini 3+ на Free — «Not available». (Цифры 1 500 RPD / 5 000 в мес — это Paid tier.)   Google-аккаунт, 18+; «some projects need verification». ⚠️ **РФ НЕТ в списке доступных регионов**   Да, `https://generativelanguage.googleapis.com/v1beta/openai/` (ai.google.dev/gemini-api/docs/openai)   Per project, RPD сброс в полночь PT; точные цифры только в AI Studio 
+23  Z.ai (GLM)   https://z.ai (docs.z.ai)   Модели *-Flash выше — «Free» (без срока в прайсе)   Email; карта для free — нет данных. Регион: ToS запрещает Иран, КНДР, Кубу, Крым, Донецк, Запорожье — **РФ в списке нет**   Да (OpenAI-формат), `https://api.z.ai/api/paas/v4/` (docs.z.ai quick-start)   Нет данных 
+24  Alibaba Cloud Model Studio (Qwen)   https://www.alibabacloud.com/product/modelstudio (чат: chat.qwen.ai)   ~1 000 000 токенов на каждую модель (где квота ещё выдаётся), 90 дней с активации; только Singapore/International. ⚠️ **Квоты для новых пользователей сняты** (списки от 29.10 и 15.11.2026) у многих текстовых моделей: qwen-max, qwen-plus, qwen-turbo, qwen-flash, qwen3.5-*, qwen3.6-plus, qwen3.6-max-preview, датированные снимки qwen3.7-max-2026-05-17/-05-20/-06-08, qwen3.7-max-preview, qwen3.7-plus-2026-05-26, qwen3.7-flash-2026-07-15, qwen3.8-max-0902, deepseek-v4-pro/-flash, kimi-k3, glm-5.1/5.2. qwen3.7-max и qwen3.8-max без даты в списке снятых НЕТ (на странице qwen3.8-max — пример модели с переключателем Free Quota Only). OAuth: 2 000 вызовов/сутки   Аккаунт Alibaba Cloud + обязательное заполнение данных аккаунта (с 15.09); карта — нет данных. РФ: нет данных   Да (OpenAI compatible). Singapore: `https://{WorkspaceId}.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1` (новый workspace-домен; со старого `https://dashscope-intl.aliyuncs.com` docs велят мигрировать). Также US (Virginia) `https://{WorkspaceId}.us-east-1.maas.aliyuncs.com/compatible-mode/v1`   Нет данных 
+25  Mistral AI Studio (+ Le Chat)   https://console.mistral.ai   **Противоречие:** официальные docs: «Free mode… doesn't include API access. Creating API keys and using the API require billing activation and pay-as-you-go». Help (12.08.2026): Free mode = минимальные лимиты   Email; телефон (по сторонним данным); для API — активация биллинга. РФ: ToS — санкции ЕС/США/Сингапура   Нет (свой API); base `https://api.mistral.ai`   Free: минимальные; RPS + TPM + токены/мес 
+26  DeepSeek API (+ chat.deepseek.com)   https://platform.deepseek.com   💳 Бесплатного API-лимита в docs не найдено (предоплата)   Email/телефон — нет данных. ToS: санкционные оговорки (страны под комплексными санкциями)   Да, `https://api.deepseek.com` (также Anthropic-формат `/anthropic`)   Нет данных 
+27  Hugging Face Inference Providers (+ HuggingChat)   https://huggingface.co   💳 **Free users: None** (только покупка кредитов). PRO ($) — $2/мес   Email. РФ: ToS — экспортный контроль США   Да, `https://router.huggingface.co/v1`   Нет данных 
+28  Poe API (Quora)   https://poe.com   💳 API тратит очки подписки; бесплатный API-лимит в docs не указан   Аккаунт Poe; подписка/доп. очки. ⚠️ ToS: «not located in a comprehensively sanctioned jurisdiction» (США)   Да, `https://api.poe.com/v1`   500 RPM 
+29  xAI API (+ grok.com)   https://console.x.ai   💳 Нет: нужно пополнить кредиты (бета-кредиты $25/мес закончились в 2024). Playground — бесплатно   Аккаунт; предоплата. ToS: санкции OFAC/США   Да, `https://api.x.ai/v1`   По тиру расходов 
+30  OpenAI API (+ ChatGPT)   https://platform.openai.com   💳 Нет бесплатных кредитов: предоплата, минимум $5 (help-центр, через поиск)   ⚠️ **РФ НЕТ в списке поддерживаемых стран**; доступ вне списка → блокировка аккаунта   Да, `https://api.openai.com/v1`   По тиру 
+31  Perplexity API (Sonar/Agent API)   https://docs.perplexity.ai   Части новых аккаунтов — разовый sign-up кредит $10, сгорает через 60 дней (не всем: «some new accounts»); без него — только оплата по токенам/запросам; sign-up кредит не открывает Agent/Orchestrator API и batch   Аккаунт + оплата/автосписание. РФ: нет данных (ToS: запрет для стран под эмбарго США — список стран не приведён)   Да для Agent API в формате OpenAI **Responses** (`client.responses.create`): base URL `https://api.perplexity.ai/v1` (канонический `POST /v1/agent`, алиас `/v1/responses`); «APIs are not identical»   Tier 0 при $0 покупок; лимиты — «Rate Limits & Usage Tiers», нет данных 
+32  ElevenLabs   https://elevenlabs.io   **Free: 10 000 кредитов/мес** (~10 мин TTS), обновляется ежемесячно   Email; для некоммерческого использования — личный email. **РФ: ToS (п.15 Export Control) прямо запрещает пользователям, находящимся в странах под санкциями США, включая Россию и Беларусь**   Нет (свой API)   Нет данных 
+33  Magic Hour   https://magichour.ai   «Start with the Free tier», стартовые кредиты «may be available». По сторонним данным: 400 кредитов при регистрации + 100/сутки до 7 раз   Email; карта для free — нет (сторонние данные). РФ: нет данных   Нет (свой REST)   Нет данных 
+34  uncensored.com (Developers API)   https://uncensored.com/api   💳 Бесплатных кредитов в docs нет; предоплаченный баланс   Аккаунт; пополнение. РФ: нет данных   Да (чат), `https://api.uncensored.com/api` (+`/v1/...`)   По тирам расходов (по поиску: free tier 20 RPM) 
+35  Leonardo.Ai   https://leonardo.ai   💳 Нет: «API access is separate from free or web app subscriptions», нужно купить API-кредиты   Аккаунт + покупка   Нет; `https://cloud.leonardo.ai/api/rest/v1`   Конкурентность ограничена (нет цифр) 
+36  Ideogram   https://ideogram.ai   💳 Бесплатный API-лимит не указан (нет данных)   Ключ через Setup guide; оплата — нет данных   Нет; `https://api.ideogram.ai`   10 одновременных запросов 
+37  Recraft   https://www.recraft.ai   💳 Нет: pay-as-you-go, $1 = 1000 юнитов, от $0.007/изобр.   Покупка юнитов   Нет данных   Нет данных 
+38  Kling AI   https://kling.ai/dev   💳 Нет бесплатного API; «Flexible Prepaid Packages»; тариф в Units: Kling 4.0 — 1.0 Unit/с (720p), 1.5 (1080p); 4.0 Flash — 0.6 Unit/с. Пробный пакет ($9/$9.80, 30 дней) — только сторонний источник   Покупка пакетов   Нет   Trial: 5 одновременных задач 
+39  MiniMax (Hailuo)   https://platform.minimax.io   💳 Бесплатной квоты на странице цен нет (pay-as-you-go «Recharge»)   Пополнение. РФ: нет данных   Да (OpenAI SDK), `https://api.minimax.io/v1` (docs рекомендуют Anthropic SDK)   Нет данных 
+40  PixVerse   https://platform.pixverse.ai   💳 API-кредиты отдельны от приложения; бесплатных API-кредитов не найдено   Покупка кредитов   Нет   Нет данных 
+41  Vidu   https://platform.vidu.com   💳 Кредиты платные (1 кредит = 0.03125 RMB, пакеты от 500 RMB). Бонус за профиль — нет данных   Покупка (RMB). РФ: нет данных   Нет   ≤5 одновременных задач 
+42  HeyGen   https://developers.heygen.com   💳 Бесплатных API-кредитов нет с февраля 2026 (мин. $5). Исключение: TTS `heygen-voice-1-turbo-free` бесплатно **до 30.11.2026**   Аккаунт; оплата для видео   Нет; `api.heygen.com`   Лимиты на Turbo Free, «shared capacity» 
+43  Hedra   https://www.hedra.com   💳 Нет: кошелёк $0, без пополнения 402   Пополнение   Частично: `POST /v3/chat/completions` (OpenAI-формат для текста)   Нет данных 
+44  Freepik (API → Magnific API)   https://www.freepik.com   💳 API на кредитах платных планов; «Unlimited» в веб не покрывает API   Платный план   Нет   Сток: 100 загрузок/сутки на Premium 
+45  Scenario   https://www.scenario.com   💳 API только со Starter ($15/мес); Free = 50 CU/сутки только в вебе   Платный план   Нет   Нет данных 
+46  Krea   https://www.krea.ai   💳 API — отдельный предоплаченный баланс от $5; free 100 CU/сутки только в вебе   Пополнение   Нет данных   Нет данных 
+47  Viggle (+ веб)   https://viggle.ai   API: **новым аккаунтам 100 бесплатных кредитов**, далее $0.01/кредит. Веб Free: кредиты обновляются ежедневно, 1 генерация одновременно   Email; карта для free — нет данных. РФ: нет данных   Нет   Нет данных 
+48  SeeVio (+ веб)   https://seevio.ai   💳 «API access uses available credits from a plan or credit pack». Веб: «free video» после входа (объём — нет данных)   Аккаунт; план/пакет для API   Нет данных   Нет данных 
+49  Treblo (Melodia API + веб)   https://treblo.com   Веб: «$0.00 Truly free. Unlimited songs… No daily limits» (заявление сервиса). API: цена/бесплатный лимит — нет данных   Email. РФ: нет данных   Нет; `https://api.treblo.com/v1`   Нет данных 
+
+**Строк в Таблице 1: 30.** Из них реально бесплатный API-объём (без карты) есть у: OpenRouter, Groq, Gemini (кроме РФ), Z.ai (Flash-модели), Alibaba Qwen (90 дней, только модели вне списка снятых квот), ElevenLabs (10k/мес, без коммерции), Magic Hour (стартовые кредиты), HeyGen (только TTS Turbo Free до 30.11), Viggle (100 API-кредитов при регистрации). Остальные помечены 💳.
+
+**Hop (LLM)** = порядок перехода для текстовых задач, когда у сервиса кончился дневной лимит: продолжаем ту же работу на следующем сервисе (1→2→3…). Это переход между РАЗНЫМИ сервисами, по одному аккаунту на каждый; дополнительные аккаунты на одном сервисе запрещены (ToS OpenRouter прямо запрещает мультиаккаунты для обхода лимитов). Для медиа-API hop не задан («—»).
+
+Hop (чат) = порядок переключения для ручной текстовой работы, когда кончился лимит: 1→2→3… Одна учётка на сервис.
+
+**Строк в Таблице 2b: 13** (служебная, дубли сервисов из Табл. 1; в общий счёт сервисов не входит).
+
+Fable (Claude Fable 5.x): отдельный файл `/workspace/pilot/fable-access.md`.
+
+## Итог по счёту строк
+
+- Таблица 1 (API): **30** строк.
+- Таблица 2 (ручной трек): **22** строки (+ служебная Таблица 2b: 13 строк веб-версий сервисов из Табл. 1).
+- Таблица 3 (Uncensored / 18+): **20** строк (12 + 8 с пометкой 18+).
+- Надёжность (по первой метке строки; смешанные метки вида «high (…), low (…)» считаются по первой): Табл. 1 — high 19 / med 11 / low 0; Табл. 2 — high 12 / med 10 / low 0; Табл. 3 — high 1 / low 19.
+- Обновление 17.11.2026 (после 13:00 ET): повторно открыты 9 страниц (Udio, Dola, Tensor.Art, NightCafe, Canva, Kling, SpicyChat, aihere.ru, Arena ToU); прочитаны ToS Groq/ElevenLabs и (через выдержку) Perplexity; проверены замечания тех-ревью `catalog-api-review.md` (Qwen, Gemini, Groq, base URL Qwen/MiniMax/Perplexity, Poe/Fable).
+- Всего уникальных сервисов: 72 (30 + 22 + 20). Сверка с навигатором: 51 ссылка = 50 сервисов + aihere.ru; ChatGPT/Gemini/Grok/Qwen/DeepSeek/Mistral/Z.ai/Perplexity/Poe/HuggingChat/Kling/Hailuo/PixVerse/Vidu/Leonardo/Ideogram/Recraft/Krea/ElevenLabs/Freepik/Scenario/HeyGen/Hedra/Magic Hour/Viggle/SeeVio/Treblo/Groq/OpenRouter/AI Studio учтены в Табл. 1; Copilot и Designer — в Табл. 2; Design Arena добавлен основателем.
+
+## Пробелы
+
+- Доступность из РФ не проверена ни для одного сервиса из российской сети. Известны только официальные запреты/списки: Google Gemini API и OpenAI — РФ не поддерживается; Meta AI — недоступен в РФ; **ElevenLabs — ToS прямо запрещает пользователей в РФ/Беларуси** (п.15). Arena.ai и Z.ai: РФ в списке санкционных стран ToS не названа (это не подтверждение доступности). Оплата российскими картами не проверялась.
+- Официальные страницы, которые так и не открылись напрямую: Tensor.Art и NightCafe pricing (защита от ботов — факты взяты из офиц. справки/уведомления), Perplexity API ToS (прочитан через поисковую выдержку), arena.ai/terms (404 — использован ToU на help.arena.ai). Kling: цена пробного пакета — только сторонний источник. Canva: цифра «20 AI-использований» — только сторонний источник.
+- ToS не прочитаны: все сервисы Таблицы 3 (включая SpicyChat), Udio, Tensor.Art, NightCafe, Canva, большинство медиа-сервисов, Mistral, DeepSeek, xAI.
+- **Arena.ai ToU (23.02.2026):** один аккаунт, запрет автоматизированного доступа, запрет коммерчески использовать Output — юридический риск для использования ответов Arena в клиентских материалах; нужен вывод Оркестратора/Основателя. Найден также **Arena API Developer Preview** (platform.arena.ai, AUP от 15.09.2026) — условия/модели/цены не изучены, в таблицы не добавлен.
+- Dola: ToS — только личное некоммерческое использование.
+- Mistral: противоречие docs vs help по бесплатному API — подтвердить при регистрации.
+- Alibaba Qwen: какие текстовые модели ещё дают квоту новому аккаунту — видно только в консоли («нужен вход»).
+- Gemini 2.5 Pro: бесплатна на Free tier только до 01.12.2026 (далее переадресация на 3.8 Flash).
+- Poe: Fable нет в публичном списке API; доступность через веб-ботов и цена в очках — «нужен вход».
+- Точные бесплатные лимиты многих веб-сервисов (Duck.ai, Gemini app, Grok, Qwen Chat, DeepSeek, Firefly, Dreamina, Arena.ai) официально не публикуются.
+- Ideogram, Treblo (API), Krea, PixVerse: бесплатный API-лимит не найден/не опубликован. Groq: срок действия Free не указан.
+- Fable на uncensored.com (3 запроса / 8 ч) — со слов основателя, не подтверждено (нужен вход).
+
+exec
+/bin/bash -lc 'cat accounts.md; tail -14 signup-queue-all.md' in /workspace/pilot
+ succeeded in 0ms:
+# Аккаунты агентства (без паролей и ключей)
+Версия: v0.1 | 17.11.2026 13:57 ET | Ведёт: Оркестратор | Основание: бриф Директора v2, п. 4; SA-001
+| Сервис | Почта для входа | Дата | Версия/дата ToS | Статус | bonus (что, сумма, срок, скриншот) |
+|---|---|---|---|---|---|
+| Poe | 6pwffefm+poe@mail.grokbot.com | 17.11.2026 | poe.com/tos (прочитано 17.11) | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения | — (не проверено) |
+| Google (AI Studio) | 6pwffefm@mail.grokbot.com (базовый адрес; одобрил Директор 13:57) | 17.11.2026 | — | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения | — (не проверено) |
+| Groq | 6pwffefm+groq@ (1-я попытка), 6pwffefm@mail.grokbot.com (повтор) | 17.11.2026 | — | blocked: signup_blocked (IP/region likely) — оба раза после magic link; повтор 14:06 Ref 39e18c6e…; аккаунт НЕ создан | — (не проверено) |
+| OpenRouter | 6pwffefm+openrouter@mail.grokbot.com | 17.11.2026 | openrouter.ai/terms (31.08.2026) | created 14:11 (email verified); баланс $0.00, 0 транзакций; 2 ключа «Default key» (лимит $100 каждый, не скопированы) — оставить, не отзывать (решение Основателя через Директора 14:18); логин в Vault «OpenRouter (agency)» | нет: Credits $0.00, 0 tx; $100 — лимит ключа, не подарок; промо/стартап — проверка в очереди |
+| Z.ai | 6pwffefm+zai@mail.grokbot.com | 2026-11-17 | footer link, дата не видна | dropped 15:14 (Founder t343u): slider-captcha; форма заполнена, не отправлена; Vault 5158815 | нет (бонусов не видно); скрин 4d4a8cf9… |
+| GitHub | — | 2026-11-17 | — | blocked: HTTP 403 на github.com/signup (вероятно блок бота/IP); аккаунт НЕ создан | — |
+| Alibaba Cloud (Model Studio/Qwen) | 6pwffefm@mail.grokbot.com (base; "+" rejected) | 2026-11-17 | Membership Agreement/Product Terms/ToU (дата не видна) | account CREATED 15:50; next step asks mobile (/basic/security/mobile) → Model Studio activation + Free Quota Only = Founder handoff list; Vault 5164459 | нет на странице (Enterprise: «up to $5,000 credits» — не для физлица); скрин 138b7454… |
+| 71 | Secrets AI | https://www.secrets.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+| 72 | Kupid AI | https://www.kupid.ai/ | нет данных | нет данных | нет данных | нет данных | нет данных | X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) | — |
+
+## Сводка полос
+
+- EMAIL: 32
+- HANDOFF: 3
+- X: 33
+- DONE: 1
+- BLOCKED: 1
+- DROPPED: 1
+- IN_PROGRESS: 1
+- Всего строк: 72 (ожидалось 72)
+
+
+exec
+/bin/bash -lc "rg -n 'QR|телефон|карта|карт[ауысе]|без аккаунта|перепривяз' catalog.md | cut -c1-100" in /workspace/pilot
+ succeeded in 0ms:
+7:- **Шкалы:** Value 1–5 (бесплатный объём + качество моделей);
+12:Легенда флагов: 💳 = бесплатных API-токенов нет / нужна �
+18:| # | Сервис | URL | Модели (на дату проверки) | Бесплатный �
+20:| 1 | OpenRouter | https://openrouter.ai | Агрегатор 471 модели; 14 бесплат
+21:| 2 | Groq (GroqCloud) | https://console.groq.com | openai/gpt-oss-120b, gpt-oss-20b, qwen/qwen3.
+23:| 4 | Z.ai (GLM) | https://z.ai (docs.z.ai) | Бесплатно: GLM-4.7-Flash, GLM-4.5-Flash, G
+24:| 5 | Alibaba Cloud Model Studio (Qwen) | https://www.alibabacloud.com/product/modelstudio (ча�
+25:| 6 | Mistral AI Studio (+ Le Chat) | https://console.mistral.ai | Mistral Large 4, Small 4, Code
+26:| 7 | DeepSeek API (+ chat.deepseek.com) | https://platform.deepseek.com | deepseek-flash (V4.1-F
+31:| 12 | Perplexity API (Sonar/Agent API) | https://docs.perplexity.ai | Orchestrator/Agent API (с
+33:| 14 | Magic Hour | https://magichour.ai | Видео/картинки/аудио (face swap, lip
+47:| 28 | Viggle (+ веб) | https://viggle.ai | Анимация персонажей/motion, 3D-�
+51:**Строк в Таблице 1: 30.** Из них реально бесплатный API-об�
+59:| # | Сервис | URL | Модели / что делает | Бесплатный лимит +
+63:| 3 | Duck.ai (DuckDuckGo) | https://duck.ai | Бесплатно: Claude Haiku 5.5, Mistral Smal
+66:| 6 | Dola (бывш. Cici) | https://dola.com | ИИ-ассистент: чат, поиск, к�
+79:| 19 | Bolt.new | https://bolt.new | Генерация веб-приложений | Free нав
+91:| 2 | Duck.ai | https://duck.ai | См. Табл. 2 #3 | без аккаунта | 2 | DDG help (
+119:| 2 | notrack.ai | https://notrack.ai | нет | «Uncensored AI Chat — Free, Private, No Acco
+158:1. **Groq** — бесплатно без карты, OpenAI-совместим, gpt-oss-120b/qw
+167:10. **Perplexity API** (вместо ElevenLabs, Решение Директора 17.11.2026 13
+185:- Доступность из РФ не проверена ни для одного сервис
+
+exec
+/bin/bash -lc "sed -n '12p;31p;66p;167p' catalog.md; awk -F'|' '/"'^'"\\| [0-9]+ / {a["'$10]++} END{for(k in a) print a[k],k}'"' signup-queue-all.md | sort -nr | head -12" in /workspace/pilot
+ succeeded in 0ms:
+Легенда флагов: 💳 = бесплатных API-токенов нет / нужна карта или предоплата / платный план; ⚠️ToS = ограничение ToS (мультиаккаунты, автоматизация, коммерция, регион).
+| 12 | Perplexity API (Sonar/Agent API) | https://docs.perplexity.ai | Orchestrator/Agent API (сторонние модели), Search, Embeddings, Decisions | Части новых аккаунтов — разовый sign-up кредит $10, сгорает через 60 дней (не всем: «some new accounts»); без него — только оплата по токенам/запросам; sign-up кредит не открывает Agent/Orchestrator API и batch | Аккаунт + оплата/автосписание. РФ: нет данных (ToS: запрет для стран под эмбарго США — список стран не приведён) | Да для Agent API в формате OpenAI **Responses** (`client.responses.create`): base URL `https://api.perplexity.ai/v1` (канонический `POST /v1/agent`, алиас `/v1/responses`); «APIs are not identical» | Tier 0 при $0 покупок; лимиты — «Rate Limits & Usage Tiers», нет данных | API ToS: free trial можно прекратить «at any time for any reason», после — стандартные цены автоматически; аккаунты нельзя передавать третьим лицам; Customer Content не используется для обучения; автосписание комиссий по сохранённой карте | 1/2/3 | https://docs.perplexity.ai/getting-started/pricing ; https://docs.perplexity.ai/docs/getting-started/projects ; https://www.perplexity.ai/help-center/en/articles/10354847-api-payment-and-billing ; https://www.perplexity.ai/hub/legal/perplexity-api-terms-of-service (через поиск, страница не открылась напрямую) ; https://docs.perplexity.ai/docs/agent-api/openai-compatibility (base URL) (2026-11-17) | high (цены), med (sign-up кредит, ToS) | — |
+| 6 | Dola (бывш. Cici) | https://dola.com | ИИ-ассистент: чат, поиск, картинки, видео (Seedance) | Free: базовый чат + ограниченное число генераций в день (число официально не публикуется; dola.com/free показывает только заголовок) | Аккаунт; **1 номер телефона = 1 аккаунт**; 13+. РФ: нет данных (в ToS есть пункт о торговых ограничениях, РФ не названа в прочитанной части) | ⚠️ ToS: сервис «provided for private and non-commercial use» → **не для клиентских проектов**; запрет автоматизации сверх лимитов и скрейпинга | 3/3/4 | **Решение Директора 17.11.2026 13:32 ET: только личное использование, не для клиентских работ** | https://dola.com/legal/terms/en (Terms, обновлены 16.11.2026, прочитаны 2026-11-17); лимиты — App Store описание (через similarweb), seedance.tv (сторонние) | high (ToS), low (лимиты) |
+10. **Perplexity API** (вместо ElevenLabs, Решение Директора 17.11.2026 13:32 ET) — единственный оставшийся в Табл. 1 LLM-API с бесплатным объёмом без покупки: разовый кредит $10 на 60 дней для части новых аккаунтов, OpenAI-совместимый Agent API (Responses), РФ в ToS не названа поимённо; нужна ли карта — нет данных, кредит выдаётся не всем.
+32  EMAIL 
+20  X: таблица 3 Uncensored / 18+ (рекомендация каталога — не использовать) 
+3  HANDOFF 
+1  X: 💳 нет: кошелёк $0, без пополнения 402; кредиты Studio не оплачивают API 
+1  X: 💳 нет бесплатного API; веб-free не проверялся 
+1  X: 💳 нет бесплатного API: pay-as-you-go; веб-free не проверялся 
+1  X: 💳 кредиты платные; веб-free не проверялся 
+1  X: 💳 в каталоге (бесплатный API-лимит не указан — нет данных; оплата — нет данных; веб-free не проверялся) 
+1  X: 💳 бесплатных кредитов в docs нет, предоплаченный баланс 
+1  X: 💳 бесплатных API-кредитов не найдено; веб-free не проверялся 
+1  X: 💳 бесплатной квоты на странице цен нет (Recharge); веб-free не проверялся 
+1  X: 💳 Free users: None; HuggingChat — у free-аккаунта кредитов нет 
+
+codex
+VERDICT ISSUES
+
+- Alibaba’s `IN_PROGRESS` lane and “no accounts.md row” claim are stale. The account was created at 15:50, and activation requires mobile verification. Use `HANDOFF` with `phone=y` and update the lane totals. [Queue](/workspace/pilot/signup-queue-all.md:48) · [Accounts](/workspace/pilot/accounts.md:11)
+- Perplexity’s `card=y` and `HANDOFF` are unsupported. The catalog mentions a saved card for API billing but explicitly says the signup card requirement is unknown. Its free web tier qualifies for `EMAIL` under the queue rules. [Queue](/workspace/pilot/signup-queue-all.md:69) · [Catalog](/workspace/pilot/catalog.md:167)
+- Ideogram’s `X` treats an unknown free API limit and unknown payment terms as paid-only. The 💳 flag alone does not establish the queue’s stated exclusion criterion. [Queue](/workspace/pilot/signup-queue-all.md:71) · [Catalog](/workspace/pilot/catalog.md:36)
+- Duck.ai’s `EMAIL` lane implies a signup the catalog says is unnecessary. Bolt.new’s `card` should be `n` because the catalog explicitly says its free tier requires no card. [Queue](/workspace/pilot/signup-queue-all.md:33) · [Duck.ai](/workspace/pilot/catalog.md:63) · [Bolt.new](/workspace/pilot/catalog.md:79)
+- Meta AI’s `EMAIL` lane omits the catalog’s explicit “do not use” recommendation for Russia. The queue needs a regional eligibility rule or a note identifying where that lane applies. [Queue](/workspace/pilot/signup-queue-all.md:66) · [Catalog](/workspace/pilot/catalog.md:77)
+tokens used
+25,786
+VERDICT ISSUES
+
+- Alibaba’s `IN_PROGRESS` lane and “no accounts.md row” claim are stale. The account was created at 15:50, and activation requires mobile verification. Use `HANDOFF` with `phone=y` and update the lane totals. [Queue](/workspace/pilot/signup-queue-all.md:48) · [Accounts](/workspace/pilot/accounts.md:11)
+- Perplexity’s `card=y` and `HANDOFF` are unsupported. The catalog mentions a saved card for API billing but explicitly says the signup card requirement is unknown. Its free web tier qualifies for `EMAIL` under the queue rules. [Queue](/workspace/pilot/signup-queue-all.md:69) · [Catalog](/workspace/pilot/catalog.md:167)
+- Ideogram’s `X` treats an unknown free API limit and unknown payment terms as paid-only. The 💳 flag alone does not establish the queue’s stated exclusion criterion. [Queue](/workspace/pilot/signup-queue-all.md:71) · [Catalog](/workspace/pilot/catalog.md:36)
+- Duck.ai’s `EMAIL` lane implies a signup the catalog says is unnecessary. Bolt.new’s `card` should be `n` because the catalog explicitly says its free tier requires no card. [Queue](/workspace/pilot/signup-queue-all.md:33) · [Duck.ai](/workspace/pilot/catalog.md:63) · [Bolt.new](/workspace/pilot/catalog.md:79)
+- Meta AI’s `EMAIL` lane omits the catalog’s explicit “do not use” recommendation for Russia. The queue needs a regional eligibility rule or a note identifying where that lane applies. [Queue](/workspace/pilot/signup-queue-all.md:66) · [Catalog](/workspace/pilot/catalog.md:77)

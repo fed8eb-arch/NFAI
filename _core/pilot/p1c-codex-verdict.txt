@@ -1,0 +1,24 @@
+OpenAI Codex v0.169.0
+--------
+workdir: /workspace/pilot
+model: gpt-6.2-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: low
+reasoning summaries: none
+session id: 01a1eb40-181b-74d3-b6f2-d8a54fdf17f7
+--------
+user
+Check /workspace/pilot/p1c-providers.md against router-design.md and catalog.md in the same folder: are lanes consistent with the facts in catalog.md, any invented facts? Reply: VERDICT OK/ISSUES + max 5 bullets.
+codex
+VERDICT ISSUES
+
+- **Alibaba/Qwen — EMAIL is conditional.** The catalog requires completion of account details and leaves the signup method, phone, card, and KYC requirements unknown. An email-only attempt with a stop condition is reasonable, but the summary presents email-only signup as established. The 13:32 design decision names `qwen3.7-max`; `qwen3.8-max` comes from the catalog shortlist and still needs console verification. [Provider review](/workspace/pilot/p1c-providers.md:19) · [Router design](/workspace/pilot/router-design.md:228)
+- **Google — HANDOFF is supported** by the phone prompt recorded in `accounts.md`. The catalog does not explicitly confirm that the Free tier requires no card, and it restricts Free access to supported regions outside the EEA, Switzerland, and UK. “Outside Russia” alone is insufficient. [Accounts](/workspace/pilot/accounts.md:6) · [Catalog](/workspace/pilot/catalog.md:23)
+- **Z.ai — the CAPTCHA is documented, but HANDOFF assumes a restart.** `accounts.md` records that the Founder dropped the attempt. The cited files do not establish that a Founder screen is required or that P1c reopened signup. [Accounts](/workspace/pilot/accounts.md:9) · [Provider review](/workspace/pilot/p1c-providers.md:21)
+- **Groq — SKIP is supported** by two `signup_blocked` results. IP or region is only a suspected cause, and the catalog’s “Email” entry does not establish that a phone is never required. [Accounts](/workspace/pilot/accounts.md:7) · [Provider review](/workspace/pilot/p1c-providers.md:22)
+- **The provider exclusions follow the design, but the catalog has caveats.** It records conflicting Mistral documentation and lists Perplexity in the top 10, with a $10 credit for some new accounts and an unknown card requirement. Calling Perplexity a reserve with a likely card requirement overstates the source. [Provider review](/workspace/pilot/p1c-providers.md:11) · [Catalog](/workspace/pilot/catalog.md:165)
+
+tokens used
+46,611
