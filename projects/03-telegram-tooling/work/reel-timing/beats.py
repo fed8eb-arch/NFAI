@@ -27,7 +27,7 @@ import math
 import re
 import sys
 
-WORD_RE = re.compile(r"[\w$%'’-]+", re.UNICODE)
+WORD_RE = re.compile(r"[$%]?[^\W_]+(?:['’\-][^\W_]+)*%?", re.UNICODE)
 SENT_RE = re.compile(r"[^.!?]+[.!?]*")
 CONCRETE_RE = re.compile(r"\$\s?\d|\b\d[\d,.]*\b|(?<!^)\b[A-Z][a-z]{2,}\b", re.MULTILINE)
 STOPWORDS = {
