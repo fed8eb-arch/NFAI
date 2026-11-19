@@ -1,0 +1,25 @@
+# Локальная расшифровка медиа
+
+Для Разведки. Скрипт принимает доступный локальный видео- или аудиофайл и выводит текст с временными интервалами. Субтитры требуют сверки с оригиналом. Длинный вход целиком декодируется в память, поэтому при ограниченной памяти сначала разделите файл на части и сохраните смещения времени.
+
+## Проверка
+
+18 ноября 2026: Python 3.12, faster-whisper 1.2.1, CTranslate2 4.9.0, CPU int8, модель Systran/faster-whisper-tiny, revision d90ca5fe260221311c53c58e660288d3deb8d356. Модель `model.bin` SHA-256 `dcb76c6586fc06cbdac6dd21f14cfd129cc4cdd9dce19bf4ffa62e59cbe6e6d1`. Для открытого [контрольного WAV](https://github.com/ggml-org/whisper.cpp/blob/master/samples/jfk.wav) получен английский текст речи с сегментом 0–11 с. Русская речь и качество на роликах подборки пока не проверены.
+
+Версия PyAV 19 не приняла аргумент `metadata_errors` из faster-whisper 1.2.1. Скрипт декодирует звук через FFmpeg в моно PCM 16 кГц и передаёт массив NumPy модели. Локальная модель и пакеты во временном окружении могут быть удалены при очистке рабочей среды.
+
+## Запуск
+
+Нужны Python 3.12 и FFmpeg. Используйте отдельный каталог для зависимостей и модели, подставьте существующие пути.
+
+```bash
+python -m pip install --target /path/to/nfai-asr 'faster-whisper==1.2.1'
+mkdir -p /path/to/nfai-asr-model
+for file in config.json tokenizer.json vocabulary.txt model.bin; do
+  curl -fL "https://huggingface.co/Systran/faster-whisper-tiny/resolve/d90ca5fe260221311c53c58e660288d3deb8d356/$file" -o "/path/to/nfai-asr-model/$file" || exit 1
+done
+sha256sum /path/to/nfai-asr-model/model.bin
+PYTHONPATH=/path/to/nfai-asr python projects/03-telegram-tooling/work/transcribe_local.py /path/to/video.mp4 --model /path/to/nfai-asr-model --language ru
+```
+
+Сравните контрольную сумму с указанной выше до запуска. Выходной текст автоматически генерируется и может ошибаться в названиях моделей, числах и командах. Получение медиа из YouTube в этом упражнении не проверено. До публикации очищайте распознанные данные от личной информации и секретов.
