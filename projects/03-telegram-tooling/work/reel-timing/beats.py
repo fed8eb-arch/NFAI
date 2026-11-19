@@ -23,6 +23,7 @@ Usage
 
 import argparse
 import json
+import math
 import re
 import sys
 
@@ -83,13 +84,13 @@ def split_beats(raw, wps):
 
 
 def analyse(raw, wpm=165, target=None):
-    if wpm <= 0:
+    if not math.isfinite(wpm) or wpm <= 0:
         raise ValueError("speaking rate must be greater than zero")
-    if target is not None and target <= 0:
+    if target is not None and (not math.isfinite(target) or target <= 0):
         raise ValueError("target must be greater than zero")
     wps = wpm / 60.0
     beats = split_beats(raw, wps)
-    if not beats:
+    if not beats or not any(words(beat) for beat in beats):
         return None
 
     rows, clock = [], 0.0
