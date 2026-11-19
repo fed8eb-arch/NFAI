@@ -93,6 +93,7 @@ def analyse(raw, wpm=165, target=None):
     if not beats or not any(words(beat) for beat in beats):
         return None
 
+    english_only = raw.isascii()
     rows, clock = [], 0.0
     for i, text in enumerate(beats):
         n = len(words(text))
@@ -103,7 +104,7 @@ def analyse(raw, wpm=165, target=None):
             "dur": round(dur, 2),
             "words": n,
             "text": text,
-            "concrete": len(CONCRETE_RE.findall(text)),
+            "concrete": len(CONCRETE_RE.findall(text)) if english_only else None,
             "label": "",
             "flags": [],
         })
@@ -126,7 +127,6 @@ def analyse(raw, wpm=165, target=None):
         notes.append(f"Beat 1 takes {rows[0]['dur']:.1f}s to say. Cut it to "
                      f"{int(HOOK_WINDOW * wps)} words or fewer, or the hook lands after "
                      "the decision has been made.")
-    english_only = raw.isascii()
     if english_only and rows[0]["concrete"] == 0:
         notes.append("Beat 1 has no number and no name in it. Hooks without something "
                      "checkable are the ones that get scrolled.")
