@@ -8,6 +8,11 @@ import { createServer } from 'node:net';
 
 process.umask(0o077);
 const root = dirname(fileURLToPath(import.meta.url));
+const contextSize = process.env.NFAI_LLAMA_CONTEXT ?? '16384';
+if (!/^[0-9]+$/.test(contextSize) || Number(contextSize) < 512 || Number(contextSize) > 131072) {
+  console.error('NFAI_LLAMA_CONTEXT must be an integer between 512 and 131072.');
+  process.exit(2);
+}
 const gatewayHome = process.env.NFAI_CLAUDE_HOME;
 const omniPackage = process.env.NFAI_OMNIROUTE_PACKAGE;
 const claudePath = process.env.NFAI_CLAUDE_BIN;
@@ -160,7 +165,7 @@ try {
   };
   llama = spawnLogged(llamaPath, [
     '--host', host, '--port', String(runnerPort), '-m', modelPath,
-    '--alias', model, '-c', '16384', '-t', '4', '--parallel', '1', '-ngl', '0', '--jinja', '--reasoning', 'off',
+    '--alias', model, '-c', contextSize, '-t', '4', '--parallel', '1', '-ngl', '0', '--jinja', '--reasoning', 'off',
   ], 'llama.log');
   omni = spawnLogged(omniPath, [
     'serve', '--port', String(gatewayPort), '--headless', '--no-open', '--no-tray', '--no-recovery',
