@@ -450,6 +450,15 @@
         "projects/03-telegram-tooling/brief/brief.md",
         "status.md"
       ]
+    },
+    {
+      "id": "agent-merit",
+      "kind": "decision",
+      "label": "Единая балльная оценка и карьерный рост сотрудников NFAI",
+      "sources": [
+        "AGENTS.md",
+        "_core/staff/merit-points.md"
+      ]
     }
   ],
   "edges": [
@@ -914,6 +923,258 @@
       "relation": "governed_by",
       "target": "zero-spend",
       "evidence": "projects/03-telegram-tooling/brief/brief.md"
+    },
+    {
+      "source": "buddy",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "account-manager",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "ads-specialist",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "ai-certified-mentor",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "architect",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "billing",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "business-angel",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "client-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "client-requirements-analyst",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "client-support",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "codex-joker",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "content-manager",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "cost-controller",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "counterintelligence",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "delivery-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "delivery-support",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "developer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "devops-engineer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "finance-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "financial-analyst",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "hr-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "integration-developer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "intelligence-head-vatican",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "internal-security-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "lawyer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "legal-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "market-competitor-researcher",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "marketer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "marketing-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "orchestrator",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "order-intelligence",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "osint-scout",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "product-head",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "product-manager",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "professor",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "prompt-engineer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "recruiter",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "seo-specialist",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "telegram-parser",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "tester",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "web-designer",
+      "relation": "governed_by",
+      "target": "agent-merit",
+      "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "agent-merit",
+      "relation": "defined_in",
+      "target": "rules",
+      "evidence": "_core/staff/merit-points.md"
     }
   ]
 }
