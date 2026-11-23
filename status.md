@@ -241,3 +241,34 @@
 | Тестировщик | Граф и MCP | Хук проверен на входных событиях. Memory MCP проверен запросами. Playwright MCP отвечает, запуск браузера заблокирован | — | [Проверки MCP](projects/03-telegram-tooling/review/mcp.md) |
 | Джокер | Восстановление NFAI из Git bundle | Локальное восстановление и сверка дерева пройдены | — | [Результат проверки](projects/02-infrastructure/review/recovery-2026-11-18.md) |
 | Джокер | Oracle Always Free и Lowfat | Условия Oracle сверены. Для Lowfat записан контрольный замер штатных команд Git | — | [Oracle](projects/03-telegram-tooling/results/oracle-always-free.md), [Lowfat](projects/03-telegram-tooling/results/04-lowfat.md) |
+
+## Бадди: проверка Claude Code локально 2026-11-17
+
+Вердикт: **ACCEPT**. Оба теста прошли с первой попытки, повторов не было. Проверка на рабочей машине Бадди (бокс), 2026-11-17 23:16–23:25 ET. Коммиты, которые проверены: 466791f, c06b920.
+
+Установка ($0, вне репозитория, `NFAI_CLAUDE_HOME=~/nfai-claude`):
+- Node v24.22.1 (уже был на боксе).
+- `npm install --prefix ~/nfai-claude/npm @anthropic-ai/claude-code@2.1.327 omniroute@3.8.53`: 1329 пакетов, 1 мин 32 с. `claude --version` → `2.1.327 (Claude Code)`.
+- llama.cpp b12494 `llama-b12494-bin-ubuntu-x64.tar.gz` (23 746 331 байт) → `~/nfai-claude/llama-b12494/llama-server`.
+- `Qwen/Qwen3-4B-GGUF/Qwen3-4B-Q4_K_M.gguf` (2 497 280 256 байт) → `~/nfai-claude/models/qwen3-4b-q4.gguf`.
+- `NFAI_OMNIROUTE_PACKAGE=~/nfai-claude/npm/node_modules/omniroute`, `NFAI_CLAUDE_BIN=~/nfai-claude/npm/node_modules/.bin/claude`.
+- Существующие OmniRoute :20128 и LiteLLM :4000 не трогались; после тестов оба порта по-прежнему слушают, порты 11435 и 20129 свободны.
+
+Тесты: `node projects/02-infrastructure/work/claude-local/run.mjs --document <файл> --out <json> 'Extract the document code and the quantity (number of units). Write them as JSON with keys "document_code" and "quantity" (quantity as an integer).'`
+
+| Тест | Источник (созданный вручную) | Вывод run.mjs | Файл результата | Время |
+|---|---|---|---|---|
+| DOCX | python-docx: код NFAI-DOC-7342, 58 units | `Tool calls: Read, Write \| failed: 0`; `Claude Code wrote` | `{"document_code": "NFAI-DOC-7342", "quantity": 58}` | 38,3 с (первый запуск, включая создание ключа шлюза) |
+| Markdown | код NFAI-DOC-9186, 134 units | `Tool calls: Read, Write \| failed: 0`; `Claude Code wrote` | `{"document_code": "NFAI-DOC-9186", "quantity": 134}` | 40,5 с |
+
+Сверка: JSON разобран питоном, значения равны эталону в обоих тестах (True, True). Шлюз ответил `/v1/messages HTTP 200`, `Gateway result: 43`.
+
+Отличие от записи Джокера: в Markdown у Бадди ни один вызов Read не завершился ошибкой (`failed: 0`), повторного чтения не было. Это один прогон, не гарантия.
+
+Наблюдения:
+- Строка `[claude-code:unrecognized_model] {"model":"local-qwen/qwen3-4b"}` идёт в stderr; на результат не повлияла.
+- run.mjs доказывает вызовы по событиям `tool_use` stream-json в собственном проверочном коде и выводит только список имён. Сам транскрипт не сохраняется (`--no-session-persistence`), в `qwen3-4b-state/` лежат только llama.log, omni.log и ключ шлюза.
+- Нагрузка: `user` 3–4 мин на 8 ядрах (только CPU, `-ngl 0`); на боксе свободно около 2 ГБ ОЗУ, параллельно запускать задачи не стоит.
+- Ключи, модель и бинарники в репозиторий не добавлялись.
+
+Примечание 2026-11-23: этот вердикт был в локальном коммите 8ad9cea и не попал в main из-за незавершённого rebase на боксе. Ошибка Бадди: локальный коммит без push. Перенесено в main сейчас.
