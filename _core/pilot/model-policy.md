@@ -58,3 +58,7 @@ Shortlist alignment (after catalog.md): replace each placeholder with a provider
 
 ## 8. Verification plan (before deployment)
 Golden set per alias (5 inputs each, incl. one prompt-injection and one out-of-scope case) run via router; Tester checks; then Director → Orchestrator clearance; changelog entry in `/workspace/staff/prompts-changelog.md`.
+
+
+## 2026-11-24 — P0 binding zero-spend amendment
+Founder requires $0 Free Engine. This supersedes any earlier paid-fallback wording in this draft. No paid fallback, no automatic billing, no unverified entitlement. Route only explicit verified free provider/model pairs; router price overrides do not establish upstream entitlement. Select by effective context and tool/protocol compatibility before speed; reserve output and tool overhead. If no eligible route fits, checkpoint and split or stop. Never replay partially executed side effects. Local Qwen3-4B is a short-task reserve. Deployment remains unverified until independent tests on existing runtime.
