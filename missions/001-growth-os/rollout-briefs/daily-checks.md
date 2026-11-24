@@ -1,5 +1,6 @@
 # Brief: Daily checks — who, what, when (PT), what proof
-Version v1.0 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.1 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Changes v1.0 (`27ae051`) → v1.1: took in ГВБ's conditions C1–C6 (`clearance-daily-checks.md`). C1: step 3 method. C2: step 4 findings without values. C3: links to `git-rule.md` v1.5 (v1.4 APPROVED). C4: time zone, no city. C5: registry fix proposed in `fixes/orchestrator-and-registry.md`. C6: routine only if free. Also noted the prompts v1.2 draft (`a430dee`).
 Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`; the rows "Оркестратор", "Промпт-инженер", "Профессор", "ГВБ", "Глава клиентского отдела" and "Агентство: волна специалистов"). The plan says: "Цикл `daily-checks.md` (13 шагов) не исполнялся: журнала результатов, golden-set, журнала допусков и реестра доступа не найдено". Base: the registry `/workspace/staff/daily-checks.md` v1.0 (2026-11-17), identical to `_core/staff/daily-checks.md` on `mission-001`. Times: America/Los_Angeles (PT).
 
 ## 1. Rule (from the registry, unchanged)
@@ -7,10 +8,10 @@ Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`;
 - A daily check is incremental: what changed in the last 24h, plus a small rotating sample.
 - A check only finds and reports. Fixes follow the normal path: Prompt Engineer → ГВБ → Orchestrator.
 - Result format: one line per check, either `OK` or `issue: what / who / deadline`. Issues go to the Orchestrator; systemic issues also go to the Professor.
-- The cycle finishes before the Director's short daily report to the Founder (Mon–Sat, "~20:00 Krasnoyarsk" per the registry).
+- The cycle finishes before the Director's short daily report to the Founder (Mon–Sat, about 20:00 in the Founder's time zone, UTC+7, per the registry).
 
 ## 2. Timing (PT)
-Krasnoyarsk time is UTC+7, so 20:00 there is 05:00 PST, during US winter time (**to verify** with the Director: is the report still tied to 20:00 Krasnoyarsk?). Proposed daily windows:
+20:00 in the Founder's time zone (UTC+7) is 05:00 PST, during US winter time (**to verify** with the Director: is the report still tied to that time?). Proposed daily windows:
 | Time PT | What |
 |---|---|
 | 00:30 | Orchestrator opens the cycle (one message to the owners of steps 1–13) |
@@ -18,15 +19,15 @@ Krasnoyarsk time is UTC+7, so 20:00 there is 05:00 PST, during US winter time (*
 | by 03:30 | Steps 2–13 — each owner's line pushed (in registry order; a step may run in parallel with others, but is not reported before step 1) |
 | by 04:15 | Orchestrator's summary pushed |
 | ~05:00 | Director's short report to the Founder (Mon–Sat); Sunday: the weekly detailed report, unchanged |
-How the cycle is triggered (a scheduled routine, or the Orchestrator's message) is **to verify** with the Orchestrator. Agents do not run on their own clock.
+How the cycle is triggered (a scheduled routine, or the Orchestrator's message) is **to verify** with the Orchestrator. Agents do not run on their own clock. A routine is allowed only if it is free; any paid service needs the Founder's approval through the Director (ГВБ C6).
 
 ## 3. Who checks what (13 steps; scope = last 24h unless stated)
 | # | Owner | What | Daily scope | Note for the rollout period (from the plan) |
 |---|---|---|---|---|
 | 1 | **Prompt Engineer** | prompts: version and date match the changelog; reporting lines mirror on both sides; no contradictions; header present; golden-set re-run for prompts changed in the last 24h; the Director's brief template matches the Orchestrator's intake fields | changed prompts + 5 rotating unchanged + the template | the golden set does not exist yet (plan: by 2026-11-29); see section 5 |
-| 2 | Head of Internal Security | clearance log: every Prompt Engineer action has a logged clearance; graded intelligence (source, date, reliability); **plus the 6 git-rule detections** (`git-rule.md` v1.2 section 6) | entries of the last 24h | the clearance log is not found yet (plan: in the cycle by 2026-11-29) |
-| 3 | Head of Internal Security (store owned by DevOps) | access audit of the secret store and the access register | changes + 1 sampled account | register not found (plan); values are never written into the line |
-| 4 | Counterintelligence | exposure scan of public materials | new public posts, ads, job posts | the public repo counts as a public material |
+| 2 | Head of Internal Security | clearance log: every Prompt Engineer action has a logged clearance; graded intelligence (source, date, reliability); **plus the 6 git-rule detections** (`git-rule.md` v1.5 section 6) | entries of the last 24h | the clearance log is not found yet (plan: in the cycle by 2026-11-29) |
+| 3 | Head of Internal Security (store owned by DevOps) | access audit of the secret store and the access register | changes + 1 sampled account | register not found (plan). **Method (ГВБ C1):** only `keydrop.py check` (name, length, sha256 prefix of at most 8 characters) and `stat` of permissions and owner (700/600, box). **Banned:** `cat`, `less`, `grep`, `source`, `set -a`, `printenv` and `env` on files in `~/secrets/` or on process environments; never write a value into chat, files or the repo. If a value is shown by accident: stop, rotate it per ГВБ's policy, and report to ГВБ without the value |
+| 4 | Counterintelligence | exposure scan of public materials | new public posts, ads, job posts | the public repo counts as a public material. **Findings (ГВБ C2):** file:line and commit only, never the value (`gitleaks --redact`). The known password leak in git history (ГВБ audit, `ed4a0b1`) is carried as an open issue with a link to the audit: no quoting and no line reference. Rewriting history needs the Founder's "yes" through the Director |
 | 5 | Professor | training spot-check: 3 roles sampled; error log → lessons; 1 rotating training file + 5 curriculum links; 1 Tier F question | 3 roles/day | plan: daily 24–29.11 |
 | 6 | Orchestrator, with the Professor | cross-department error review (blameless, root cause) | `_core/staff/errors-log.md` entries of the last 24h | |
 | 7 | DevOps Engineer, with Head of Delivery | last backup succeeded; smoke-restore of 1 file, checksum | last backup + 1 sample | DevOps runs inside the Head of Delivery bot; whether a scheduled backup exists is to verify. The 23.11 machine replacement is the case this step must catch |
@@ -37,12 +38,12 @@ How the cycle is triggered (a scheduled routine, or the Orchestrator's message) 
 | 12 | Head of Client Relations, Product Manager | client health; first-reply SLA (4 business hours); backlog priorities | last 24h | working hours and time zone are not approved: report the SLA but promise nothing to clients (plan) |
 | 13 | Director, with Business Angel and AI Mentor | strategic decisions of the last 24h get a council read | decisions of the last 24h; skipped when there are none | |
 
-The exceptions table of the registry (monthly or quarterly deep checks) is unchanged. Its line "all 38 training files" is outdated: the corpus has 41 role files and 44 top-level files (`training-corpus-to-git.md`). Correcting the registry is for its owner, the Orchestrator.
+The exceptions table of the registry (monthly or quarterly deep checks) is unchanged. Its line "all 38 training files" is outdated: the corpus has 41 role files and 44 top-level files (`training-corpus-to-git.md`). Correcting the registry is for its owner, the Orchestrator; exact text proposed in `rollout-briefs/fixes/orchestrator-and-registry.md` (ГВБ C5).
 
 ## 4. Proof (every step, every day)
 - **Line file:** each owner pushes its own file `missions/001-growth-os/daily-checks/<YYYY-MM-DD>/<NN>-<role>.md` (proposed path; to verify with the Orchestrator). One file per owner means no shared file and no conflicts (`git-rule.md` rule 3).
 - **Content:** the step number, owner, time PT, scope actually covered, and the result line (`OK` / `issue: what / who / deadline`). Add the commands or sources used and the hashes or paths checked. No secrets, no personal addresses, no values from the secret store.
-- **Push:** own clone, own path, plain push, `ls-remote` = HEAD (`git-rule.md` v1.2); commit prefix `<Role>: daily check <date> step <NN>`; identity per `git-identity.md`.
+- **Push:** own clone, own path, plain push, `ls-remote` = HEAD (`git-rule.md` v1.5); commit prefix `<Role>: daily check <date> step <NN>`; identity per `git-identity.md`.
 - **Summary:** the Orchestrator pushes `missions/001-growth-os/daily-checks/<YYYY-MM-DD>/summary.md`. It has 13 rows (step, owner, result, hash of the line file) and lists missing steps as `NOT RUN`. The Director's report quotes the summary hash.
 - A step that cannot run (no data, or the owner is unavailable) is reported as `NOT RUN: reason`, never left out.
 
@@ -52,14 +53,14 @@ The exceptions table of the registry (monthly or quarterly deep checks) is uncha
 1. Header present, with Version v1.1 and Date 2026-11-23, and matching `_core/staff/prompts-changelog.md` on `origin/main` (entries "2026-11-23 — app-промпты 9 глав v1.0 → v1.1" and "… v1.1: строка Status").
 2. Reporting lines mirror: each prompt says "Reports to: the Orchestrator". The other side, `AGENTS.md` ("Оркестратору подчиняются главы …") and `_core/staff/orchestrator.md`, must list that head.
 3. Contradictions. Known items to log as issues:
-   - the "Commit rule" and "Mission work" lines point to the shared `/workspace/NFAI-mission-001`, which contradicts `git-rule.md` v1.2 (owner: Prompt Engineer; fix: prompts v1.2 through ГВБ);
+   - the "Commit rule" and "Mission work" lines point to the shared `/workspace/NFAI-mission-001`, which contradicts `git-rule.md` v1.5 (owner: Prompt Engineer; fix: prompts v1.2, draft `a430dee` on `mission-001`, awaiting ГВБ);
    - ГВБ's two open notes for v1.2: the branch name in Mission work; Legal's hard-line wording.
 4. Golden-set re-run: **no golden set exists**, so log `issue: golden set missing / Prompt Engineer / 2026-11-29 (plan)`.
 5. Intro ACK status of the 9 bots (`intro-ack-v1.1.md`): record the result, or `pending`.
 
-**(a) 5 sampled unchanged prompts.** The rotation is alphabetical through the role cards in `_core/staff/`. Day 1: `account-manager.md`, `ads-specialist.md`, `ai-certified-mentor.md`, `architect.md`, `billing.md`. Check the header, the changelog match, mirrored reporting lines, and no contradiction with `git-rule.md` v1.2.
+**(a) 5 sampled unchanged prompts.** The rotation is alphabetical through the role cards in `_core/staff/`. Day 1: `account-manager.md`, `ads-specialist.md`, `ai-certified-mentor.md`, `architect.md`, `billing.md`. Check the header, the changelog match, mirrored reporting lines, and no contradiction with `git-rule.md` v1.5.
 **(b) Brief template.** Compare the Director's brief template (the brief format in `_core/staff/rule-joker.md`: Plan, Task ID, Owner and department, Goal, Context and input paths, Constraints and approval references, Acceptance checks, Deadline, Budget, Output path and report format, Mentor note) with the Orchestrator's intake fields (`_core/staff/orchestrator.md` Inputs: goal, context, constraints, success criteria, deadline, budget, report format). Record the differences, for example that the Task ID, owner and output path have no intake field (to verify).
-**Known contradiction to log:** `orchestrator.md` Inputs says "no separate prompt engineer sits between the Director …". That contradicts the current rule that the Prompt Engineer writes all briefs and ГВБ checks them (Founder's order relayed on 2026-11-23). This brief does not edit `orchestrator.md`. The fix goes through the prompt/profile order (`git-rule.md` v1.2 section 10).
+**Known contradiction to log:** `orchestrator.md` Inputs says "no separate prompt engineer sits between the Director …". That contradicts the current rule that the Prompt Engineer writes all briefs and ГВБ checks them (Founder's order relayed on 2026-11-23). This brief does not edit `orchestrator.md`. The fix goes through the prompt/profile order (`git-rule.md` v1.5 section 10).
 
 ## 6. Owners of this brief
 | Part | Who |
@@ -93,9 +94,9 @@ The path of each line file and summary, with the commit hash = output of `git ls
 - The Founder is reached only through the Director.
 
 ## 12. To verify / conflicts
-- The PT time of the Director's daily report (05:00 PT = 20:00 Krasnoyarsk in winter).
+- The PT time of the Director's daily report (05:00 PT = 20:00 in the Founder's time zone, UTC+7, in winter).
 - How the cycle is triggered: a routine or a message.
 - The repo path for the daily files.
 - Whether a scheduled backup exists (step 7).
 - Which projects are live (steps 10–12).
-- Conflicts: the registry's "38 training files"; `orchestrator.md` "no separate prompt engineer"; the commit and workspace lines of the 9 prompts vs `git-rule.md` v1.2.
+- Conflicts: the registry's "38 training files"; `orchestrator.md` "no separate prompt engineer"; the commit and workspace lines of the 9 prompts vs `git-rule.md` v1.5.
