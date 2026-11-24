@@ -1,5 +1,5 @@
 # Brief: Git rule for all agents (no bypass, own clone, plain push, push every step)
-Version v1.2 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.3 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
 Changes:
 - v1.0 → v1.1 (2026-11-23, Orchestrator's order): added rule 9 (Founder rule: a local commit without push does not count; push after every completed step). Listed the 9 app prompts' "Commit rule" line as a conflict.
 - v1.1 → v1.2 (2026-11-23, Orchestrator's order):
@@ -8,6 +8,8 @@ Changes:
   - added section 10, "Prompt/profile updates".
   - Detection, deliverable and acceptance now refer to clones.
   - ГВБ's findings F1–F9 on v1.1 (`3346daf`, `clearance-git-rule.md`) are addressed: F1 effective date; F2 conflicts; F3 attribution; F4 lock check in own clone; F5 push only cleared work and only own commits; F6 branch moves; F7 who lifts a lock; F8 index check; F9 ГВБ deadline removed.
+
+- v1.2 → v1.3 (2026-11-23): took in ГВБ's conditions on v1.2 (`2d3b238`, APPROVED WITH CONDITIONS). C1: what a rejected push means. C2: keep your files outside the repo when you stop at a lock. C3: `git-identity.md` is now v1.1, built on own clones.
 
 Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`, `missions/001-growth-os/rollout-plan.md`, rows "Агентство: правило git (без обхода)" and "Агентство: отдельные git worktrees"). Context: Founder's order of 2026-11-23 17:28 PT (relayed): the WireReady pilot is paused; the priority is full agency rollout.
 Times: America/Los_Angeles (PT). Repository: `fed8eb-arch/NFAI` (public), `https://github.com/fed8eb-arch/NFAI.git`.
@@ -32,7 +34,7 @@ Executors are assigned only after Internal Security (ГВБ) clears this brief, 
    - a `remote.<name>.pushurl` set to a value that is not a URL (for example `DO-NOT-PUSH-UNTIL-APPROVED`);
    - a hook;
    - a `*.lock` file inside `.git/`;
-   - a rejected push;
+   - a push refused by a hook, by missing permission, or by branch protection (ГВБ C1). A **non-fast-forward** rejection is not a lock: follow rule 6;
    - a written order to hold, which binds every clone even when your own config shows no lock.
 
    Banned in every form:
@@ -40,9 +42,9 @@ Executors are assigned only after Internal Security (ГВБ) clears this brief, 
    - `git push <URL>` (pushing to an explicit URL instead of `origin`) and `git push --no-verify`;
    - any edit of remote config (`git remote set-url`, `git remote add`, `git config remote.*`, `git config url.*`), of `pushurl`, of `core.hooksPath`, or of files in `.git/hooks/`, and editing `.git/config` by hand;
    - deleting another process's `*.lock` file in `.git/`;
-   - cloning a second copy to get around a lock or a hold order.
+   - cloning a second copy to get around a lock or a hold order. A fresh clone after a non-fast-forward rejection (rule 6) is not a bypass.
 
-   **Who lifts a lock (ГВБ F7):** only the Director, or the Founder through the Director, in writing. An agent who set a lock may remove it only with their written consent. The Orchestrator keeps the list of hold orders in force. If you meet a lock: stop, leave your commit local, and report it (section 6).
+   **Who lifts a lock (ГВБ F7):** only the Director, or the Founder through the Director, in writing. An agent who set a lock may remove it only with their written consent. The Orchestrator keeps the list of hold orders in force. If you meet a lock: stop, leave your commit local, also copy your own changed files into a durable folder outside the repo (rule 9; ГВБ C2), and report it (section 6).
 2. **No history rewriting and no hidden work.** Banned:
    - `git rebase`, including `git pull --rebase`;
    - `git stash` (any subcommand);
@@ -71,7 +73,7 @@ Executors are assigned only after Internal Security (ГВБ) clears this brief, 
    - **Push only your own commits (ГВБ F5):** before pushing, `git log origin/<branch>..HEAD --format='%h %s'` must list only your commits. Pushing other agents' commits is banned, including commits picked up "along the way" by a merge or rebase.
    - **Push only after ГВБ clearance (ГВБ F5)** for: code that contains or handles secrets, tokens or webhooks; prompt and profile changes; files with personal data.
    - Before pushing, run `git config --get-all remote.origin.pushurl` in your clone. If it prints anything, it is a lock: do not push (rule 1). Also check that no written hold order is in force.
-6. **If the push is rejected** (non-fast-forward or any other reason), do not rebase, merge or force. Instead:
+6. **If the push is rejected as non-fast-forward**, do not rebase, merge or force. Any other rejection is a lock (rule 1): stop. Instead:
    1. Make a fresh clone of the new remote head (for example `/workspace/<agent>-clone2`).
    2. Copy in only your own files.
    3. Commit them with the command in rule 5 and push again.
@@ -137,7 +139,7 @@ The Director cancelled the writing deadlines for the briefs on 2026-11-23. Execu
 - `mission-001/briefs/w1-w4.md` uses the shared `/workspace/NFAI-mission-001`, which conflicts with rule 4. W1–W4 are paused; any new WireReady brief must use own clones.
 - The 9 head app prompts v1.1 on `origin/main` (`_core/staff/app-prompts/*.md`, text `563faab`, Status line `a7e48cc`) conflict with rules 4 and 5. All 9 have a "Commit rule" line that says to commit in the shared `/workspace/NFAI-mission-001`. The prompts of hr-head, internal-security-head and professor also have "Mission work: /workspace/NFAI-mission-001". `app-prompts/training-briefs.md` cites the shared clone 12 times. They are handled through section 10.
 - The rollout plan row "Агентство: отдельные git worktrees" expects worktrees. This brief replaces them with own clones, by the Orchestrator's order of 2026-11-23. The plan text is not changed here.
-- The brief `git-identity.md` v1.0 is built on worktrees and `git config --worktree`. It needs a matching update to "own clone" (done separately as v1.1).
+- `git-identity.md` v1.0 was built on worktrees. **v1.1 (`94e7392`) is built on own clones**: identity goes in the clone's local config; ГВБ's decisions are form B, the env-var fallback, and no `-c user.*` (ГВБ C3).
 
 ## 10. Prompt/profile updates
 - **Affected:** every agent prompt or profile whose workspace line points to `/workspace/NFAI-mission-001`, `/workspace/NFAI` or a worktree. Found so far on `origin/main`:
