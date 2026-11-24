@@ -1,5 +1,5 @@
 # Brief: Intro ACK of prompt v1.1 by the 9 head bots
-Version v1.0 (rev. 2026-11-23 17:47 PT: hash source per Orchestrator) | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.0 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
 Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`: "Intro ACK девяти ботов с хешем источника", deadline 2026-11-25). Times: America/Los_Angeles (PT).
 
 ## 1. Why
@@ -8,9 +8,8 @@ The Director stated that prompts v1.1 (text of `a7e48cc`) were applied to all 9 
 ## 2. Facts about the hashes (checked 2026-11-23 17:35–17:45 PT with `git fetch` and `git ls-remote`)
 - `563faab` — prompts v1.1 text, cleared by ГВБ (decision file at `eaebb4c`, branch `mission-001`). Header Status line still says "v1.1 pending Internal Security re-check (decision CHANGES REQUIRED, 2026-11-23)".
 - `a7e48cc` — child of `563faab`; changes **only the Status line** of the 9 files (2 diff lines per file) plus `prompts-changelog.md`. New Status: "v1.1 cleared by Internal Security (eaebb4c) and Orchestrator, 2026-11-23".
-- **Correction of the task premise:** `a7e48cc` is described in the task and in the plan as "local only, unpushed (push lock)". At this check it **is on origin**: `git ls-remote origin refs/heads/main` = `da84ceb77be887e0884f26ce3e4903d4e7db164f` (commit "Handover Buddy -> Codex 2026-11-23", 2026-11-23 17:38 PT, adds only `inbox/handover-to-codex-2026-11-23.md`), and `a7e48cc` is its parent (`git merge-base --is-ancestor a7e48cc origin/main` = 0). Who pushed it is not recorded beyond the shared author "NFAI Joker" — to verify (Orchestrator). The app-prompt files are identical at `a7e48cc` and `da84ceb`.
-- **Which hash counts (per Orchestrator, 2026-11-23 17:46 PT):** the **v1.1 prompt source is the approved text at `563faab` on origin/main**. The body of all 9 files is identical at `563faab` and `a7e48cc`; only the Status line differs. **Status-line hash:** the Orchestrator's instruction says it "will be provided after re-publication" because `a7e48cc` was reported lost with the replaced machine. **Fact for the Director:** the local copy was lost, but `a7e48cc` was already on origin before the replacement. Re-checked 2026-11-23 17:47 PT: `git ls-remote origin refs/heads/main` = `da84ceb77be887e0884f26ce3e4903d4e7db164f`, and `git merge-base --is-ancestor a7e48cc origin/main` returns 0. So re-publication may not be needed. Whether `a7e48cc` is accepted as the status-line hash is the Director's decision (to verify). The Prompt Engineer does not re-publish anything.
-- Until the Director decides, the ACK result per bot records both: body = `563faab` text (yes/no) and Status line = the `a7e48cc` wording or the `563faab` wording.
+- **Both are on origin/main** (checked 2026-11-23 17:47 PT): `git ls-remote origin refs/heads/main` = `da84ceb77be887e0884f26ce3e4903d4e7db164f`; `git log origin/main`: `da84ceb` → `a7e48cc` → `563faab`. `a7e48cc` was pushed by the Director at about 17:40 PT (Orchestrator's statement). `da84ceb` only adds `inbox/handover-to-codex-2026-11-23.md`.
+- **Reference for this ACK:** v1.1 = **`563faab` (prompt text) + `a7e48cc` (Status line)**.
 - The hash `eaebb4c` inside the Status line is ГВБ's decision commit, **not** the prompt's hash. Bots must not report it as their prompt hash.
 
 ## 3. Reference values (from git, `a7e48cc`)
@@ -53,24 +52,24 @@ Anything in your prompt that contradicts this request: <none / what>
 ```
 
 ## 6. How the Orchestrator decides (per bot)
-- **MATCH a7e48cc:** L1 equals `git show a7e48cc:_core/staff/app-prompts/<file> | head -1`, and the presence of the Hard line, Mission work and injection lines matches the table in section 3.
-- **MATCH 563faab (old Status line):** L1 equals the `563faab` header; the body lines match. Result: applied text = `563faab`; the Director's claim "applied per a7e48cc" is not confirmed for this bot.
+- **MATCH v1.1 (563faab + a7e48cc):** L1 equals `git show a7e48cc:_core/staff/app-prompts/<file> | head -1`, and the presence of the Hard line, Mission work and injection lines matches the table in section 3.
+- **MATCH 563faab (old Status line):** L1 equals the `563faab` header; the body lines match. Result: text is v1.1, but the Status line is the old one, so the claim "applied per a7e48cc" is not confirmed for this bot. The Director decides whether to re-apply.
 - **MISMATCH:** anything else (missing line, other version, other wording). Report to the Prompt Engineer and ГВБ the same day; the Director decides the re-application.
 - **NO REPLY** by the deadline: counts as not verified.
 Bots cannot compute a hash of their own prompt; the hash in the result is assigned by the Orchestrator from the comparison, never taken from the bot.
 
 ## 7. Result / deliverable
-Summary file by the Orchestrator (proposed path `missions/001-growth-os/rollout-briefs/reports/intro-ack-v1.1-results.md`): one row per bot — role, reply time PT, L1 quoted, result (MATCH a7e48cc / MATCH 563faab / MISMATCH / NO REPLY), reference hash, note. No secrets, no personal addresses.
+Summary file by the Orchestrator (proposed path `missions/001-growth-os/rollout-briefs/reports/intro-ack-v1.1-results.md`): one row per bot — role, reply time PT, L1 quoted, result (MATCH v1.1 / MATCH 563faab / MISMATCH / NO REPLY), reference hash, note. No secrets, no personal addresses.
 
 ## 8. Deadline (PT)
 Writing deadlines for these briefs were cancelled by the Director on 2026-11-23. Execution: requests go out right after ГВБ clears this brief; replies collected and summary committed by **2026-11-25** (plan).
 
 ## 9. Acceptance criterion
-9 rows in the summary file; each row is MATCH a7e48cc, or a MISMATCH / MATCH 563faab / NO REPLY with a named decision and owner. The Director accepts the summary in writing.
+9 rows in the summary file; each row is MATCH v1.1, or a MISMATCH / MATCH 563faab / NO REPLY with a named decision and owner. The Director accepts the summary in writing.
 
 ## 10. Required proof
 - Summary file path and its commit hash = output of `git ls-remote origin refs/heads/<branch>`.
-- Output of `git merge-base --is-ancestor a7e48cc origin/main; echo $?` (0) on the day of comparison, with `git ls-remote origin refs/heads/main`.
+- Output of `git ls-remote origin refs/heads/main` on the day of comparison.
 - The bot replies kept as quoted text in the summary (no secrets).
 **"Done" only with proof.**
 
@@ -80,5 +79,4 @@ Mismatch or no reply → Orchestrator → Prompt Engineer (text) and ГВБ (cle
 ## 12. Known conflicts and to verify
 - **Conflict with `git-rule.md`:** the "Commit rule" line in all 9 prompts (v1.1) says to commit in the shared clone `/workspace/NFAI-mission-001` with `git push`. From 2026-11-25 the git rule requires an own worktree and `git push origin HEAD:<branch>`. Prompts need v1.2 (Prompt Engineer → ГВБ → main → bots). Not changed in this brief.
 - ГВБ's two notes for v1.2 (branch name in Mission work lines; align Legal's hard-line wording) are open.
-- Who pushed `a7e48cc` / `da84ceb` to origin while the push lock was reported — to verify (Orchestrator); the plan says the lock was lifted by the Founder's order.
 - Whether all 9 bots can receive an agent message from the Orchestrator — to verify.
