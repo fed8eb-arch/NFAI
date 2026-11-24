@@ -62,3 +62,16 @@ Golden set per alias (5 inputs each, incl. one prompt-injection and one out-of-s
 
 ## 2026-11-24 — P0 binding zero-spend amendment
 Founder requires $0 Free Engine. This supersedes any earlier paid-fallback wording in this draft. No paid fallback, no automatic billing, no unverified entitlement. Route only explicit verified free provider/model pairs; router price overrides do not establish upstream entitlement. Select by effective context and tool/protocol compatibility before speed; reserve output and tool overhead. If no eligible route fits, checkpoint and split or stop. Never replay partially executed side effects. Local Qwen3-4B is a short-task reserve. Deployment remains unverified until independent tests on existing runtime.
+
+## 2026-11-24 — Windows pilot routing evidence (not a production rollout)
+Host distinction: historical LiteLLM :4000 is documented for the agency box; do not assume it exists on Windows. The existing Windows Claude Code pilot uses OmniRoute :20128 and the explicit combo `nfai-free-engine`; local Qwen3-4B :11435 is a separate short-context reserve. Do not install a duplicate router to match a historical path. See status.md and the private recovery task for actual checks.
+
+| Priority | Explicit route | Evidence / restriction |
+|---|---|---|
+| 1 | groq/openai/gpt-oss-120b | Synthetic Read/Write and MCP history; Free plan and ZDR observed |
+| 2 | nvidia/nvidia/nemotron-3-ultra-550b-a55b | Synthetic Read/Write and first failover; evaluation only |
+| 3 | nvidia/mistralai/mistral-large-4-1t-a52b | Synthetic Read/Write SHA256 match; evaluation only |
+| 4 | nvidia/nvidia/nemotron-3.5-super-vl-120b-a12b | Synthetic Read/Write SHA256 match; vision not tested; evaluation only |
+| Separate | local Qwen3-4B | Local endpoint healthy after manual restart; local router fallback not accepted yet |
+
+All NVIDIA targets share the account quota. No paid fallback, no unverified default/wildcard route, no quota evasion. Only public/synthetic inputs on cloud; NVIDIA billing, terms and confidentiality acceptance remain open. The four independent target tests are not proof of all fallback transitions. Model-class aliases from section 3 remain proposals until separately tested. The pilot is not an unattended production executor. Actual effective context, retries/cooldown, side-effect idempotency, original profile compatibility, independent task acceptance and local fallback still require testing. Do not interpret this note as permission to deploy, send client data or expand tools.
