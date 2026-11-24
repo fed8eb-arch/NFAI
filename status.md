@@ -279,3 +279,13 @@
 - Ключи, модель и бинарники в репозиторий не добавлялись.
 
 Примечание 2026-11-23: этот вердикт был в локальном коммите 8ad9cea и не попал в main из-за незавершённого rebase на боксе. Ошибка Бадди: локальный коммит без push. Перенесено в main сейчас.
+
+## Бадди: проверка Claude Code на ПК Петра (DESKTOP-DMFUR0R) 2026-11-23
+
+Вердикт: **ACCEPT** (только через лаунчер `Start_Claude_Local.ps1`).
+- Claude Code 2.1.327, `%LOCALAPPDATA%\PolymarketClaude\...\claude.exe`; `claude` нет в PATH. Голый запуск: `Not logged in · Please run /login`.
+- `Start_Claude_Local.ps1 Start` (27,2 с): llama-server :11435 (qwen3-4b-q4, ctx 16384, CPU) + OmniRoute :20129, все 4 флага здоровья true.
+- Без фоновых флагов: `Prompt is too long ... 21254 tokens exceeds 16384` (хуки и MCP не влезают в контекст).
+- С флагами лаунчера (`--safe-mode --restricted`, пустой MCP, disableAllHooks, Read,Write): 103,2 с, Read 1 (test.md), Write 1 (result.json), `{"document_code": "NFAI-DOC-5521", "quantity": 77}` = эталон. Предупреждение `unrecognized_model` не мешает.
+- После теста `Stop`: процессы остановлены, temp удалён. Логин и ключи не вводились, ничего не ставилось.
+- DOCX на ПК не проверен: нет python-docx.
