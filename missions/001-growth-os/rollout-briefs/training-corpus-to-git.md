@@ -1,5 +1,6 @@
 # Brief: Move the training corpus /workspace/staff/training/ into git
-Version v1.1 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.2 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Changes v1.1 (`d3f7173`) → v1.2: the Professor's lost local commit `f712eb4` was restored as **`6d22b4a`** on `origin/mission-001` (ГВБ admitted it at 17:50 PT, per the Orchestrator; the Professor pushed it). Updated the facts and the steps to match.
 Changes v1.0 (`c93ee95`) → v1.1:
 - Corrected the facts. The 55-file count in v1.0 was taken while the post-replacement restore was still running; at 17:51 PT all 65 files are back, and their hashes match.
 - Took in ГВБ's decisions and conditions C1–C4 (`83531eb`, `clearance-training-corpus-to-git.md`):
@@ -18,7 +19,7 @@ Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`,
   - `_backup/`: 11 files (`director.v1.2/v1.3/v1.4/v1.6/v1.7/v1.7.1/v1.7.2.md`, `orchestrator.v2.1.md`, `devops-engineer.v2.1.md`, `codex-joker.v1.0.md`, `CHANGELOG.pre-pe-review-2026-11-23.md`).
   - `_linkcheck/`: 10 files (link-check URL lists and results of 2026-11-17, `curriculum-v1.0.bak.md`).
 - **The machine replacement (17:42 PT):** a recount at ~17:45 PT, during the restore, showed 55 files. ГВБ's count (17:49 PT) and mine (17:51 PT) show all 65 back. The declared hashes match: `codex-joker.md` `0cf81002…`, `error-analysis-2026-11-23.md` `a872270b…`, `director.md` (v1.7.3) `b0b924af…`, `orchestrator.md` `305fd1f2…`, `devops-engineer.md` `7fe60e23…`, `CHANGELOG.md` `4f9b0203…`.
-- **The Professor's local commit `f712eb4` is lost.** It was never pushed, and it is not on origin (`git cat-file -t f712eb4` in a fresh clone says it is not a valid object). Its 6 files exist on disk and are covered by this brief.
+- **Already in git on `origin/mission-001`: `6d22b4a`** (Professor, "restored after box replacement"). It replaces the lost local `f712eb4` and adds 4 files: `_core/staff/training/CHANGELOG.md`, `director.md`, `orchestrator.md` and `devops-engineer.md`. Their sha256 equal the files on disk (`4f9b0203…`, `b0b924af…`, `305fd1f2…`, `7fe60e23…`; checked 17:59 PT). Two files that were in `f712eb4` are **not** in `6d22b4a`: `_core/staff/training/codex-joker.md` and `_core/staff/error-analysis-2026-11-23.md`. They go in with the rest of the corpus under the steps below.
 - **Personal-data risk:** an e-mail pattern (values not printed) matches one address in each of `_backup/director.v1.3`, `v1.4`, `v1.6`, `v1.7` and `v1.7.1.md`. `director.md` (v1.7.3), the other top-level files and `_linkcheck/` show none. ГВБ's gitleaks run on the folder found no leaks.
 
 ## 2. Owners
@@ -46,7 +47,7 @@ Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`,
 ## 5. Steps (Professor)
 1. Work in your own fresh clone (`git-rule.md` v1.2): `git clone --branch mission-001 https://github.com/fed8eb-arch/NFAI.git /workspace/prof-clone`. Do not use `/workspace/NFAI`, `/workspace/NFAI-mission-001` or an old worktree, and never run `git init` over an old folder. Set your identity as `git-identity.md` v1.1 says (form B, or the env-var fallback), **not `NFAI Joker`** (ГВБ C3).
 2. Build the package list of the 44 top-level files, with the sha256 of each, in `_core/staff/training/MANIFEST.md` (proposed name; to verify).
-3. Hand the list to ГВБ **before** `git add`, and wait for the written decision. Nothing is pushed before ГВБ's scan, including the 6 files of the lost `f712eb4` (ГВБ C1).
+3. Hand the list to ГВБ **before** `git add`, and wait for the written decision. Nothing is pushed before ГВБ's scan (ГВБ C1). This covers `codex-joker.md` and `error-analysis-2026-11-23.md`; the 4 files already in `6d22b4a` are only checked against the manifest and are not committed again unless they changed.
 4. Copy in only the cleared files and run the scanner on the clone again.
 5. Check the index: `git diff --cached --name-only` must list only `_core/staff/training/...` paths (ГВБ C2).
 6. Commit in one command with a plain push: `git add _core/staff/training/<cleared paths> && git commit -m "Professor: training corpus to git (cleared by IS <hash>)" && git push origin HEAD:mission-001`.
