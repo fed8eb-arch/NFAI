@@ -1,5 +1,6 @@
 # Brief: Git rule for all agents (no bypass, own worktree, plain push)
-Version v1.0 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.1 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Change v1.0 → v1.1 (2026-11-23, by Orchestrator's order): added rule 9, a Founder rule relayed by the Orchestrator: a local commit without push does not count; push after every completed step. Reason: the shared machine was replaced at 2026-11-23 17:42 PT and unpushed local commits and worktrees were destroyed. Section 9 also lists the 9 app prompts' "Commit rule" line as a conflict.
 Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`, `missions/001-growth-os/rollout-plan.md`, row "Агентство: правило git (без обхода)" and row "Агентство: отдельные git worktrees"). Context: Founder's order of 2026-11-23 17:28 PT (relayed): WireReady pilot paused; priority is full agency rollout.
 Times: America/Los_Angeles (PT). Repository: `fed8eb-arch/NFAI` (public), local clone `/workspace/NFAI`.
 
@@ -35,6 +36,8 @@ Assignment to executors happens only after Internal Security (ГВБ) clears thi
 6. **If the push is rejected** (non-fast-forward or any other reason): do not rebase, merge or force. Run `git -C /workspace/NFAI fetch origin`, create a fresh worktree from the new remote head (for example `/workspace/<agent>-wt2`), copy in only your own files, commit them with the command in rule 5, push again. If the second push also fails, stop and report the exact error.
 7. **Verify every push:** `git ls-remote origin refs/heads/<branch>` must print the same hash as `git rev-parse HEAD`. Put both in your report. A local commit without this check is not "saved" and not "done".
 8. **No secrets and no personal addresses in commits** (existing rule; ГВБ checks the diff of each push when pushing is allowed, per the plan).
+
+9. **Push after every completed step (Founder rule, relayed by the Orchestrator, 2026-11-23).** A local commit without push does not count: it is not saved, not "done", and not evidence. Push your branch (`git push origin HEAD:<branch>`, then the `ls-remote` check of rule 7) after every completed step, not only at the end of a session. Reason: on 2026-11-23 at 17:42 PT the shared machine was replaced; the local `.git` of `/workspace/NFAI`, all linked worktrees and every unpushed local commit were lost. If a lock stops the push (rule 1), the step is not done: report it, and keep the uncommitted files in a durable folder outside the repo whose name is not `dist`, `build`, `out`, `coverage`, `target` or a dot-folder.
 
 ## 4. Result / deliverable
 - This rule cleared by ГВБ and accepted by the Director; the Orchestrator sends it to every writing agent before 2026-11-25 00:00 PT.
@@ -80,6 +83,8 @@ Assignment to executors happens only after Internal Security (ГВБ) clears thi
 - `AGENTS.md` (section "Автосохранение", line 74 at `56b9067`): `git add -A && git commit -m "<что сделано>" && git push` — conflicts with rule 5 (own paths only, `HEAD:<branch>`). This brief does not edit `AGENTS.md`; its owner should align it (to verify who owns that file).
 - `mission-001/briefs/talks-02-03.md` (section 4): `git pull --rebase` and the shared worktree `/workspace/NFAI-mission-001` — conflict with rules 2 and 4. That task is finished; do not reuse that wording.
 - `mission-001/briefs/w1-w4.md`: shared worktree `/workspace/NFAI-mission-001` — conflicts with rule 4. W1–W4 are paused; any new WireReady brief must use own worktrees.
+- The "Commit rule" line in all 9 head app prompts v1.1 (`_core/staff/app-prompts/*.md` at `563faab`/`a7e48cc`) says to commit in the shared clone `/workspace/NFAI-mission-001` with `git push`. That conflicts with rules 4 and 5. It needs prompt v1.2 (Prompt Engineer → ГВБ → main → bots).
+- After the machine replacement (2026-11-23 17:42 PT), `/workspace/NFAI` is not a git repository, so the worktree command in rule 4 fails until the Integration Developer restores the clone. Until then an agent may use a fresh clone in a new folder of its own (`git clone --branch <branch> https://github.com/fed8eb-arch/NFAI.git /workspace/<agent>-clone`). Never run `git init` over an old folder. To verify with the Orchestrator.
 - Plan deadlines differ: the rule takes effect 2026-11-25, the plan's deadline for separate worktrees is 2026-11-28. Until 2026-11-28 an agent without its own worktree creates it itself with the command in rule 4 before its first write; to verify with the Orchestrator.
 
 ## 10. To verify
