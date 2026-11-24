@@ -45,3 +45,20 @@ Nothing below has been started. Zero new spend in this pass.
 ## Open choice for the Founder (pilot)
 
 Track B proposes the public US property [WireReady](https://wireready-pilot.netlify.app) as the controlled test project (NFAI-owned private repo `fed8eb-arch/wireready`, live Netlify site, Dallas-area, English). This is a recommendation, not an applied change. No live edits were made.
+
+
+## 2026-11-24 — recovered transcript: Creative System operating requirements
+
+Source: existing private Rush Conf talk 07 automatic subtitle file (blob 26e06952183e0040ff54f20fef4a754b2e3fbc87), not manually audio-verified. No new transcription. This supplements the existing Track A catalog rather than introducing a new product or buying a vendor. Applicability: modules 01, 03, 05 and Creative Studio when assigned; WireReady remains HOLD.
+
+| Existing process | Required input and output | Acceptance and evidence |
+|---|---|---|
+| Audience and buyer research (4:32:02–4:33:57) | Authorized, redacted customer research → segment/JTBD map → a distinct brief per segment | Each proposed message traces to a source; mark synthetic personas as assumptions. No customer call data in evaluation-only routes. |
+| Competitive creative research (4:35:02–4:37:26) | Public authorized ad-library metadata → original concepts, not copied assets | If available, compare reach within the same advertiser/market; otherwise active duration and repetitions are proxy indicators only, not verified ROI. Record source, date, metric availability and approval reason. No prohibited scraping. |
+| Creative production and iteration (4:41:09–4:49:11) | Approved persona, hook, body/structure, angle, creative ID, source prompt/version, funnel ID → original script/storyboard/variant | Do not infer winning performance from synthetic persona ratings. Use a rejection hypothesis only; later validate on real permitted outcome data, never mix funnels or target segments. Keep winning element and vary one element for interpretable tests. |
+| Quality review (4:49:27–4:51:04) | Creative and performance data → documented hypothesis and decision | Compare qualified lead cost, sales, margin, sample size, not merely clicks or hook rate. Distinguish correlation from cause; human acceptance before deployment. |
+| Landing design (4:55:40–4:56:46) | Business facts, 3–6 positive references and optionally 3–6 negative references → original layout specification | Check explicit typography, spacing, imagery, mobile usability, factual claims and accessibility. No cloning copyrighted assets, no publishing without approval. |
+
+Named candidate sources: Meta Ad Library appears at 4:35:02–4:36:22; Claude Code/Codex at 4:33:08; Gemini at 5:02:50 (ASR). Higgsfield is a probable identification from repeated phonetic ASR (4:37:26, 4:39:51); exact spelling and terms need independent verification before adoption. Apify appears in organizer program, not a clean confirmed name in the sampled transcript. The research skill attributed to Ivan Zamesin at 4:32:52 and landing skill at 4:55:40 remain source-recovery candidates, not installed skills. No claim of the speaker's 40/day or cost results as NFAI evidence. No spending, account creation, training or live creative campaign.
+
+Operational handoff: use this schema in existing task briefs for Creative Studio and modules 01/03/05, when authorized. Keep all client data in the appropriate project; existing public research only. Actual tool integration, measurements and independent acceptance are separate outstanding work.
