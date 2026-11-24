@@ -2,3 +2,11 @@ _*.log
 *.png
 keydrop/
 .env*
+
+# Local secrets, generated environments and raw signup evidence (security review F11–F13)
+*.key
+*.pem
+*.p12
+*.pfx
+.venv/
+signup-evidence/
