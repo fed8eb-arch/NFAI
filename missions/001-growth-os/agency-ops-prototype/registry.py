@@ -8,8 +8,8 @@ TRANSITIONS = {
     'proposed': {'assigned', 'blocked'},
     'assigned': {'running', 'blocked'},
     'running': {'blocked', 'review'},
-    'blocked': {'assigned', 'running'},
-    'review': {'running', 'blocked', 'accepted'},
+    'blocked': {'assigned'},
+    'review': {'blocked', 'accepted'},
     'accepted': set(),
 }
 
@@ -42,15 +42,22 @@ def transition(db, task_id, state, actor, note, evidence=None):
     if not actor.strip() or not note.strip():
         raise ValueError('actor and note are required')
     with db:
+        # Serialize the claim and its audit event across local SQLite writers.
+        db.execute('BEGIN IMMEDIATE')
         row = db.execute('SELECT owner,state,revision FROM tasks WHERE id=?', (task_id,)).fetchone()
         if row is None:
             raise ValueError('task not found')
         owner, old, revision = row
         if state not in TRANSITIONS.get(old, set()):
             raise ValueError('invalid transition')
+        same_owner = actor.casefold().strip() == owner.casefold().strip()
+        if state in {'running', 'review'} and not same_owner:
+            raise ValueError('only the assigned owner may claim or submit the task')
+        if state == 'assigned' and same_owner:
+            raise ValueError('assignment requires a separate authorized operator')
         if state in {'review','accepted'} and not (evidence and evidence.strip()):
             raise ValueError('evidence is required for review and acceptance')
-        if state == 'accepted' and actor.casefold().strip() == owner.casefold().strip():
+        if state == 'accepted' and same_owner:
             raise ValueError('reviewer must differ from owner')
         cursor = db.execute('UPDATE tasks SET state=?, evidence=?, reviewer=?, revision=revision+1 WHERE id=? AND revision=?',
                             (state, evidence, actor if state == 'accepted' else None, task_id, revision))
