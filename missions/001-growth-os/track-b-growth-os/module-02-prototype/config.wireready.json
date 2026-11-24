@@ -1,0 +1,120 @@
+{
+  "api_base": "http://127.0.0.1:4000/v1",
+  "model": "free-chat",
+  "temperature": 0,
+  "max_tokens": 800,
+  "timeout_s": 90,
+  "pause_s": 0.4,
+  "system_prompt": "You are a helpful assistant answering a prospective buyer. Answer from what you know. If you mention organizations or websites, include URLs when you know them. If you are unsure, say so. Do not invent precise statistics.",
+  "brand": {
+    "name": "WireReady",
+    "aliases": [
+      "Wire Ready",
+      "Wire-Ready"
+    ],
+    "domains": [
+      "wireready-pilot.netlify.app"
+    ],
+    "site": "https://wireready-pilot.netlify.app",
+    "notes": "Public site fetched 2026-11-23 (America/Los_Angeles). Dallas-area data center electrical construction inquiries and electrician apprenticeship preparation."
+  },
+  "competitors": [
+    {
+      "name": "GCATS",
+      "aliases": [
+        "GCATS Power Solutions"
+      ],
+      "domains": [
+        "gcats.com"
+      ],
+      "source_url": "https://www.gcats.com/",
+      "source_note": "Official site HTTP 200 on 2026-11-23. Title: GCATS | Power Solutions - Get Started Today. Page copy on that date included Data Center Construction and a Dallas, TX address."
+    },
+    {
+      "name": "PowerBoy Electrical Services",
+      "aliases": [
+        "PowerBoy",
+        "Power Boy"
+      ],
+      "domains": [
+        "powerboy.us"
+      ],
+      "source_url": "https://powerboy.us/",
+      "source_note": "Official site HTTP 200 on 2026-11-23. Title: Commercial Electrical Contractor in Texas | Data Center Electrical Construction — PowerBoy Electrical Services."
+    },
+    {
+      "name": "Allied Contractors",
+      "aliases": [
+        "Allied Contractors LLC"
+      ],
+      "domains": [
+        "adchq.com"
+      ],
+      "source_url": "https://adchq.com/dallas-data-center-electrical-contractor/",
+      "source_note": "Official page HTTP 200 on 2026-11-23. Title: Data Center Electrical Contractor in Dallas–Fort Worth | Allied Contractors."
+    },
+    {
+      "name": "FSG",
+      "aliases": [
+        "FSG Dallas"
+      ],
+      "domains": [
+        "fsg.com"
+      ],
+      "source_url": "https://fsg.com/locations/dallas/",
+      "source_note": "Official page HTTP 200 on 2026-11-23. Title: Commercial Electrical Contractor Dallas, TX. Page FAQ on that date stated FSG Dallas provides data center electrical services."
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q01",
+      "category": "discovery",
+      "text": "Who are electrical contractors for data center construction in the Dallas-Fort Worth area?"
+    },
+    {
+      "id": "Q02",
+      "category": "scope",
+      "text": "How should a general contractor prepare an electrical scope of work for a Dallas data center project?"
+    },
+    {
+      "id": "Q03",
+      "category": "discovery",
+      "text": "Which companies can handle mission-critical electrical work in a live Dallas-area data center?"
+    },
+    {
+      "id": "Q04",
+      "category": "commissioning",
+      "text": "What should be included in commissioning and turnover documentation for a data center electrical package in Texas?"
+    },
+    {
+      "id": "Q05",
+      "category": "planning",
+      "text": "Who can help plan electrical handoffs and outage windows for a data hall expansion in Dallas?"
+    },
+    {
+      "id": "Q06",
+      "category": "planning",
+      "text": "What long-lead electrical items should a project manager flag for a North Texas data center build?"
+    },
+    {
+      "id": "Q07",
+      "category": "career",
+      "text": "How do I start an electrical apprenticeship in Texas?"
+    },
+    {
+      "id": "Q08",
+      "category": "career",
+      "text": "Where can I find free practice tests or lessons to prepare for an electrician apprenticeship application in Texas?"
+    },
+    {
+      "id": "Q09",
+      "category": "career",
+      "text": "What should I know before applying to an electrical training center in Texas?"
+    },
+    {
+      "id": "Q10",
+      "category": "career",
+      "text": "Are there programs that help people prepare for a career as a data center electrician in Texas?"
+    }
+  ]
+}
