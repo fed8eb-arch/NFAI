@@ -1,5 +1,5 @@
 # Brief: Git rule for all agents (no bypass, own clone, plain push, push every step)
-Version v1.4 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.5 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
 Changes:
 - v1.0 → v1.1 (2026-11-23, Orchestrator's order): added rule 9 (Founder rule: a local commit without push does not count; push after every completed step). Listed the 9 app prompts' "Commit rule" line as a conflict.
 - v1.1 → v1.2 (2026-11-23, Orchestrator's order):
@@ -11,6 +11,7 @@ Changes:
 
 - v1.2 → v1.3 (2026-11-23): took in ГВБ's conditions on v1.2 (`2d3b238`, APPROVED WITH CONDITIONS). C1: what a rejected push means. C2: keep your files outside the repo when you stop at a lock. C3: `git-identity.md` is now v1.1, built on own clones.
 - v1.3 → v1.4 (2026-11-23): made ГВБ's C1 and C2 explicit (`2d3b238`). A refusal by a hook, a permission or branch protection means STOP, report, never retry and never bypass. Named the durable folder for unpushed work (ГВБ named none; the folder is proposed, to verify). C3 was confirmed with no text change (`git-identity.md` v1.1 `94e7392` is built on own clones).
+- v1.4 → v1.5 (2026-11-23): replaced the F5 pre-push clearance list with ГВБ's rule (relayed by the Orchestrator, 2026-11-23). Pre-push admission by ГВБ is needed only for prompts, the training corpus and public materials; ГВБ checks everything else after the push. v1.4 is APPROVED by ГВБ (`190f02e`); only rule 5 changed.
 
 Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`, `missions/001-growth-os/rollout-plan.md`, rows "Агентство: правило git (без обхода)" and "Агентство: отдельные git worktrees"). Context: Founder's order of 2026-11-23 17:28 PT (relayed): the WireReady pilot is paused; the priority is full agency rollout.
 Times: America/Los_Angeles (PT). Repository: `fed8eb-arch/NFAI` (public), `https://github.com/fed8eb-arch/NFAI.git`.
@@ -72,7 +73,12 @@ Executors are assigned only after Internal Security (ГВБ) clears this brief, 
    - Before committing, run `git diff --cached --name-only` (ГВБ F8) and confirm that it lists only your paths.
    - **Attribution (ГВБ F3):** every commit message starts with your role, `<Role>: …` (for example `Prompt Engineer: …`), and every report with a hash carries the line `Agent: <role>`. When `git-identity.md` is in force, it is a mandatory addition to this rule: from then on a commit authored `NFAI Joker` is a violation.
    - **Push only your own commits (ГВБ F5):** before pushing, `git log origin/<branch>..HEAD --format='%h %s'` must list only your commits. Pushing other agents' commits is banned, including commits picked up "along the way" by a merge or rebase.
-   - **Push only after ГВБ clearance (ГВБ F5)** for: code that contains or handles secrets, tokens or webhooks; prompt and profile changes; files with personal data.
+   - **Pre-push admission by ГВБ** (Internal Security rule, relayed by the Orchestrator, 2026-11-23; it replaces the v1.2–v1.4 F5 list) is required **only** for:
+     1. prompts (agent app prompts and role profiles);
+     2. the training corpus;
+     3. public materials (anything published outside the repo).
+
+     All other work is pushed straight away (rule 9), and ГВБ checks it **after the push**, in the daily check (step 2) or on request. Rule 8 still applies to every push: no secrets and no personal addresses. If you are unsure whether a file falls under items 1–3, treat it as needing admission and ask ГВБ.
    - Before pushing, run `git config --get-all remote.origin.pushurl` in your clone. If it prints anything, it is a lock: do not push (rule 1). Also check that no written hold order is in force.
 6. **Rejected push: two cases (ГВБ C1).**
    - **Non-fast-forward** (`! [rejected] … (fetch first)` or `(non-fast-forward)`): someone pushed first. Do not rebase, merge or force. Instead:
