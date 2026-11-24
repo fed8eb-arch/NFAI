@@ -1,6 +1,7 @@
 # AI Visibility Protocol — Module 02 (US pilot, Dallas, TX)
-Version: v1.0 | Date: 2026-11-23 | Status: frozen question set, protocol for review | Owner: Prompt Engineer | Reviewer: Бадди
+Version: v1.1 | Date: 2026-11-23 | Status: two frozen question sets (2A NFAI, 2B WireReady), protocol for review | Owner: Prompt Engineer | Reviewer: Бадди
 Change log: v1.0 (2026-11-23) — from `../../ai-visibility-questions.md` v0.1: kept Q1–Q18 (unbranded), prefixed "In Dallas, TX,"; Q19–Q20 (branded) removed until the Founder confirms the brand name; added scoring instructions.
+Change log: v1.1 (2026-11-23) — added section 2B: 18 unbranded B2B questions for WireReady (W01–W18), sourced from `competitors.md` v0.1 (commit 4f75121); section 2 renamed 2A (NFAI set unchanged).
 
 ## 1. Scope and limits
 - Measures how often and how accurately AI assistants mention the measured brand for unbranded buyer questions.
@@ -9,7 +10,7 @@ Change log: v1.0 (2026-11-23) — from `../../ai-visibility-questions.md` v0.1: 
 - Intermediate metric only. No causal claim about leads, sales or profit (MISSION.md rule 8).
 - No new accounts, spending or site changes without a Founder yes cited by ID.
 
-## 2. Frozen question set (18, unbranded)
+## 2A. Frozen question set — NFAI (18, unbranded)
 Source for all items: Prompt Engineer draft v0.1 (2026-11-23), written from the service category (AI growth / automation / lead conversion). Not yet validated against real sales calls or site-form questions — to be replaced or confirmed when those exist (training step 1).
 
 | ID | Question (ask verbatim) |
@@ -34,6 +35,38 @@ Source for all items: Prompt Engineer draft v0.1 (2026-11-23), written from the 
 | Q18 | In Dallas, TX, are there affordable AI growth agencies for startups with case studies? |
 
 Note: this set fits an AI-services brand. If the measured brand is WireReady (Dallas data center electrical construction / apprenticeship prep), these questions do not match its category; a separate category-specific set is needed.
+
+## 2B. Frozen question set — WireReady (18, unbranded, B2B)
+Use when `BRAND` = WireReady (Dallas-area data center electrical construction, https://wireready-pilot.netlify.app).
+Buyer personas: general contractors (GC) sourcing electrical subs, data center developers/owners, colocation operators' construction/procurement teams.
+Source: `competitors.md` v0.1 (Researcher, 2026-11-23, commit 4f75121). "§2" = a real Google autocomplete suggestion (shows the query exists, not its volume; volume = no data). "§1" = a service competitors state on their own sites. "§3" = Researcher's hypothesis (GC, tenders, LinkedIn), not a fact.
+**Assumption** = phrasing written by the Prompt Engineer, not observed in the data; validate against real RFQs/sales calls before relying on it.
+No competitor names appear in questions (avoids leading the engine).
+
+| ID | Question (ask verbatim) | Source | Assumption? |
+|---|---|---|---|
+| W01 | Who are the top data center electrical contractors in Texas? | §2 "top …", "… in texas" | no |
+| W02 | Who are the largest data center electrical contractors in the Dallas–Fort Worth area? | §2 "largest …" | no (DFW geo added) |
+| W03 | Which mission critical electrical contractors work on data center projects in Dallas, TX? | §2 "mission critical electrical contractors" | no |
+| W04 | Which electrical subcontractors do general contractors use for data center builds in Dallas–Fort Worth? | §3 (GC channel) | **yes** |
+| W05 | I'm a general contractor bidding a data center project in Dallas. Which electrical subcontractors should I invite to bid? | §3 (tenders) | **yes** |
+| W06 | Which electrical contractors in Dallas do colocation fit-outs, including white space, PDUs and busway? | §1 (Allied, Blue Ridge) | no |
+| W07 | Who can install UPS systems, generators and automatic transfer switches for a data center in Dallas, TX? | §1 (Allied, Walker) | no |
+| W08 | Which electrical contractors in the Dallas area handle medium-voltage work for hyperscale data centers of 100 MW or more? | §1 (Oak Shield) | no |
+| W09 | Who does data center electrical testing and commissioning in Dallas–Fort Worth? | §1 (Walker) | no |
+| W10 | What are the electrical requirements for a new data center, and which Dallas contractors can build to them? | §2 "data center electrical requirements" | no (Dallas clause added) |
+| W11 | Which electrical contractors in Dallas offer design-build for data centers? | §1 (FSG) | no |
+| W12 | Who provides 24/7 emergency electrical service for data centers in Dallas? | §1 (FSG) | no |
+| W13 | Which Dallas electrical contractors have data center case studies with major colocation or hyperscale clients? | §3 conclusion (case studies as key signal) | **yes** |
+| W14 | Which licensed Texas electrical contractors (TECL) specialize in data centers in the Dallas area? | §1 (TECL numbers on sites) | no |
+| W15 | Which data center electrical contractors in Dallas work in live facilities under MOPs and NFPA 70E? | §1 (Blue Ridge) | no |
+| W16 | How should I prequalify an electrical contractor for a data center project in Texas, and who meets those criteria in Dallas? | — | **yes** |
+| W17 | How much does data center electrical construction cost per MW in Dallas, TX? | — (prices: no data in §1) | **yes** |
+| W18 | Which electrical contractors can quickly staff a large data center project in Dallas–Fort Worth with enough electricians? | — (labour capacity; GCATS "200+ technicians" claim in §1) | **yes** |
+
+Counts: 12 grounded in data (§1/§2), 6 assumptions (W04, W05, W13, W16, W17, W18).
+Not used: §2 "data center power dallas / … world power dallas 2026" (conference intent, not a purchase); "… in usa" (outside the local pilot).
+Limits: autocomplete is US-wide, not Dallas-specific; no volume data, so the set is not weighted by demand. If the §3 hypothesis holds (demand comes via GC/tenders/LinkedIn), AI-answer visibility is a secondary channel for WireReady — report it as such.
 
 ## 3. Run procedure
 1. New clean session per question (no memory, no custom instructions, logged out of personal history where possible). Record engine, model/mode shown in the UI, date-time (PT), location setting if shown.
