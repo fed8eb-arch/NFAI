@@ -401,7 +401,7 @@
     {
       "id": "document-workflow",
       "kind": "task",
-      "label": "Приёмка Claude Code для документов",
+      "label": "Claude Code для документов — ACCEPT Бадди (268003d)",
       "sources": [
         "projects/02-infrastructure/work/claude-local/README.md",
         "inbox/needs.md",
@@ -458,6 +458,26 @@
       "sources": [
         "AGENTS.md",
         "_core/staff/merit-points.md"
+      ]
+    },
+    {
+      "id": "document-workflow-accept",
+      "kind": "decision",
+      "label": "ACCEPT Бадди: локальная обработка документов Claude Code",
+      "sources": [
+        "status.md",
+        "inbox/needs.md",
+        "journal.md"
+      ]
+    },
+    {
+      "id": "brain-bridge",
+      "kind": "source",
+      "label": "NFAI Brain Bridge — VIP-Custom PR #1, не сливать",
+      "sources": [
+        "journal.md",
+        "status.md",
+        "AGENTS.md"
       ]
     }
   ],
@@ -818,12 +838,6 @@
     },
     {
       "source": "document-workflow",
-      "relation": "requires_review_from",
-      "target": "buddy",
-      "evidence": "inbox/needs.md"
-    },
-    {
-      "source": "document-workflow",
       "relation": "tracked_in",
       "target": "inbox",
       "evidence": "inbox/needs.md"
@@ -1175,6 +1189,42 @@
       "relation": "defined_in",
       "target": "rules",
       "evidence": "_core/staff/merit-points.md"
+    },
+    {
+      "source": "document-workflow",
+      "relation": "accepted_by",
+      "target": "buddy",
+      "evidence": "status.md"
+    },
+    {
+      "source": "document-workflow-accept",
+      "relation": "acceptance_of",
+      "target": "document-workflow",
+      "evidence": "status.md"
+    },
+    {
+      "source": "document-workflow-accept",
+      "relation": "recorded_in",
+      "target": "journal",
+      "evidence": "journal.md"
+    },
+    {
+      "source": "brain-bridge",
+      "relation": "recorded_in",
+      "target": "journal",
+      "evidence": "journal.md"
+    },
+    {
+      "source": "brain-bridge",
+      "relation": "tracked_in",
+      "target": "status",
+      "evidence": "status.md"
+    },
+    {
+      "source": "brain-bridge",
+      "relation": "defined_in",
+      "target": "rules",
+      "evidence": "AGENTS.md"
     }
   ]
 }
