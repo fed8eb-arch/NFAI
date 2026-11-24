@@ -30,7 +30,7 @@
 | 1 | Google Gemini API / AI Studio (+ приложение Gemini, Flow) | https://aistudio.google.com | 5 | 4 | нет данных | y | нет данных | HANDOFF | blocked: phone — передача экрана отклонена Основателем 15:09; ждёт его нового решения |
 | 2 | Arena.ai (бывш. LMArena) | https://arena.ai | 5 | 4 | нет данных | нет данных | нет данных | X: Решение Директора 17.11.2026 13:32 ET — только вручную, только внутренние задачи, автоматизация запрещена; ToU 23.02.2026 — запрет программного/автоматизированного доступа, не более одного аккаунта | — |
 | 3 | OpenRouter | https://openrouter.ai | 4 | 5 | нет данных | нет данных | n | DONE | created 14:11 (email verified); баланс $0.00, 0 транзакций; 2 ключа «Default key» (лимит $100 каждый, не скопированы) — оставить, не отзывать (решение Основателя через Директора 14:18); логин в Vault «OpenRouter (agency)» |
-| 4 | Groq (GroqCloud) | https://console.groq.com | 4 | 5 | email-link | нет данных | n | BLOCKED | blocked: signup_blocked (IP/region likely) — оба раза после magic link; повтор 14:06 Ref 39e18c6e…; аккаунт НЕ создан |
+| 4 | Groq (GroqCloud) | https://console.groq.com | 4 | 5 | email-link | нет данных | DONE (API pilot) | 24.11: Free plan and Global ZDR observed; synthetic Claude Read/Write, MCP history and initial combo fallback tests verified from Founder-relayed outputs. Original blocked signup superseded. Actual current billing/quota not independently queried. | blocked: signup_blocked (IP/region likely) — оба раза после magic link; повтор 14:06 Ref 39e18c6e…; аккаунт НЕ создан |
 | 5 | Duck.ai (DuckDuckGo) | https://duck.ai | 4 | 5 | нет данных | n | n | EMAIL (аккаунт не нужен) | — |
 | 6 | Bolt.new | https://bolt.new | 4 | 5 | нет данных | нет данных | n | EMAIL | — |
 | 7 | Design Arena (по указанию основателя) | https://www.designarena.ai | 4 | 4 | нет данных | нет данных | нет данных | EMAIL | — |
@@ -110,3 +110,6 @@
 - DROPPED: 1
 - Всего строк: 72 (ожидалось 72)
 
+## 24.11.2026 — сверка очереди с действующим пилотом
+
+Проверены номера: ровно 72 строки, уникальные 1–72, без пропусков. Исторический блок регистрации Groq заменён текущей приёмкой API-пилота на основании status.md. Старые блокеры входа GitHub и Supabase не означают отсутствия текущего доступа: GitHub metadata/admin read подтверждён для обоих репозиториев; Supabase MCP вернул единственный проект WireReady, не NFAI. Старая очередь не подтверждает актуальные тарифы/доступ по остальным позициям. OpenRouter/Gemini/Cloudflare/Mistral не считаются принятыми резервами текущего Combo; NVIDIA Trial только для прототипов. Не повторять регистрации существующих аккаунтов, обход CAPTCHA/телефона/региональных ограничений, активацию платного API или создание новых ключей без нужды. Полная фазовая приёмка открыта.
