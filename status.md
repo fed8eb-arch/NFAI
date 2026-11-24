@@ -310,3 +310,7 @@
 | P2 | Оркестратор | Продолжить фазу 1 по существующему каталогу, учитывать HOLD; фаза 2 по регламенту | Подтверждённый бесплатный доступ либо документированный блокер |
 
 Непосредственный следующий шаг: диагностика имеющихся исполнительных сред и исходного профиля Claude, затем тест сквозного поручения. Не изменять приватные конфигурации или production без отдельного основания. Полнота истории чатов и локальных файлов не установлена.
+
+
+## 24.11.2026 — P0 Free Engine continuation
+Founder raised cloud free model integration, OmniRoute/LiteLLM, context and Brain Bridge to P0. Existing recovery task extended and read back: VIP-Custom branch nfai-brain-bridge commit 6f4d3726c73662b3471ddb26a6f1c91814f5ee9e. Public provider docs checked: Groq GPT-OSS 120B and Qwen3.8-27B (131072 advertised, account TPM pending), Gemini free models, NVIDIA evaluation, OpenRouter :free (50/day), Alibaba Qwen conditional Free Quota Only, direct DeepSeek paid excluded. GLM and live provider entitlements remain unverified. Existing policy amended to fail closed. Actual Windows/box service health, streaming/tool roundtrip, 24K context test, forced failover and end-to-end worker execution remain BLOCKED pending local executor; no deployment claimed. P1 projects/Rush Conf, P2 agent audit; no roster expansion. Next: execute existing private recovery task and independently verify redacted report. $0 new spend.
