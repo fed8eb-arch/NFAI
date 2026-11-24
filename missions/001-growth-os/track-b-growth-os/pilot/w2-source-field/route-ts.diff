@@ -1,0 +1,85 @@
+# W2 route.ts diff for fed8eb-arch/wireready branch w2-source-field (not main).
+# Adds server-side validation of how_did_you_hear_about_us / _other and appends
+# the source plus first-touch UTM / referrer_host / landing_path to the Resend
+# email body only. No new external calls, no worker hook, not applied to main.
+# Base: main bf85cba767e3f27f2e1201a724a0080aff073db4
+#
+diff --git a/app/api/contact/route.ts b/app/api/contact/route.ts
+index 2cf2ec3..d1bb90b 100644
+--- a/app/api/contact/route.ts
++++ b/app/api/contact/route.ts
+@@ -1,4 +1,12 @@
+-import { inquiryEmail, inquiryLimits, projectPhases } from "@/lib/project-inquiry";
++import {
++  attributionFields,
++  inquiryEmail,
++  inquiryLimits,
++  leadSourceValues,
++  leadSources,
++  projectPhases,
++  sanitizeAttribution,
++} from "@/lib/project-inquiry";
+ 
+ const maxBodyBytes = 12_288;
+ 
+@@ -46,8 +54,8 @@ export async function POST(request: Request) {
+     return Response.json({ error: "Refresh the inquiry page and try again." }, { status: 400 });
+   }
+ 
+-  const values = { name: "", company: "", email: "", location: "", phase: "", message: "" };
+-  const errors: Partial<Record<keyof typeof values, string>> = {};
++  const values = { name: "", company: "", email: "", location: "", phase: "", message: "", how_did_you_hear_about_us: "" };
++  const errors: Partial<Record<keyof typeof values | "how_did_you_hear_about_us_other", string>> = {};
+   for (const key of Object.keys(values) as Array<keyof typeof values>) {
+     const raw = input[key];
+     const value = typeof raw === "string" ? raw.trim() : "";
+@@ -57,10 +65,28 @@ export async function POST(request: Request) {
+   }
+   if (values.email && !inquiryEmail.test(values.email)) errors.email = "Enter a valid work email.";
+   if (values.phase && !projectPhases.includes(values.phase)) errors.phase = "Select a project phase.";
++  if (values.how_did_you_hear_about_us && !leadSourceValues.includes(values.how_did_you_hear_about_us)) {
++    errors.how_did_you_hear_about_us = "Select how you heard about us.";
++  }
++
++  const otherRaw = typeof input.how_did_you_hear_about_us_other === "string" ? input.how_did_you_hear_about_us_other.trim() : "";
++  const other = values.how_did_you_hear_about_us === "other" ? otherRaw : "";
++  if (values.how_did_you_hear_about_us === "other") {
++    if (!other) errors.how_did_you_hear_about_us_other = "This field is required.";
++    else if (other.length > inquiryLimits.how_did_you_hear_about_us_other) {
++      errors.how_did_you_hear_about_us_other = `Use ${inquiryLimits.how_did_you_hear_about_us_other} characters or fewer.`;
++    }
++  }
++
+   if (Object.keys(errors).length) {
+     return Response.json({ error: "Review the highlighted fields.", fields: errors }, { status: 422 });
+   }
+ 
++  const attribution = Object.fromEntries(
++    attributionFields.map((key) => [key, sanitizeAttribution(input[key], inquiryLimits[key])]),
++  );
++  const sourceLabel = leadSources.find((item) => item.value === values.how_did_you_hear_about_us)?.label ?? values.how_did_you_hear_about_us;
++
+   const { RESEND_API_KEY, RESEND_FROM_EMAIL, PROJECT_INQUIRY_EMAIL } = process.env;
+   if (!RESEND_API_KEY || !RESEND_FROM_EMAIL || !PROJECT_INQUIRY_EMAIL || !inquiryEmail.test(PROJECT_INQUIRY_EMAIL)) {
+     return Response.json({ error: "Online inquiries are temporarily unavailable. Your inquiry was not sent." }, { status: 503 });
+@@ -82,8 +108,18 @@ export async function POST(request: Request) {
+         subject: "WireReady project inquiry",
+         text: [
+           `Name: ${values.name}`, `Company: ${values.company}`, `Email: ${values.email}`,
+-          `Project location: ${values.location}`, `Project phase: ${values.phase}`, "", values.message,
+-        ].join("\n"),
++          `Project location: ${values.location}`, `Project phase: ${values.phase}`,
++          `How they heard about us: ${sourceLabel}`,
++          values.how_did_you_hear_about_us === "other" ? `Other source: ${other}` : "",
++          `UTM source: ${attribution.utm_source}`,
++          `UTM medium: ${attribution.utm_medium}`,
++          `UTM campaign: ${attribution.utm_campaign}`,
++          `UTM term: ${attribution.utm_term}`,
++          `UTM content: ${attribution.utm_content}`,
++          `Referrer host: ${attribution.referrer_host}`,
++          `Landing path: ${attribution.landing_path}`,
++          "", values.message,
++        ].filter((line) => line !== "").join("\n"),
+       }),
+     });
+     if (response.ok) return Response.json({ sent: true });

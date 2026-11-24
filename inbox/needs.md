@@ -50,3 +50,10 @@
 Формат строки по `mission-001/briefs/w1-w4.md` (строки 67, 78, 88): `date PT | task | who | what is needed | blocking yes/no`. Исторические строки выше не менялись.
 
 2026-11-23 17:18 PT | W2 | Глава маркетинга | Для создания свойства GA4 и установки тега нужен вход в аккаунт Google. Правило Директора / брифа: любой Google sign-in = STOP, тег не ставить. Поле «How did you hear about us?» и текст согласия Юриста всё равно делать на preview, не дожидаясь GA4. Замер — только по полю, пока свойство GA4 не существует. Нужно: вход в Google Основателем или Бадди, если позже решат поставить GA4 при бюджете 0, либо явное подтверждение замера только по полю источника. Спецификация: `missions/001-growth-os/track-b-growth-os/pilot/w2-ga4-source-field.md`. | blocking yes (половина GA4); blocking no (поле источника)
+
+## W2 · Netlify Deploy Preview URL (Integration Developer, 2026-11-23 17:25 PT)
+
+Формат: date PT | task | who | what is needed | blocking yes/no. Historical rows above were not edited. The GA4 Google sign-in row of 17:18 PT still stands; it is not repeated here.
+
+2026-11-23 17:25 PT | W2 Netlify Deploy Preview URL | Пётр (owner of the Netlify site account) | Director override: no Netlify access, no CLI login, no deploys by the Integration Developer. A public preview/branch-deploy URL therefore cannot be produced from this box. Needed: the account owner creates a Deploy Preview or grants access, without the executor signing in. Until then, fallback proof is the local preview at `missions/001-growth-os/track-b-growth-os/pilot/w2-source-field/preview/` plus screenshots and site-repo branch `w2-source-field` commit `d000f2a8258c9e335c9ce4933f94f6c03a158f7d` (hash matched `git ls-remote`). Production must stay untouched. | blocking yes for a Netlify preview URL; blocking no for the local 2026-11-24 14:00 PT client-side preview
+

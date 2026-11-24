@@ -1,0 +1,38 @@
+<!--
+  W2 — GA4 generate_lead snippet (NOT installed; do not paste until a Measurement
+  ID exists, Legal has approved cookie wording, and the Founder has said yes).
+
+  Google sign-in is a Director STOP. No GA4 property was created. This file is
+  kept only so the later install does not have to be designed from scratch.
+
+  Official event: generate_lead
+  https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#generate_lead
+
+  PII rule (Legal §1d, Marketing §4/§9): never send name, email, company,
+  message, or the free-text how_did_you_hear_about_us_other value. Only the
+  select key (gc_referral, tenders, linkedin, ai_assistant, search, referral,
+  other) may be sent as lead_source. Form must POST, not GET.
+
+  value/currency omitted until Marketing sets a defensible lead value.
+-->
+
+<!-- Paste in <head> only after a real Measurement ID replaces G-XXXXXXXX. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag("js", new Date());
+  gtag("config", "G-XXXXXXXX");
+</script>
+
+<script>
+  function wrReportGenerateLead(leadSource) {
+    var allowed = {
+      gc_referral: 1, tenders: 1, linkedin: 1, ai_assistant: 1,
+      search: 1, referral: 1, other: 1
+    };
+    if (typeof gtag !== "function") return;
+    if (!allowed[leadSource]) return;
+    gtag("event", "generate_lead", { lead_source: leadSource });
+  }
+</script>

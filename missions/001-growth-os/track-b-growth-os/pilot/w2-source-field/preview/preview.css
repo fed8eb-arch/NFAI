@@ -1,0 +1,42 @@
+/* Visual subset of the public WireReady commercial form styles, observed 2026-11-23
+   from https://wireready-pilot.netlify.app/_next/static/css/cecb31fac29824d6.css
+   and the contact page. Not a copy of the full site or Next.js bundles. */
+:root { --wc-ink:#111820; --wc-steel:#252e36; --wc-slate:#65737e; --wc-paper:#f4f5f3;
+        --wc-signal:#f5c542; --wc-blue:#2563a6; --wc-line:#c8cdd1;
+        --wc-display:"Arial Narrow","Roboto Condensed","Segoe UI",system-ui,sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--wc-paper); color: var(--wc-ink);
+       font: 400 1rem/1.6 Segoe UI, system-ui, sans-serif; }
+a { color: var(--wc-blue); }
+.banner { background: #111820; color: #f4f5f3; padding: .85rem 1.25rem; font-size: .92rem; }
+.banner strong { color: var(--wc-signal); }
+.banner p { margin: .2rem 0; }
+.wrap { width: min(100% - 3rem, 44rem); margin: 2rem auto 4rem; }
+h1 { font-family: var(--wc-display); font-weight: 780; letter-spacing: -.058em;
+     font-size: clamp(2rem, 5vw, 3.2rem); line-height: .99; margin: 0 0 1rem; }
+.kicker { display: inline-block; font: 700 .8rem/1.4 Consolas, monospace;
+          text-transform: uppercase; letter-spacing: .13em; color: #a32619; }
+.wc-form { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.wc-form label { display: grid; gap: .3rem; font-weight: 650; }
+.wc-form input, .wc-form select, .wc-form textarea {
+  width: 100%; min-height: 44px; padding: .6rem .7rem; border: 1px solid var(--wc-slate);
+  background: white; color: var(--wc-ink); font: inherit;
+}
+.wc-form textarea { resize: vertical; }
+.wc-form .wc-wide { grid-column: 1 / -1; }
+.wc-form .wc-honeypot { display: none; }
+.wc-form .wc-form-error { color: #a32619; }
+.wc-form p { margin: 0; }
+.wc-form p a { color: var(--wc-blue); text-decoration: underline; }
+.wc-form button { justify-self: start; font: inherit; font-weight: 700; }
+.wc-form .wc-other-detail[hidden] { display: none; }
+.wc-form .wc-consent { font-size: .92rem; color: var(--wc-steel); }
+.wc-button { display: inline-flex; align-items: center; gap: .65rem; min-height: 44px;
+             justify-content: center; background: var(--wc-signal); border: 1px solid transparent;
+             color: var(--wc-ink); padding: .65rem 1.15rem; font-weight: 700; cursor: pointer; }
+.wc-button:hover { background: #ffdc78; }
+.debug { margin-top: 2rem; border: 1px solid var(--wc-line); background: #fff; padding: 1rem 1.1rem; }
+.debug h2 { font-size: 1rem; margin: 0 0 .6rem; }
+.debug pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: 0.85rem/1.45 Consolas, monospace; }
+.note { background: #fff3bf; border: 1px solid #e0c040; padding: .7rem .9rem; margin: 0 0 1.25rem; }
+@media (max-width: 27rem) { .wc-form { grid-template-columns: 1fr; } .wrap { width: calc(100% - 2rem); } }

@@ -1,0 +1,21 @@
+PASS  linkedin returns sent — status 200
+PASS  Resend fetch mocked once — https://api.resend.com/emails
+PASS  email is the synthetic test address
+PASS  email body includes LinkedIn source
+PASS  email body includes first-touch UTM
+PASS  email body includes referrer host and landing path
+PASS  email body does not include a worker/hook URL
+PASS  empty source is 422 — {"how_did_you_hear_about_us":"This field is required."}
+PASS  empty source does not call Resend — 0
+PASS  invalid source is 422 — {"how_did_you_hear_about_us":"Select how you heard about us."}
+PASS  invalid source does not call Resend
+PASS  other without text is 422 — {"how_did_you_hear_about_us_other":"This field is required."}
+PASS  other without text does not call Resend
+PASS  other + NFAI-TEST returns sent — status 200
+PASS  mocked email includes Other source line
+PASS  mocked email includes Other label
+PASS  filled honeypot is 400
+PASS  filled honeypot does not call Resend
+
+18/18 passed
+Resend was not actually called; global.fetch was mocked.

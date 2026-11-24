@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>LOCAL PREVIEW ONLY — WireReady project inquiry (W2 source field)</title>
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <div class="banner">
+    <p><strong>LOCAL PREVIEW ONLY.</strong> This is not https://wireready-pilot.netlify.app and not a Netlify Deploy Preview. There is no public preview URL: Netlify access was not granted.</p>
+    <p>Submissions stay on this computer (method=&quot;post&quot;, no request is sent). The live site, Resend, HubSpot, and Google are not contacted. The GA4 tag is not installed. Server-side <code>/api/contact</code> is unchanged and is not called from this page.</p>
+  </div>
+  <main class="wrap">
+    <p class="kicker">W2 · box preview · client-side only</p>
+    <h1>Tell us what you’re building.</h1>
+    <p class="note">Consent text is from <code>w2-consent-text.md</code> §1a (Legal). Google Analytics sentences are omitted because no GA4 tag is installed. The “We do not sell or share…” sentence is omitted (unconfirmed). The contact-email clause is omitted (Legal preview fallback: end at “for details.”). No checkbox.</p>
+    <form class="wc-form" id="inquiry" method="post" action="#" autocomplete="off">
+      <noscript><p class="wc-wide">This is a local preview. JavaScript is required. Do not test by submitting the live site.</p></noscript>
+      <label>Name
+        <input type="text" name="name" maxlength="100" required autocomplete="off">
+      </label>
+      <label>Company
+        <input type="text" name="company" maxlength="150" required autocomplete="off">
+      </label>
+      <label>Work email
+        <input type="email" name="email" maxlength="254" required autocomplete="off">
+      </label>
+      <label>Project city and state
+        <input type="text" name="location" maxlength="150" required autocomplete="off">
+      </label>
+      <label class="wc-wide">Project phase
+        <select name="phase" required>
+          <option value="" disabled selected>Select the phase</option>
+          <option>Planning</option>
+          <option>Bidding</option>
+          <option>Construction</option>
+          <option>Expansion or retrofit</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label class="wc-wide">How did you hear about us?
+        <select name="how_did_you_hear_about_us" id="how_did_you_hear_about_us" required>
+          <option value="" disabled selected>Select one option</option>
+          <option value="gc_referral">GC / general contractor referral</option>
+          <option value="tenders">Tender or bid platform</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="ai_assistant">AI assistant (ChatGPT, Perplexity, etc.)</option>
+          <option value="search">Google or other search</option>
+          <option value="referral">Referral from a colleague/past client</option>
+          <option value="other">Other (please specify)</option>
+        </select>
+      </label>
+      <label class="wc-wide wc-other-detail" id="other_wrap" hidden>Please specify
+        <input type="text" name="how_did_you_hear_about_us_other" id="how_did_you_hear_about_us_other" maxlength="200" autocomplete="off">
+      </label>
+      <label class="wc-wide">Scope and schedule
+        <textarea name="message" rows="6" maxlength="2000" required></textarea>
+      </label>
+      <label class="wc-honeypot" aria-hidden="true">Website<input tabindex="-1" autocomplete="off" name="website"></label>
+      <input type="hidden" name="utm_source" id="utm_source">
+      <input type="hidden" name="utm_medium" id="utm_medium">
+      <input type="hidden" name="utm_campaign" id="utm_campaign">
+      <input type="hidden" name="utm_term" id="utm_term">
+      <input type="hidden" name="utm_content" id="utm_content">
+      <input type="hidden" name="referrer_host" id="referrer_host">
+      <input type="hidden" name="landing_path" id="landing_path">
+      <p class="wc-wide wc-consent">We use the details you submit (name, company, work email, project location, phase, how you heard about us, and your message) to respond to your inquiry. See our <a href="#privacy-notice-not-in-this-preview">Privacy Notice</a> for details.</p>
+      <button class="wc-button wc-wide" type="submit">Send project inquiry <span aria-hidden="true">↗</span></button>
+      <p class="wc-wide" id="status" role="status" aria-live="polite" aria-atomic="true"></p>
+    </form>
+    <section class="debug" aria-label="Preview debug">
+      <h2>Preview debug (local only)</h2>
+      <p>Client validation result and first-touch hidden fields. The official Google tag is not loaded. The Other free-text value is not written to this panel.</p>
+      <pre id="debug">Waiting for page script…</pre>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var KEY = "wr_first_touch_v1";
+      var ATTR = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","referrer_host","landing_path"];
+      var params = new URLSearchParams(window.location.search);
+      var lastResult = null;
+
+      function looksLikeEmail(value) {
+        return /[^\s@]+@[^\s@]+\.[^\s@]+/.test(value);
+      }
+
+      function hostnameOf(referrer) {
+        if (!referrer) return "";
+        try { return new URL(referrer).hostname; } catch (e) { return ""; }
+      }
+
+      function currentAttribution() {
+        var current = {};
+        ATTR.forEach(function (key) {
+          if (key === "referrer_host") current[key] = hostnameOf(document.referrer || "");
+          else if (key === "landing_path") current[key] = window.location.pathname;
+          else {
+            var value = (params.get(key) || "").trim();
+            current[key] = looksLikeEmail(value) ? "" : value;
+          }
+        });
+        return current;
+      }
+
+      function readAttribution() {
+        var current = currentAttribution();
+        try {
+          var savedRaw = sessionStorage.getItem(KEY);
+          if (savedRaw) {
+            var saved = JSON.parse(savedRaw);
+            var merged = {};
+            ATTR.forEach(function (key) {
+              merged[key] = (saved && saved[key]) || current[key] || "";
+            });
+            return merged;
+          }
+          sessionStorage.setItem(KEY, JSON.stringify(current));
+        } catch (e) {}
+        return current;
+      }
+
+      function applyAttribution(data) {
+        ATTR.forEach(function (key) {
+          var el = document.getElementById(key);
+          if (el) el.value = data[key] || "";
+        });
+      }
+
+      function renderDebug() {
+        var data = {};
+        ATTR.forEach(function (key) {
+          var el = document.getElementById(key);
+          data[key] = el ? el.value : "";
+        });
+        document.getElementById("debug").textContent =
+          "First-touch hidden fields:\n" + JSON.stringify(data, null, 2) +
+          "\n\nLast local result:\n" +
+          (lastResult ? JSON.stringify(lastResult, null, 2) : "none yet.");
+      }
+
+      function setOtherVisible(show) {
+        var wrap = document.getElementById("other_wrap");
+        var input = document.getElementById("how_did_you_hear_about_us_other");
+        wrap.hidden = !show;
+        input.required = !!show;
+        if (!show) input.value = "";
+      }
+
+      document.getElementById("how_did_you_hear_about_us").addEventListener("change", function (event) {
+        setOtherVisible(event.target.value === "other");
+      });
+
+      document.getElementById("inquiry").addEventListener("submit", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var form = event.currentTarget;
+        var source = form.how_did_you_hear_about_us.value;
+        if (form.website && form.website.value) {
+          lastResult = { ok: false, reason: "honeypot website filled — treated as spam, not a lead" };
+          document.getElementById("status").textContent = "LOCAL PREVIEW: treated as spam (honeypot). Nothing was sent.";
+          document.getElementById("status").className = "wc-wide wc-form-error";
+          renderDebug();
+          return;
+        }
+        if (!source) {
+          lastResult = { ok: false, reason: "empty source rejected by client validation" };
+          document.getElementById("status").textContent = "LOCAL PREVIEW: select how you heard about us. Nothing was sent.";
+          document.getElementById("status").className = "wc-wide wc-form-error";
+          renderDebug();
+          return;
+        }
+        if (source === "other" && !form.how_did_you_hear_about_us_other.value.trim()) {
+          lastResult = { ok: false, reason: "other without Please specify rejected by client validation" };
+          document.getElementById("status").textContent = "LOCAL PREVIEW: please specify. Nothing was sent.";
+          document.getElementById("status").className = "wc-wide wc-form-error";
+          renderDebug();
+          return;
+        }
+        lastResult = {
+          ok: true,
+          how_did_you_hear_about_us: source,
+          other_present: source === "other" && !!form.how_did_you_hear_about_us_other.value.trim(),
+          note: "Other free text is not displayed or stored. Server /api/contact was not called. GA4 was not called."
+        };
+        document.getElementById("status").textContent = "LOCAL PREVIEW: client validation passed. Inquiry was not sent anywhere.";
+        document.getElementById("status").className = "wc-wide";
+        renderDebug();
+      });
+
+      applyAttribution(readAttribution());
+
+      // Screenshot / reviewer helper. Fake test data only. Email is not placed in the URL.
+      var fill = params.get("autofill");
+      if (fill) {
+        var form = document.getElementById("inquiry");
+        form.name.value = "Test Lead W2";
+        form.company.value = "NFAI-TEST Example Co (TEST)";
+        form.email.value = "test+w2@example.com";
+        form.location.value = "Testville, TX";
+        form.phase.value = "Planning";
+        form.message.value = "NFAI-TEST — W2 preview, ignore.";
+        if (fill === "other") {
+          form.how_did_you_hear_about_us.value = "other";
+          setOtherVisible(true);
+          // Other text is an in-memory NFAI-TEST value only; debug panel does not print it.
+          form.how_did_you_hear_about_us_other.value = "NFAI-TEST";
+        } else if (fill === "other-empty") {
+          form.how_did_you_hear_about_us.value = "other";
+          setOtherVisible(true);
+        } else if (fill === "empty-source") {
+          form.how_did_you_hear_about_us.value = "";
+          setOtherVisible(false);
+        } else {
+          var key = fill === "linkedin" ? "linkedin" : fill;
+          form.how_did_you_hear_about_us.value = key;
+          setOtherVisible(false);
+        }
+      }
+      renderDebug();
+    })();
+  </script>
+</body>
+</html>

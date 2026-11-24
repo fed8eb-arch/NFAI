@@ -159,14 +159,21 @@ From the brief (lines 75–79), plus this spec:
 
 ## 11. Executor report (Integration Developer fills; Marketing leaves blank)
 
-- Preview URL (not production):
-- Preview / site-repo commit hash:
+Filled 2026-11-23 17:25 PT by the Integration Developer.
+
+- Preview URL (not production): **Not produced.** Director: no Netlify access (no CLI login, no deploys by the executor). No automatic branch-deploy URL is available from this box. A public preview URL still needs the Netlify account owner (Пётр) to create a Deploy Preview or grant access — see `inbox/needs.md` 2026-11-23 17:25 PT. Fallback local preview (static, client validation only, nothing sent): `missions/001-growth-os/track-b-growth-os/pilot/w2-source-field/preview/index.html`.
+- Preview / site-repo commit hash: branch `w2-source-field` on `fed8eb-arch/wireready` (not `main`). Commit `d000f2a8258c9e335c9ce4933f94f6c03a158f7d`. Verified: `git ls-remote origin refs/heads/w2-source-field` returned the same hash. Remote `main` remains `bf85cba767e3f27f2e1201a724a0080aff073db4`. No PR was opened; no merge to `main`; production was not deployed.
 - What was tested (field, required validation, Other free text, honeypot, production unchanged, test marker in §7):
-- Path to redacted evidence:
-- Legal consent text present on preview (yes/no, link to `w2-consent-text.md`; GA sentences omitted if tag not installed):
-- GA4 property name if created, or statement: tag not installed (Google sign-in stop); event name if used would be `generate_lead`:
-- `inbox/needs.md` row date/time:
-- Model and effort:
+  - Local UI: required select `how_did_you_hear_about_us` with the seven §4 keys and labels verbatim; “Please specify” appears only for `other` and is required then; consent notice above the submit button, no checkbox.
+  - Client validation on the local preview: empty source rejected; `other` without text rejected; `NFAI-TEST` LinkedIn submit accepted locally and not sent anywhere; filled honeypot `website` treated as spam.
+  - Server-side (local, Resend **mocked**, no real call): `scripts/w2-contact-route-local-test.mjs` — 18/18 passed. Synthetic payload uses `test+w2@example.com`, company/message prefixed `NFAI-TEST`. Empty/invalid source and `other` without text return 422 and do not call fetch; a valid LinkedIn (and `other` + in-memory `NFAI-TEST`) payload would add source and first-touch UTMs to the Resend email body only. Log: `pilot/w2-source-field/evidence/w2-route-local-test.txt`.
+  - Production `https://wireready-pilot.netlify.app/contact` fetched and screenshotted read-only (no submission). Live form still has no source field. Form markup sha256 `3d7a483ea5757749bea7afb1fb111afb1962922890c5c9174477fe8a1f0a5c8e`.
+  - Honesty on current production server: **production `route.ts` is unchanged.** The email-body change exists only on branch `w2-source-field`. Until that branch is preview-deployed, a live POST still ignores source/UTM keys (they are tolerated but not validated or written into the Resend email — `app/api/contact/route.ts` on `main` lines 49–57 and 83–86).
+- Path to redacted evidence: `missions/001-growth-os/track-b-growth-os/pilot/w2-source-field/evidence/` (`preview-empty.png`, `preview-linkedin.png`, `preview-other-empty.png` with the Work email field solid-box redacted; `production-contact.png`; `production-contact-form-2026-11-23.html`). Other free text was not stored in the public repo. `route.ts` diff: `pilot/w2-source-field/route-ts.diff`.
+- Legal consent text present on preview (yes/no, link to `w2-consent-text.md`; GA sentences omitted if tag not installed): **Yes.** Wording from `w2-consent-text.md` (commit `b1785c0`) §1a, placed above the submit button, no checkbox. Google Analytics sentences (§1a second sentence and §1b) omitted because the tag is not installed. “We do not sell or share…” omitted (unconfirmed). Contact-email clause omitted (Legal preview fallback: end at “for details.”).
+- GA4 property name if created, or statement: tag not installed (Google sign-in stop); event name if used would be `generate_lead`: **Tag not installed** (Google sign-in stop). If later installed, the event name would be `generate_lead` with `lead_source` equal to the select key only (never Other free text or other PII). Paste-ready snippet only: `pilot/w2-source-field/snippets/ga4-generate-lead.html`.
+- `inbox/needs.md` row date/time: GA4 Google sign-in — 2026-11-23 17:18 PT (Marketing). Netlify Deploy Preview URL — 2026-11-23 17:25 PT (Integration Developer).
+- Model and effort: Grok Bot, standard effort.
 
 ## 12. Marketing confirmations for the W4 protocol (file not edited)
 
