@@ -289,3 +289,5 @@
 - С флагами лаунчера (`--safe-mode --restricted`, пустой MCP, disableAllHooks, Read,Write): 103,2 с, Read 1 (test.md), Write 1 (result.json), `{"document_code": "NFAI-DOC-5521", "quantity": 77}` = эталон. Предупреждение `unrecognized_model` не мешает.
 - После теста `Stop`: процессы остановлены, temp удалён. Логин и ключи не вводились, ничего не ставилось.
 - DOCX на ПК не проверен: нет python-docx.
+
+Видимый прогон на ПК 2026-11-23 16:08 PT: окно «Claude Code - NFAI local Qwen test #2», 105 с, Read 1, Write 1, `{"document_code": "NFAI-DOC-5521", "quantity": 77}`. Первая попытка упала из-за ошибки скрипта Бадди (см. errors-log).
