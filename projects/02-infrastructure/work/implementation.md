@@ -30,3 +30,7 @@ Supabase Free включает 500 МБ базы на проект, 1 ГБ фа�
 AWS сообщает, что большинству новых клиентов платёжный метод не нужен, но он может потребоваться для проверки личности. Free Plan и стартовые кредиты доступны новым клиентам, а срок кредитов составляет шесть месяцев. Для существующего аккаунта условия сверяются отдельно. [AWS Free Tier FAQ](https://aws.amazon.com/free/free-tier-faqs/)
 
 Эта версия завершает проектирование. Плановые проверки из таблицы выполняются только после отдельного согласования запуска. Состояние тарифов в кабинетах и восстановление не проверялись.
+
+## 2026-11-24 — A06/A11 current read-only inventory
+
+Actual GitHub metadata read: NFAI public, VIP-Custom private, both main; connector permissions admin/pull/push and collaborator permission admin. Reuse existing private VIP-Custom bridge, never merge inbox PR #1. Do not confuse the public NFAI repo with private storage. Full historical secret scan, outside-user denial, clean-clone and current backup restore not established. Supabase list_projects succeeded: exactly one accessible project WireReady, ACTIVE_HEALTHY, us-east-1, PostgreSQL 17. No separate NFAI project visible. WireReady data and configuration must remain isolated; no SQL, migration, provisioning or billing action performed. Phase 2 draft remains conditional; no new hosted DB needed for current Git-backed NFAI execution. AWS account-specific eligibility remains unverified; no provisioning. Historical local Git restore is not proof of hosted DB restore.
