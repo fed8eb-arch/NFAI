@@ -1,93 +1,155 @@
-# Brief: Git rule for all agents (no bypass, own worktree, plain push)
-Version v1.1 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
-Change v1.0 → v1.1 (2026-11-23, by Orchestrator's order): added rule 9, a Founder rule relayed by the Orchestrator: a local commit without push does not count; push after every completed step. Reason: the shared machine was replaced at 2026-11-23 17:42 PT and unpushed local commits and worktrees were destroyed. Section 9 also lists the 9 app prompts' "Commit rule" line as a conflict.
-Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`, `missions/001-growth-os/rollout-plan.md`, row "Агентство: правило git (без обхода)" and row "Агентство: отдельные git worktrees"). Context: Founder's order of 2026-11-23 17:28 PT (relayed): WireReady pilot paused; priority is full agency rollout.
-Times: America/Los_Angeles (PT). Repository: `fed8eb-arch/NFAI` (public), local clone `/workspace/NFAI`.
+# Brief: Git rule for all agents (no bypass, own clone, plain push, push every step)
+Version v1.2 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Changes:
+- v1.0 → v1.1 (2026-11-23, Orchestrator's order): added rule 9 (Founder rule: a local commit without push does not count; push after every completed step). Listed the 9 app prompts' "Commit rule" line as a conflict.
+- v1.1 → v1.2 (2026-11-23, Orchestrator's order):
+  - the workspace is now **each agent's own fresh clone `/workspace/<agent>-clone`**. This replaces the per-agent worktree method of v1.0/v1.1 and the shared `/workspace/NFAI-mission-001`.
+  - stated that the platform may replace the computer at any moment.
+  - added section 10, "Prompt/profile updates".
+  - Detection, deliverable and acceptance now refer to clones.
+  - ГВБ's findings F1–F9 on v1.1 (`3346daf`, `clearance-git-rule.md`) are addressed: F1 effective date; F2 conflicts; F3 attribution; F4 lock check in own clone; F5 push only cleared work and only own commits; F6 branch moves; F7 who lifts a lock; F8 index check; F9 ГВБ deadline removed.
+
+Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`, `missions/001-growth-os/rollout-plan.md`, rows "Агентство: правило git (без обхода)" and "Агентство: отдельные git worktrees"). Context: Founder's order of 2026-11-23 17:28 PT (relayed): the WireReady pilot is paused; the priority is full agency rollout.
+Times: America/Los_Angeles (PT). Repository: `fed8eb-arch/NFAI` (public), `https://github.com/fed8eb-arch/NFAI.git`.
 
 ## 1. Effective date
-**This rule is mandatory for every agent that writes to the NFAI repository from 2026-11-25 00:00 PT.** Until then the bans already in force (do not bypass `pushurl`, commit only own paths, Orchestrator's orders of 2026-11-23) still apply, and agents are asked to follow this rule early.
-Assignment to executors happens only after Internal Security (ГВБ) clears this brief, through the Orchestrator.
+**This rule is mandatory for every agent that writes to the NFAI repository from the moment ГВБ clears it and the Orchestrator sends it out** (ГВБ F1). The task first named 2026-11-25; the Founder cancelled the deadlines, and a later date would leave a window for the 2026-11-23 incident to repeat. ГВБ has stated that the bans of rules 1–9 apply now, without waiting for this version to be cleared.
+Executors are assigned only after Internal Security (ГВБ) clears this brief, and only through the Orchestrator.
 
 ## 2. Owners
 | Part | Who |
 |---|---|
-| Brief text | Prompt Engineer |
-| Check of the brief; daily check of compliance; violation log | Head of Internal Security (ГВБ) |
-| Reminder to agents; assignment; tracking | Orchestrator |
-| Worktree setup support; verification that every writing agent has its own worktree | Integration Developer (Разработчик интеграций) |
-| Acceptance of the rule | Director (Бадди) |
-| Every writing agent | follows sections 3–5 |
+| Brief text; prepared changes to prompts/profiles (section 10) | Prompt Engineer |
+| Check of the brief; daily compliance check; violation log; clearance of prompt/profile changes | Head of Internal Security (ГВБ) |
+| Reminder to agents; assignment; tracking; approval of prompt/profile changes | Orchestrator |
+| Clone setup support; written check that every writing agent has its own clone | Integration Developer (Разработчик интеграций) |
+| Acceptance of the rule; applying changed prompts to the bots | Director (Бадди) |
+| Every writing agent | follows section 3 |
 
 ## 3. Rules (every agent)
-1. **Never bypass a lock.** A lock is any setting or state that stops a write or push: a `remote.<name>.pushurl` set to a non-URL value (for example `DO-NOT-PUSH-UNTIL-APPROVED`), a hook, a `*.lock` file inside `.git/`, a rejected push, or a written order to hold. Banned in every form:
-   - `git -c remote.<name>.pushurl=...`, `git -c remote.<name>.url=...`, `git -c url.<x>.insteadOf=...`, `git -c core.hooksPath=...`, and any other `git -c` that changes where or how a push goes;
-   - `git push <URL>` (pushing to an explicit URL instead of `origin`), `git push --no-verify`;
-   - any edit of remote config (`git remote set-url`, `git remote add`, `git config remote.*`, `git config url.*`), of `pushurl`, of `core.hooksPath`, or of files in `.git/hooks/`; editing `.git/config` by hand;
-   - deleting another process's `*.lock` file in `.git/`.
-   A lock is lifted only by the person who ordered it, in writing (the Founder through the Director, or the Director). If you meet a lock: stop, leave your commit local, report (section 6).
-2. **No history rewriting, no hidden work.** Banned: `git rebase` (including `git pull --rebase`), `git stash` (any subcommand; `refs/stash` is shared by all worktrees), `git reset --hard` on a branch others use, `git push --force` / `--force-with-lease` / `+refspec`, `git commit --amend` of a pushed commit.
-3. **Never resolve conflicts in other agents' files.** If a merge, pull or push shows a conflict in a file you do not own, stop and report to the Orchestrator. Do not edit, check out, restore, delete or `git add` another agent's file.
-4. **Own worktree.** Each writing agent works only in its own worktree, created with:
-   `git -C /workspace/NFAI fetch origin && git -C /workspace/NFAI worktree add --detach /workspace/<agent>-wt origin/<branch>`
-   `<agent>` is a short slug of your role (for example `pe`, `gvb`, `orch`, `prof`, `dev`); `<branch>` is the branch of your task (for example `mission-001` or `main`). Do not work in `/workspace/NFAI` or in the shared clone `/workspace/NFAI-mission-001`. Do not touch files in another agent's worktree. Remove only your own worktree (`git -C /workspace/NFAI worktree remove /workspace/<agent>-wt`), never another's.
-5. **Commit only own paths, in one command, plain push:**
-   `git add <own paths only> && git commit -m "<what>" && git push origin HEAD:<branch>`
-   No `git add -A`, no `git add .`, no `-c`, no force. Before committing run `git status --short` and confirm the index holds only your paths. Before pushing run `git -C /workspace/NFAI config --get-all remote.origin.pushurl`: if it prints anything that is not the normal `origin` URL, it is a lock: do not push (rule 1).
-6. **If the push is rejected** (non-fast-forward or any other reason): do not rebase, merge or force. Run `git -C /workspace/NFAI fetch origin`, create a fresh worktree from the new remote head (for example `/workspace/<agent>-wt2`), copy in only your own files, commit them with the command in rule 5, push again. If the second push also fails, stop and report the exact error.
-7. **Verify every push:** `git ls-remote origin refs/heads/<branch>` must print the same hash as `git rev-parse HEAD`. Put both in your report. A local commit without this check is not "saved" and not "done".
-8. **No secrets and no personal addresses in commits** (existing rule; ГВБ checks the diff of each push when pushing is allowed, per the plan).
+0. **The machine is not durable.** The platform may replace the computer at any moment. Everything that is not pushed to origin is lost then: local commits, clones, worktrees and uncommitted files. Precedent: on 2026-11-23 at 17:42 PT the shared machine was replaced. The local `.git` of `/workspace/NFAI`, every linked worktree and every unpushed local commit were lost, including the Professor's commit `f712eb4`.
+1. **Never bypass a lock.** A lock is anything that stops a write or a push:
+   - a `remote.<name>.pushurl` set to a value that is not a URL (for example `DO-NOT-PUSH-UNTIL-APPROVED`);
+   - a hook;
+   - a `*.lock` file inside `.git/`;
+   - a rejected push;
+   - a written order to hold, which binds every clone even when your own config shows no lock.
 
-9. **Push after every completed step (Founder rule, relayed by the Orchestrator, 2026-11-23).** A local commit without push does not count: it is not saved, not "done", and not evidence. Push your branch (`git push origin HEAD:<branch>`, then the `ls-remote` check of rule 7) after every completed step, not only at the end of a session. Reason: on 2026-11-23 at 17:42 PT the shared machine was replaced; the local `.git` of `/workspace/NFAI`, all linked worktrees and every unpushed local commit were lost. If a lock stops the push (rule 1), the step is not done: report it, and keep the uncommitted files in a durable folder outside the repo whose name is not `dist`, `build`, `out`, `coverage`, `target` or a dot-folder.
+   Banned in every form:
+   - `git -c remote.<name>.pushurl=...`, `git -c remote.<name>.url=...`, `git -c url.<x>.insteadOf=...`, `git -c core.hooksPath=...`, and any other `git -c` that changes where or how a push goes;
+   - `git push <URL>` (pushing to an explicit URL instead of `origin`) and `git push --no-verify`;
+   - any edit of remote config (`git remote set-url`, `git remote add`, `git config remote.*`, `git config url.*`), of `pushurl`, of `core.hooksPath`, or of files in `.git/hooks/`, and editing `.git/config` by hand;
+   - deleting another process's `*.lock` file in `.git/`;
+   - cloning a second copy to get around a lock or a hold order.
+
+   **Who lifts a lock (ГВБ F7):** only the Director, or the Founder through the Director, in writing. An agent who set a lock may remove it only with their written consent. The Orchestrator keeps the list of hold orders in force. If you meet a lock: stop, leave your commit local, and report it (section 6).
+2. **No history rewriting and no hidden work.** Banned:
+   - `git rebase`, including `git pull --rebase`;
+   - `git stash` (any subcommand);
+   - `git reset --hard` on a branch others use;
+   - `git push --force`, `--force-with-lease` and `+refspec`;
+   - `git commit --amend` of a pushed commit;
+   - moving branches others use (ГВБ F6): `git branch -f`, `git checkout -B`, `git update-ref`, any `git reset` on a shared branch, and deleting another agent's branch or ref.
+3. **Never resolve conflicts in other agents' files (ГВБ F2).** If a merge, pull or push shows a conflict in a file you do not own:
+   - stop and leave the state as it is;
+   - do not commit, and do not run `checkout`, `restore` or `merge --abort` on someone else's changes;
+   - report to **the file's owner and the Orchestrator**: the file, the hashes and the time (PT).
+
+   Never edit, check out, restore, delete or `git add` another agent's file.
+4. **Own clone.** Each writing agent works only in its own fresh clone:
+   `git clone --branch <branch> https://github.com/fed8eb-arch/NFAI.git /workspace/<agent>-clone`
+   - `<agent>` is a short slug of your role, for example `pe`, `gvb`, `orch`, `prof`, `dev`. `<branch>` is the branch of your task, for example `mission-001` or `main`.
+   - Do not work in `/workspace/NFAI`, in the shared `/workspace/NFAI-mission-001` or in any old worktree folder.
+   - Never run `git init` over an old folder. Never touch another agent's clone.
+   - Delete only your own clone, and only after everything in it is pushed.
+   - If your clone is gone (for example after a machine replacement), clone again into the same path, or into `/workspace/<agent>-clone2` if the old folder still exists.
+5. **Commit only your own paths, in one command, with a plain push:**
+   `git add <own paths only> && git commit -m "<what>" && git push origin HEAD:<branch>`
+   - No `git add -A`, no `git add .`, no `-c`, no force.
+   - Before committing, run `git diff --cached --name-only` (ГВБ F8) and confirm that it lists only your paths.
+   - **Attribution (ГВБ F3):** every commit message starts with your role, `<Role>: …` (for example `Prompt Engineer: …`), and every report with a hash carries the line `Agent: <role>`. When `git-identity.md` is in force, it is a mandatory addition to this rule: from then on a commit authored `NFAI Joker` is a violation.
+   - **Push only your own commits (ГВБ F5):** before pushing, `git log origin/<branch>..HEAD --format='%h %s'` must list only your commits. Pushing other agents' commits is banned, including commits picked up "along the way" by a merge or rebase.
+   - **Push only after ГВБ clearance (ГВБ F5)** for: code that contains or handles secrets, tokens or webhooks; prompt and profile changes; files with personal data.
+   - Before pushing, run `git config --get-all remote.origin.pushurl` in your clone. If it prints anything, it is a lock: do not push (rule 1). Also check that no written hold order is in force.
+6. **If the push is rejected** (non-fast-forward or any other reason), do not rebase, merge or force. Instead:
+   1. Make a fresh clone of the new remote head (for example `/workspace/<agent>-clone2`).
+   2. Copy in only your own files.
+   3. Commit them with the command in rule 5 and push again.
+
+   If the second push also fails, stop and report the exact error.
+7. **Verify every push.** `git ls-remote origin refs/heads/<branch>` must print the same hash as `git rev-parse HEAD`. Put both in your report. A commit without this check is not "saved" and not "done".
+8. **No secrets and no personal addresses in commits** (existing rule). When pushing is allowed, ГВБ checks the diff of each push, per the plan.
+9. **Push after every completed step (Founder rule, relayed by the Orchestrator, 2026-11-23).** A local commit without a push does not count: it is not saved, not "done" and not evidence.
+   - Push your branch (`git push origin HEAD:<branch>`, then the `ls-remote` check of rule 7) after every completed step, not only at the end of a session (see rule 0).
+   - If a lock stops the push (rule 1), the step is not done. Report it, and keep the uncommitted files in a durable folder outside the repo. Its name must not be `dist`, `build`, `out`, `coverage`, `target` or a dot-folder.
 
 ## 4. Result / deliverable
-- This rule cleared by ГВБ and accepted by the Director; the Orchestrator sends it to every writing agent before 2026-11-25 00:00 PT.
-- From 2026-11-25: every writing agent has its own worktree (`git -C /workspace/NFAI worktree list` shows one path per agent); the Integration Developer confirms this in writing by 2026-11-28 (plan deadline for separate worktrees).
-- Violations, if any, are logged by ГВБ (section 6).
+- This rule is cleared by ГВБ and accepted by the Director. The Orchestrator sends it to every writing agent right after ГВБ clears it.
+- From the date the rule is in force, every writing agent works in its own `/workspace/<agent>-clone`. By 2026-11-28 the Integration Developer confirms this in writing: one line per agent with the path, `git -C <path> remote -v` and the date.
+- Prompt and profile changes are prepared as in section 10.
+- ГВБ logs any violations (section 6).
 
 ## 5. Deadlines (PT)
-| Item | Deadline |
-|---|---|
-| This brief to ГВБ for check | 2026-11-23 21:00 |
-| ГВБ decision on this brief | to verify (ГВБ sets; proposed 2026-11-24 12:00) |
-| Orchestrator sends the cleared rule to all writing agents | 2026-11-24 23:59 |
-| Rule in force | 2026-11-25 00:00, then permanent (plan: at least until 2026-12-05) |
-| Own worktree for every writing agent; Integration Developer's written confirmation | 2026-11-28 |
+The Director cancelled the writing deadlines for the briefs on 2026-11-23. Execution:
+- the rule is in force from ГВБ's clearance and the Orchestrator's dispatch, then permanently (the plan says at least until 2026-12-05);
+- own clones are confirmed by 2026-11-28 (plan);
+- rule 9 applies at once.
 
 ## 6. Detection and escalation of violations
-**Daily detection (ГВБ, inside daily check step 2, from 2026-11-25; one line per day):**
-1. Remote config: `git -C /workspace/NFAI config --show-origin --get-regexp '^(remote\..*\.(url|pushurl)|url\..*|core\.hookspath)$'` — any change from the previous day's line is an issue unless a written order covers it.
-2. Hooks: `ls /workspace/NFAI/.git/hooks | grep -v '\.sample$'` — any new file is an issue unless ordered.
-3. Force push / rewrite: yesterday's recorded `ls-remote` hash of each branch must be an ancestor of today's: `git merge-base --is-ancestor <yesterday-hash> origin/<branch>` (exit 0 = OK).
-4. Lock bypass: if a lock was in force (rule 1) and `git ls-remote` shows the branch moved during the lock, it is a bypass until proven otherwise.
-5. Rebase and stash: `git stash list` must be empty (or unchanged from the recorded baseline); `git -C <each worktree> reflog -n 100 | grep -E 'rebase|reset: moving'` must show nothing new.
-6. Worktrees and paths: `git -C /workspace/NFAI worktree list`; for new commits of the last 24h, `git log --since=24.hours --name-only --format='%h %an' origin/<branch>` — each author touched only own paths (author names become auditable after brief `git-identity.md`).
-**Self-report:** an agent that breaks a rule or meets a lock reports it itself, the same hour, to the Orchestrator and ГВБ: what command, when (PT), which hash, what is affected.
-**Escalation path:** agent → Orchestrator and ГВБ (same hour) → ГВБ records it in the errors log (`_core/staff/errors-log.md`) and in the daily line → Orchestrator decides the fix → Director if a lock, a force push or the Founder's domain is involved → Founder only through the Director.
-**Fixes:** never by force push or history rewrite. A wrong commit is undone only by a new commit, after ГВБ and Orchestrator approve. Rewriting history needs an explicit "yes" from the Founder through the Director.
+**Daily detection (ГВБ, inside daily check step 2, from the day the rule is in force; one line per day), run in each agent's clone listed by the Integration Developer:**
+1. Remote config: `git -C <clone> config --show-origin --get-regexp '^(remote\..*\.(url|pushurl)|url\..*|core\.hookspath)$'`. Any change from the previous day's line is an issue unless a written order covers it.
+2. Hooks: `ls <clone>/.git/hooks | grep -v '\.sample$'`. Any new file is an issue unless ordered.
+3. Force push or rewrite: yesterday's recorded `ls-remote` hash of each branch must be an ancestor of today's: `git merge-base --is-ancestor <yesterday-hash> origin/<branch>` (exit 0 = OK).
+4. Lock bypass: if a lock or a hold order was in force and `git ls-remote` shows that the branch moved during it, it is a bypass until proven otherwise.
+5. Rebase and stash: `git -C <clone> stash list` must be empty, and `git -C <clone> reflog -n 100 | grep -E 'rebase|reset: moving'` must show nothing new.
+6. Clones and paths: is the list of clones complete? For the new commits of the last 24h, `git log --since=24.hours --name-only --format='%h %an' origin/<branch>` must show that each author touched only their own paths. Author names become auditable after brief `git-identity.md`.
+
+**Self-report:** an agent that breaks a rule or meets a lock reports it itself, the same hour, to the Orchestrator and ГВБ: the command, the time (PT), the hash, and what is affected.
+
+**Escalation path:**
+1. The agent reports to the Orchestrator and ГВБ the same hour.
+2. ГВБ records it in the errors log (`_core/staff/errors-log.md`) and in the daily line.
+3. The Orchestrator decides the fix.
+4. The Director is involved if a lock, a force push or the Founder's domain is involved.
+5. The Founder is reached only through the Director.
+
+**Fixes:** never by force push or history rewrite. A wrong commit is undone only by a new commit, after ГВБ and the Orchestrator approve. Rewriting history needs an explicit "yes" from the Founder through the Director.
 
 ## 7. Acceptance criteria
-1. ГВБ has written a decision (cleared / changes required) on this brief, with date and path or hash.
+1. ГВБ has written a decision (cleared / changes required) on this brief, with the date and a path or hash.
 2. The Orchestrator's dispatch to all writing agents is recorded (date, list of agents).
-3. From 2026-11-25 to 2026-12-05, ГВБ's daily line shows the six detection checks; any issue has an errors-log entry and a decision.
-4. By 2026-11-28, `git worktree list` shows one own worktree per writing agent, and no agent works in `/workspace/NFAI` or `/workspace/NFAI-mission-001`.
-5. No new bypass, force push, rebase or stash after 2026-11-25 in the errors log (plan acceptance: "в журнале ошибок нет новых обходов").
+3. From the date the rule is in force to 2026-12-05, ГВБ's daily line shows the six detection checks, and any issue has an errors-log entry and a decision.
+4. By 2026-11-28 every writing agent has its own clone (Integration Developer's list), and no agent works in `/workspace/NFAI`, `/workspace/NFAI-mission-001` or an old worktree.
+5. The errors log shows no new bypass, force push, rebase or stash after the rule is in force (plan acceptance: "в журнале ошибок нет новых обходов").
+6. The section 10 changes went PE → ГВБ → Orchestrator → apply, and each step has a date and a hash.
 
 ## 8. Required proof
-- Path of this brief and its commit hash on `origin/mission-001` = output of `git ls-remote origin refs/heads/mission-001`.
-- ГВБ decision: file path and commit hash (via `ls-remote`).
-- Daily: ГВБ's check line with the commands' results (no secrets).
-- Integration Developer: output of `git -C /workspace/NFAI worktree list` with date (PT).
+- The path of this brief and its commit hash on `origin/mission-001` = output of `git ls-remote origin refs/heads/mission-001`.
+- ГВБ's decision: file path and commit hash (via `ls-remote`).
+- Daily: ГВБ's check line with the results of the commands (no secrets).
+- Integration Developer: the list of clones with the date (PT).
+
 **"Done" only with proof.** A claim without a path and an `ls-remote`-verified hash is not done.
 
 ## 9. Conflicts with existing rules (for ГВБ and the Orchestrator)
-- `AGENTS.md` (section "Автосохранение", line 74 at `56b9067`): `git add -A && git commit -m "<что сделано>" && git push` — conflicts with rule 5 (own paths only, `HEAD:<branch>`). This brief does not edit `AGENTS.md`; its owner should align it (to verify who owns that file).
-- `mission-001/briefs/talks-02-03.md` (section 4): `git pull --rebase` and the shared worktree `/workspace/NFAI-mission-001` — conflict with rules 2 and 4. That task is finished; do not reuse that wording.
-- `mission-001/briefs/w1-w4.md`: shared worktree `/workspace/NFAI-mission-001` — conflicts with rule 4. W1–W4 are paused; any new WireReady brief must use own worktrees.
-- The "Commit rule" line in all 9 head app prompts v1.1 (`_core/staff/app-prompts/*.md` at `563faab`/`a7e48cc`) says to commit in the shared clone `/workspace/NFAI-mission-001` with `git push`. That conflicts with rules 4 and 5. It needs prompt v1.2 (Prompt Engineer → ГВБ → main → bots).
-- After the machine replacement (2026-11-23 17:42 PT), `/workspace/NFAI` is not a git repository, so the worktree command in rule 4 fails until the Integration Developer restores the clone. Until then an agent may use a fresh clone in a new folder of its own (`git clone --branch <branch> https://github.com/fed8eb-arch/NFAI.git /workspace/<agent>-clone`). Never run `git init` over an old folder. To verify with the Orchestrator.
-- Plan deadlines differ: the rule takes effect 2026-11-25, the plan's deadline for separate worktrees is 2026-11-28. Until 2026-11-28 an agent without its own worktree creates it itself with the command in rule 4 before its first write; to verify with the Orchestrator.
+- `AGENTS.md` ("Корень `/workspace/NFAI`"; section "Автосохранение", line 74 at `56b9067`) says `git add -A && git commit -m "<что сделано>" && git push`. That conflicts with rules 4 and 5. This brief does not edit `AGENTS.md`; its owner should align it (to verify who owns that file).
+- `mission-001/briefs/talks-02-03.md` (section 4) uses `git pull --rebase` and the shared `/workspace/NFAI-mission-001`, which conflicts with rules 2 and 4. That task is finished; do not reuse that wording.
+- `mission-001/briefs/w1-w4.md` uses the shared `/workspace/NFAI-mission-001`, which conflicts with rule 4. W1–W4 are paused; any new WireReady brief must use own clones.
+- The 9 head app prompts v1.1 on `origin/main` (`_core/staff/app-prompts/*.md`, text `563faab`, Status line `a7e48cc`) conflict with rules 4 and 5. All 9 have a "Commit rule" line that says to commit in the shared `/workspace/NFAI-mission-001`. The prompts of hr-head, internal-security-head and professor also have "Mission work: /workspace/NFAI-mission-001". `app-prompts/training-briefs.md` cites the shared clone 12 times. They are handled through section 10.
+- The rollout plan row "Агентство: отдельные git worktrees" expects worktrees. This brief replaces them with own clones, by the Orchestrator's order of 2026-11-23. The plan text is not changed here.
+- The brief `git-identity.md` v1.0 is built on worktrees and `git config --worktree`. It needs a matching update to "own clone" (done separately as v1.1).
 
-## 10. To verify
-- Who may legally lift a lock besides the Founder through the Director (this brief assumes: the person who set it, in writing).
-- ГВБ's deadline for this check.
-- The exact list of "writing agents" depends on the approved roster ("9 heads" list is the Founder's domain; not decided here).
+## 10. Prompt/profile updates
+- **Affected:** every agent prompt or profile whose workspace line points to `/workspace/NFAI-mission-001`, `/workspace/NFAI` or a worktree. Found so far on `origin/main`:
+  - the 9 head app prompts (their "Commit rule" lines, plus the "Mission work" lines of hr-head, internal-security-head and professor);
+  - `app-prompts/training-briefs.md`;
+  - `AGENTS.md`.
+
+  Role cards in `_core/staff/` and the Director's, Orchestrator's and other agents' bot prompts are likely affected too; the full list is to verify.
+- **New workspace line (proposed text for each affected prompt):** `Workspace: your own fresh clone /workspace/<agent>-clone (git clone --branch <branch> https://github.com/fed8eb-arch/NFAI.git /workspace/<agent>-clone); commit only own paths in one command; git push origin HEAD:<branch> after every completed step; verify with git ls-remote. Never use the shared /workspace/NFAI-mission-001. Follow missions/001-growth-os/rollout-briefs/git-rule.md.`
+- **Order:** the Prompt Engineer prepares the change (new version, changelog) → ГВБ clears it → the Orchestrator approves → it is merged to `main` → the Director applies it to the bots. **No prompt or profile is edited before ГВБ's clearance.** This brief edits none.
+- Deliverable: one change set with a version bump and changelog entries, plus intro ACK of the new version, as in `intro-ack-v1.1.md`.
+
+## 11. To verify
+- The full list of affected prompts and profiles.
+- The exact list of writing agents. It depends on the approved roster; the "9 heads" list is the Founder's domain and is not decided here.
