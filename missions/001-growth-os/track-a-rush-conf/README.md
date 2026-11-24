@@ -11,6 +11,9 @@
 | [claims.md](claims.md) | Заявления и рекомендации со статусами VERIFIED / EXPERIMENTAL / UNSUPPORTED / REJECTED. |
 | [transcription-pipeline.md](transcription-pipeline.md) | Проверенный бесплатный конвейер расшифровки на боксе. |
 | [services.md](services.md) | Все сервисы, инструменты и промпты из PDF (и позже из транскриптов): имя, спикер, страница, зачем, официальный URL. По приказу t457u — принимать их, а не писать свои аналоги. |
+| [speaker-split.md](speaker-split.md) | Нарезка записи по главам YouTube и речевым стыкам. |
+| [talk-01-petrochenkov-analysis.md](talk-01-petrochenkov-analysis.md) | Разбор доклада 1 по уровням 1–5; короткие выводы, без полного транскрипта. |
+| [VIDEO_PDF_ALIGNMENT.talk-01.public.json](VIDEO_PDF_ALIGNMENT.talk-01.public.json) | Сокращённое сопоставление слайд↔таймкод доклада 1 (без текстов речи и слайдов). |
 
 Краткие выжимки и короткие цитаты могут быть добавлены после сверки транскрипта с записью. Полный текст докладов сюда не копируется.
 

@@ -1,0 +1,297 @@
+{
+  "schema": "nfai.video_pdf_alignment.public.v1",
+  "talk_id": "01-petrochenkov",
+  "speaker": "Антон Петроченков",
+  "chapter": {
+    "start": "00:01:51",
+    "end": "00:44:34",
+    "start_s": 111.0,
+    "end_s": 2674.0
+  },
+  "pdf_pages": 123,
+  "pages_with_timecode": 60,
+  "pages_without_timecode": 63,
+  "note": "Reduced public copy: ids, timecodes, page numbers, short summaries only. Only medium/high/anchored matches are listed here to limit false positives from noisy ASR. Full entries including low-confidence and unmatched slides, plus spoken/slide text, are in private fed8eb-arch/VIP-Custom branch mission-001.",
+  "entries": [
+    {
+      "id": "P003",
+      "pdf_page": 3,
+      "video_timecode": "00:06:36–00:07:21",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.149,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P008",
+      "pdf_page": 8,
+      "video_timecode": "00:20:06–00:20:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.233,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P015",
+      "pdf_page": 15,
+      "video_timecode": "00:36:54–00:38:10",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Prompt 'сайт глазами аватара' and Discovery Interview named in speech; listed as extra materials on slide 15."
+    },
+    {
+      "id": "P018",
+      "pdf_page": 18,
+      "video_timecode": "00:37:36–00:38:21",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.18,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P022",
+      "pdf_page": 22,
+      "video_timecode": "00:04:36–00:05:21",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.275,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P025",
+      "pdf_page": 25,
+      "video_timecode": "00:13:21–00:14:06",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.193,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P028",
+      "pdf_page": 28,
+      "video_timecode": "00:29:21–00:30:06",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.148,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P045",
+      "pdf_page": 45,
+      "video_timecode": "00:18:06–00:18:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.229,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P049",
+      "pdf_page": 49,
+      "video_timecode": "00:22:36–00:23:21",
+      "confidence_label": "high",
+      "alignment_confidence": 0.488,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P050",
+      "pdf_page": 50,
+      "video_timecode": "00:26:36–00:27:21",
+      "confidence_label": "high",
+      "alignment_confidence": 0.342,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P054",
+      "pdf_page": 54,
+      "video_timecode": "00:27:06–00:27:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.202,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P055",
+      "pdf_page": 55,
+      "video_timecode": "00:14:06–00:14:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.272,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P059",
+      "pdf_page": 59,
+      "video_timecode": "00:07:21–00:08:06",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.234,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P060",
+      "pdf_page": 60,
+      "video_timecode": "00:07:21–00:08:06",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.234,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P062",
+      "pdf_page": 62,
+      "video_timecode": "00:30:06–00:30:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.168,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P063",
+      "pdf_page": 63,
+      "video_timecode": "00:30:06–00:30:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.168,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P064",
+      "pdf_page": 64,
+      "video_timecode": "00:30:06–00:30:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.168,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P065",
+      "pdf_page": 65,
+      "video_timecode": "00:32:21–00:33:06",
+      "confidence_label": "high",
+      "alignment_confidence": 0.405,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P068",
+      "pdf_page": 68,
+      "video_timecode": "00:32:21–00:33:06",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.226,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P095",
+      "pdf_page": 95,
+      "video_timecode": "00:33:36–00:34:21",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.164,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P100",
+      "pdf_page": 100,
+      "video_timecode": "00:35:48–00:36:10",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Speech: checklist for Yandex Direct / digital fingerprints, matching extra-material Health Score theme."
+    },
+    {
+      "id": "P102",
+      "pdf_page": 102,
+      "video_timecode": "00:22:06–00:22:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.271,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P103",
+      "pdf_page": 103,
+      "video_timecode": "00:36:54–00:37:10",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Speech walks the same steps: put avatar into the model, paste site URL, enter prompt, get 5–10 hypotheses."
+    },
+    {
+      "id": "P104",
+      "pdf_page": 104,
+      "video_timecode": "00:36:54–00:37:10",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Same procedure as slide 104. Word 'Gemini' was not clearly recovered in ASR; do not invent it in the timecode note as spoken."
+    },
+    {
+      "id": "P105",
+      "pdf_page": 105,
+      "video_timecode": "00:41:02–00:41:20",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Speech mentions prompt plus 'Игорь, мне 44' — matches the avatar example on the slide."
+    },
+    {
+      "id": "P111",
+      "pdf_page": 111,
+      "video_timecode": "00:38:06–00:38:20",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Speech: 'скайк-дискавер интервью' ≈ skill Discovery Interview."
+    },
+    {
+      "id": "P112",
+      "pdf_page": 112,
+      "video_timecode": "00:36:54–00:38:20",
+      "confidence_label": "high",
+      "alignment_confidence": 0.55,
+      "match_status": "anchored_from_speech_cues",
+      "summary": "Closing list of extra materials named in speech: avatar prompt and interview skill."
+    },
+    {
+      "id": "P113",
+      "pdf_page": 113,
+      "video_timecode": "00:22:06–00:22:51",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.173,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P116",
+      "pdf_page": 116,
+      "video_timecode": "00:20:36–00:21:21",
+      "confidence_label": "high",
+      "alignment_confidence": 0.506,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P120",
+      "pdf_page": 120,
+      "video_timecode": "00:38:21–00:39:06",
+      "confidence_label": "high",
+      "alignment_confidence": 0.348,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    },
+    {
+      "id": "P123",
+      "pdf_page": 123,
+      "video_timecode": "00:32:21–00:33:06",
+      "confidence_label": "medium",
+      "alignment_confidence": 0.226,
+      "match_status": "matched",
+      "summary": "Semantic overlap between a transcript window and this slide; see private file for texts."
+    }
+  ],
+  "public_entry_count": 31
+}
