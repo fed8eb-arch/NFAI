@@ -1,5 +1,5 @@
 # Brief: Intro ACK of prompt v1.1 by the 9 head bots
-Version v1.0 | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
+Version v1.0 (rev. 2026-11-23 17:47 PT: hash source per Orchestrator) | Date 2026-11-23 | Status: draft for Internal Security check | Owner: Prompt Engineer
 Ordered by: Orchestrator (task from Director Бадди; rollout plan `56b9067`: "Intro ACK девяти ботов с хешем источника", deadline 2026-11-25). Times: America/Los_Angeles (PT).
 
 ## 1. Why
@@ -9,7 +9,8 @@ The Director stated that prompts v1.1 (text of `a7e48cc`) were applied to all 9 
 - `563faab` — prompts v1.1 text, cleared by ГВБ (decision file at `eaebb4c`, branch `mission-001`). Header Status line still says "v1.1 pending Internal Security re-check (decision CHANGES REQUIRED, 2026-11-23)".
 - `a7e48cc` — child of `563faab`; changes **only the Status line** of the 9 files (2 diff lines per file) plus `prompts-changelog.md`. New Status: "v1.1 cleared by Internal Security (eaebb4c) and Orchestrator, 2026-11-23".
 - **Correction of the task premise:** `a7e48cc` is described in the task and in the plan as "local only, unpushed (push lock)". At this check it **is on origin**: `git ls-remote origin refs/heads/main` = `da84ceb77be887e0884f26ce3e4903d4e7db164f` (commit "Handover Buddy -> Codex 2026-11-23", 2026-11-23 17:38 PT, adds only `inbox/handover-to-codex-2026-11-23.md`), and `a7e48cc` is its parent (`git merge-base --is-ancestor a7e48cc origin/main` = 0). Who pushed it is not recorded beyond the shared author "NFAI Joker" — to verify (Orchestrator). The app-prompt files are identical at `a7e48cc` and `da84ceb`.
-- **Which hash counts:** `a7e48cc` is the reference for this ACK, because it is the cleared text and it is now reachable from `origin/main`. Before counting it, the Orchestrator re-runs `git fetch origin && git merge-base --is-ancestor a7e48cc origin/main` in its own worktree (exit 0 = still on origin). If that fails, `563faab` is the only origin-verified reference and the ACK result is "body matches 563faab, Status line unverified".
+- **Which hash counts (per Orchestrator, 2026-11-23 17:46 PT):** the **v1.1 prompt source is the approved text at `563faab` on origin/main**. The body of all 9 files is identical at `563faab` and `a7e48cc`; only the Status line differs. **Status-line hash:** the Orchestrator's instruction says it "will be provided after re-publication" because `a7e48cc` was reported lost with the replaced machine. **Fact for the Director:** the local copy was lost, but `a7e48cc` was already on origin before the replacement. Re-checked 2026-11-23 17:47 PT: `git ls-remote origin refs/heads/main` = `da84ceb77be887e0884f26ce3e4903d4e7db164f`, and `git merge-base --is-ancestor a7e48cc origin/main` returns 0. So re-publication may not be needed. Whether `a7e48cc` is accepted as the status-line hash is the Director's decision (to verify). The Prompt Engineer does not re-publish anything.
+- Until the Director decides, the ACK result per bot records both: body = `563faab` text (yes/no) and Status line = the `a7e48cc` wording or the `563faab` wording.
 - The hash `eaebb4c` inside the Status line is ГВБ's decision commit, **not** the prompt's hash. Bots must not report it as their prompt hash.
 
 ## 3. Reference values (from git, `a7e48cc`)
