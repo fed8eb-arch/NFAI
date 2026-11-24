@@ -113,3 +113,20 @@
 ## 24.11.2026 — сверка очереди с действующим пилотом
 
 Проверены номера: ровно 72 строки, уникальные 1–72, без пропусков. Исторический блок регистрации Groq заменён текущей приёмкой API-пилота на основании status.md. Старые блокеры входа GitHub и Supabase не означают отсутствия текущего доступа: GitHub metadata/admin read подтверждён для обоих репозиториев; Supabase MCP вернул единственный проект WireReady, не NFAI. Старая очередь не подтверждает актуальные тарифы/доступ по остальным позициям. OpenRouter/Gemini/Cloudflare/Mistral не считаются принятыми резервами текущего Combo; NVIDIA Trial только для прототипов. Не повторять регистрации существующих аккаунтов, обход CAPTCHA/телефона/региональных ограничений, активацию платного API или создание новых ключей без нужды. Полная фазовая приёмка открыта.
+
+
+## 24.11.2026 — A07: reconcile registration lanes with actual recorded outcomes
+
+All 72 row IDs covered once. Sources: canonical queue, catalog.md, accounts.md and later status.md entries plus current Groq acceptance. Historical outcomes are not a new login, entitlement or billing check. Existing row lanes preserve original decisions; do not treat EMAIL as authorization to re-register. Corrected lane summary from actual rows: HANDOFF 3, X 33, DONE 2, EMAIL 33, DROPPED 1.
+
+| Operational classification | Row IDs | Count |
+|---|---|---:|
+| Current API evidence (not current balance) | 4 | 1 |
+| Historical API success; do not re-register | 1 | 1 |
+| Historical created/opened account, API entitlement not established; do not re-register | 3, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 22, 25, 27, 32, 42 | 16 |
+| Existing manual/no-account route, not accepted API | 5 | 1 |
+| Existing HOLD or handoff; no automatic retry | 12, 19, 20, 30, 31 | 5 |
+| Existing X restrictions, not an activation queue | 2, 21, 33, 36, 38, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72 | 32 |
+| Unverified; check business need and official free entitlement before any registration | 13, 14, 23, 24, 26, 28, 29, 34, 35, 37, 39, 40, 41, 43, 50, 52 | 16 |
+
+In particular #1 later historical Gemini API HTTP 200 supersedes the old phone blocker for that historical run; #7 Design Arena remains manual/internal only, #42 historical account is not API access, #17 historical zero credits, #27 historical creation does not lift earlier HOLD, #32 direct Mistral account is distinct from NVIDIA-hosted Mistral in the current combo. #20 Qwen remains blocked pending confirmed free-only entitlement; #30 phone handoff remains stopped. #3 no top-up. #53–72 remain excluded from agency operations. No registration, account changes, credentials, spend or API calls in this reconciliation. Actual current account-level entitlement and applicable commercial terms remain open. Next: use existing approved providers for current work; only investigate unverified rows when a concrete task needs them.
