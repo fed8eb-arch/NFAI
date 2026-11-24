@@ -32,6 +32,6 @@ Owner: Orchestrator (runs the cycle) | Reads: Director (Buddy)
 |---|---|---|
 | Full backup restore test (whole environment, time-to-restore recorded) | monthly | A full restore costs hours of compute and can load production; the daily smoke test (step 7) catches broken backups in 24h. |
 | Incident-response drill (playbook tested end to end) | quarterly | A real drill needs several agents and a simulated incident; the daily check (step 3) confirms the playbook and contacts are current. |
-| Full re-validation of all curriculum links and all 38 training files | monthly | A full pass duplicates the daily rotating sample and burns tokens; the daily sample covers every file within about two weeks. |
+| Full re-validation of all curriculum links and all training files in `_core/staff/training/` (44 on 2026-11-23, see MANIFEST) | monthly | A full pass duplicates the daily rotating sample and burns tokens; the daily sample covers every file within about two weeks. |
 | Spaced-review intervals of lessons (1 week, 1 month, 1 quarter) | unchanged | These are learning intervals, not checks; shortening them to a day defeats spaced repetition. |
 | Quarterly letter to the Founder; quarterly client business review; monthly financial pack | unchanged | These are reports and client meetings, not checks; the daily checks feed them. |
