@@ -24,9 +24,9 @@ Version: bump `orchestrator.md` (to verify its current version line) and add an 
 ```
 **New:**
 ```text
-| Full re-validation of all curriculum links and all training files (41 role files + CHANGELOG, curriculum and error analysis = 44 on 2026-11-23; current count = the corpus MANIFEST.md) | monthly | A full pass duplicates the daily rotating sample and burns tokens; the daily sample covers every file within about three weeks (44 files, 3 roles a day). |
+| Full re-validation of all curriculum links and all training files (41 role files + CHANGELOG, curriculum and error analysis = 44 on 2026-11-23; current count = the corpus MANIFEST.md) | monthly | A full pass duplicates the daily rotating sample and burns tokens; the daily sample covers every file within about two weeks (44 files, 3 roles a day ≈ 15 days). |
 ```
-"About three weeks": 44 files ÷ 3 sampled roles a day ≈ 15 days for role files, plus link samples; to verify with the Professor. Header: bump `Version: v1.0` → `v1.1` and add a change note. Owner of the registry: the Orchestrator.
+"About two weeks": 44 files ÷ 3 sampled roles a day ≈ 15 days; to verify with the Professor. Header: bump `Version: v1.0` → `v1.1` and add a change note. Owner of the registry: the Orchestrator.
 
 ## Order, acceptance, proof
 - Order: Prompt Engineer (this proposal) → ГВБ admission → Orchestrator approval → the file owner applies it in their own clone (one commit per file, plain push).
