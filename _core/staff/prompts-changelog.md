@@ -193,3 +193,6 @@ Every role prompt (37 roles + business-angel.md) now has a «Training» section:
 - **legal-head.md, internal-security-head.md:** жёсткая граница уже была (п. 1 только).
 - **hr-head.md, internal-security-head.md, professor.md:** добавлена строка «Mission work: /workspace/NFAI-mission-001».
 - **training-briefs.md:** без изменений (отчёт изменений не требует).
+
+## 2026-11-23 — app-промпты 9 глав v1.1: строка Status (Промпт-инженер, по заданию Бадди через Оркестратора)
+Во всех 9 файлах заменена только строка Status на «Status: v1.1 cleared by Internal Security (eaebb4c) and Orchestrator, 2026-11-23». Основание: допуск Внутренней безопасности (`missions/001-growth-os/training-check/internal-security-head-v2-prompts-recheck.md`, коммит eaebb4c, ветка mission-001) и одобрение Оркестратора 2026-11-23. Версия остаётся v1.1, иного текста не менялось. training-briefs.md без изменений.
