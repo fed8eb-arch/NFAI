@@ -4,6 +4,9 @@
  *        node creative-qc.cjs /path/to/authorized-aggregate.json
  *        node creative-qc.cjs --observations-csv OBS.csv actual
  *        node creative-qc.cjs --campaign-csv CAMPAIGN.csv actual 50 5
+ *        node creative-qc.cjs --apify-dataset DATASET_ID LIMIT --approved-free-read
+ * Apify read requires local APIFY_TOKEN and explicit confirmed free-use authorization.
+ * Reads an existing normalized dataset only; never starts an Actor.
  * CSV is normalized manually/authorized export only; fixed headers are in csvInput.
  * JSON schema and synthetic example are in selfTest below. Input/output is private
  * unless explicitly sanitized and approved. IDs are opaque; do not include PII,
@@ -148,12 +151,83 @@ function csvSelfTest(){
   return {passed:checks.length,checks};
 }
 
-module.exports = { creativeQC, selfTest, csvInput, csvSelfTest };
-if (require.main === module) {
+function apifyRequest(datasetId,limit,token){
+  if(typeof datasetId!=="string"||!/^[A-Za-z0-9]{10,40}$/.test(datasetId))throw Error("Use an exact dataset ID, not a URL or actor name");
+  if(!Number.isSafeInteger(limit)||limit<1||limit>1000)throw Error("Invalid one-page limit");
+  if(typeof token!=="string"||!/^[-_A-Za-z0-9]{10,256}$/.test(token))throw Error("APIFY_TOKEN is missing or invalid");
+  const fields="ad_id,advertiser_id,market,observed_on,evidence_id,active_days,copies,reach";
+  return {url:"https://api.apify.com/v2/datasets/"+datasetId+"/items?format=json&offset=0&limit="+limit+"&skipHidden=true&fields="+encodeURIComponent(fields),options:{method:"GET",redirect:"error",headers:{Authorization:"Bearer "+token,Accept:"application/json"}}};
+}
+
+function apifyObservationInput(items,limit){
+  if(!Array.isArray(items)||items.length>limit)throw Error("Unexpected dataset shape");
+  const allowed=["ad_id","advertiser_id","market","observed_on","evidence_id","active_days","copies","reach"];
+  const observations=items.map(r=>{
+    if(r===null||typeof r!=="object"||Array.isArray(r)||Object.keys(r).some(k=>!allowed.includes(k)))throw Error("Dataset must have normalized observation fields");
+    return {ad_id:r.ad_id,advertiser_id:r.advertiser_id,market:r.market,observed_on:r.observed_on,evidence_id:r.evidence_id,source:"authorized_export",active_days:r.active_days??null,copies:r.copies??null,reach:r.reach??null};
+  });
+  return {schema:"nfai-creative-qc-v1",data_kind:"actual",min_clicks:1,min_qualified:1,creatives:[],observations};
+}
+
+async function apifyRead(datasetId,limit,token,transport,signal,decode){
+  const request=apifyRequest(datasetId,limit,token);
+  const res=await transport(request.url,{...request.options,signal});
+  if(res.status!==200||!/^application\/json(?:;|$)/i.test(res.headers.get("content-type")||""))throw Error("Dataset request failed");
+  if(!res.body||typeof res.body.getReader!=="function")throw Error("Missing response body");
+  const max=2*1024*1024, chunks=[];let count=0;
+  const reader=res.body.getReader();
   try {
+    for(;;){
+      const {done,value}=await reader.read();
+      if(done)break;
+      if(!(value instanceof Uint8Array)||count+value.byteLength>max)throw Error("Dataset response too large");
+      chunks.push(value);count+=value.byteLength;
+    }
+  } catch(e){try{await reader.cancel();}catch{}throw e;}
+  finally{reader.releaseLock();}
+  const bytes=new Uint8Array(count);let p=0;for(const c of chunks){bytes.set(c,p);p+=c.length;}
+  const items=JSON.parse(decode(bytes));
+  const report=creativeQC(apifyObservationInput(items,limit));
+  const rawTotal=res.headers.get("x-apify-pagination-total");
+  const total=typeof rawTotal==="string"&&/^\d+$/.test(rawTotal)&&Number.isSafeInteger(Number(rawTotal))?Number(rawTotal):null;
+  if(total!==null&&total<items.length)throw Error("Invalid pagination total");
+  return {...report,import:{provider:"apify",dataset_id:datasetId,returned:items.length,total,complete:total===items.length,scope:"first_page_only"}};
+}
+
+async function apifySelfTest(){
+  const checks=[];
+  function check(n,v){if(!v)throw Error(n);checks.push(n);}
+  async function reject(n,fn){let ok=false;try{await fn()}catch{ok=true;}check(n,ok);}
+  const id="SyntheticDataset1",token="synthetic_test_token",limit=10;
+  const row={ad_id:"ad1",advertiser_id:"company1",market:"US",observed_on:"2026-11-24",evidence_id:"e1",active_days:45};
+  let calls=0;
+  const transport=async(url,options)=>{
+    calls++;check("fixed read-only request",url.startsWith("https://api.apify.com/v2/datasets/SyntheticDataset1/items?")&&options.method==="GET"&&options.redirect==="error"&&!url.includes(token)&&options.headers.Authorization==="Bearer "+token);
+    let done=false;const payload=JSON.stringify([row]);
+    return {status:200,headers:{get:k=>k==="content-type"?"application/json":k==="x-apify-pagination-total"?"12":null},body:{getReader:()=>({read:async()=>done?{done:true}:(done=true,{done:false,value:Uint8Array.from(payload,c=>c.charCodeAt(0))}),releaseLock:()=>{},cancel:async()=>{}})}};
+  };
+  const r=await apifyRead(id,limit,token,transport,undefined,b=>String.fromCharCode(...b));
+  check("actual observation import",r.competitor_observations[0].active_days===45&&r.competitor_observations[0].reach===null&&r.competitor_observations[0].source==="authorized_export");
+  check("partial page explicit",r.import.returned===1&&r.import.total===12&&r.import.complete===false);
+  await reject("reject arbitrary URL",()=>apifyRead("https://example.com",limit,token,transport,undefined,()=> ""));
+  await reject("reject excessive limit",()=>apifyRead(id,1001,token,transport,undefined,()=> ""));
+  await reject("reject missing token",()=>apifyRead(id,limit,"",transport,undefined,()=> ""));
+  check("no request on invalid arguments",calls===1);
+  await reject("reject private extra fields",()=>creativeQC(apifyObservationInput([{...row,email:"private"}],limit)));
+  await reject("reject wrong status",()=>apifyRead(id,limit,token,async()=>({status:429}),undefined,()=> ""));
+  await reject("reject invalid observation metric",()=>creativeQC(apifyObservationInput([{...row,active_days:-1}],limit)));
+  return {passed:checks.length,checks};
+}
+
+module.exports = { creativeQC, selfTest, csvInput, csvSelfTest, apifyRequest, apifyObservationInput, apifyRead, apifySelfTest };
+if (require.main === module) {
+  (async()=>{try {
     const args=process.argv.slice(2), arg=args[0];
     if (args.length===1&&arg==="--self-test") {
-      process.stdout.write(JSON.stringify({core:selfTest(),csv:csvSelfTest()},null,2)+"\n");
+      process.stdout.write(JSON.stringify({core:selfTest(),csv:csvSelfTest(),apify:await apifySelfTest()},null,2)+"\n");
+    } else if(arg==="--apify-dataset"&&args.length===4&&args[3]==="--approved-free-read") {
+      const report=await apifyRead(args[1],Number(args[2]),process.env.APIFY_TOKEN,fetch,AbortSignal.timeout(15000),bytes=>new TextDecoder("utf-8",{fatal:true}).decode(bytes));
+      process.stdout.write(JSON.stringify(report,null,2)+"\n");
     } else {
       const fs=require("node:fs");
       const readLocal=p=>{if(!fs.statSync(p).isFile()||fs.statSync(p).size>8*1024*1024)throw Error("input size");return fs.readFileSync(p,"utf8");};
@@ -167,5 +241,5 @@ if (require.main === module) {
   } catch(e) {
     process.stderr.write("Creative QC failed. Check schema, file and arguments locally.\n");
     process.exitCode=1;
-  }
+  }})();
 }
