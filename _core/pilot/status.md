@@ -106,7 +106,7 @@
 | Оркестратор | Treblo | UNBLOCKED 16:57 — queued after Zoho | — | — |
 | Оркестратор | Zoho Mail | BLOCKED 16:57: Zoho "unable to create your account right now, contact support-as@eu.zohocorp.com" (risk block, no SMS sent); Vault 5175207 unused | — | screenshot 01d38364… |
 | Оркестратор | Treblo | STARTED 16:58 | — | — |
-| Оркестратор | Google sign-in on my computer (asdf150780@gmail.com, Founder approved 2FA 17:23) | IN PROGRESS: neuroforge2026 wrong password; gostdt 2FA device unknown | — | — |
+- [REDACTED / 2026-11-24] Историческая попытка входа Google: введённое значение отклонено. Возможные учётные данные и связанные идентификаторы из этой строки исключены; см. A11 и отчёт Внутренней безопасности от 23.11.2026. Работоспособность или безопасность аккаунта этой записью не подтверждается.
 | Оркестратор | NotebookLM via Google | STARTED 17:24 | — | — |
 | Оркестратор | Treblo | ACCOUNT CREATED 16:58, email verify pending (Vault 5175400) | — | screenshot 0377e7c9… |
 | Оркестратор | NotebookLM | DONE 17:24: opened via Google asdf150780@gmail.com, app loaded (notebook.google.com) | — | URL notebook.google.com/notebook/b430898b… |
