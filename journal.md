@@ -319,3 +319,7 @@ Founder relayed Windows PowerShell creation of Start_NFAI_Kimi_Max.ps1: FILE_EXI
 ### 25.11.2026 — self-audit ChatGPT: Free Engine setup errors
 
 Founder requires every own mistake in canonical _core/staff/errors-log.md. Added eight incident entries covering invalid PowerShell, startup model precedence, missing Kimi launcher, unnecessary repeated key input, DPAPI FormatException, unsupported max/verification claims, unsupported independent test claim, and test scope deviation. Correction to earlier checkpoints: independent Claude unittest execution not evidenced by available tool trace; 32/32 is Claude-reported, 15/15 Kimi founder-relayed. No scores assigned; independent review pending. DPAPI trim fix proposed, not yet verified; no secrets recorded. Next verify no-prompt startup, then resume B.2. A01/A10 OPEN, A02 STOP, HOLD, $0.
+
+### 25.11.2026 — автоматический запуск Kimi
+
+После исправления DPAPI чтения (Trim) Основатель подтвердил «все работает». Операционная приёмка по сообщению владельца; отдельный технический лог двух запусков не предоставлен. Повторный ввод ключа и повторные нагрузочные тесты не запрашивать. ERR-20261125-KIMI-AUTO-01 / DPAPI-01 дополнены в каноническом журнале. Следующий этап B.2 с существующего synthetic git_reader.py; NVIDIA только synthetic/nonconfidential. A01/A10 OPEN, A02 STOP, обучение HOLD, $0.
