@@ -287,3 +287,7 @@ Python 3.12.10; main local HEAD/cached origin/main 70cac3e29c04b1a974555632448c0
 ### 25.11.2026 — Free Engine launcher output cap identified
 
 Founder-relayed numeric check: CLAUDE_CODE_MAX_OUTPUT_TOKENS=2048 (matches CLI error), CLAUDE_CODE_MAX_CONTEXT_TOKENS=128000 (configured, not verified effective), DISABLE_AUTO_COMPACT=0; explicit CLAUDE_CODE_AUTO_COMPACT_WINDOW, MAX_THINKING_TOKENS, DISABLE_COMPACT and CLAUDE_CODE_DISABLE_1M_CONTEXT absent in launcher. Proposed bounded reversible output-only trial 4096; no live change confirmed yet. Verify actual provider/model, free entitlement, request max_tokens/usage and no unexpected fallback before raising further. Preserve B.2 file, context settings and compaction; no new router or paid API. A02 STOP, HOLD, $0.
+
+### 25.11.2026 — Free Engine Kimi candidate connectivity
+
+Founder-relayed tests with existing NVIDIA key: /v1/messages HTTP 404; /v1/chat/completions returned moonshotai/kimi-k3.1-pro, READY, finish stop, prompt 90, completion 29 including reasoning 21, total 119, requested max_tokens 8192. Direct OpenAI-compatible connectivity PASS; Anthropic endpoint not demonstrated. Not a context/output capacity or tool-call acceptance test. Next use existing NVIDIA provider in OmniRoute, add exact model if absent, keep existing combo unchanged, pinned synthetic Claude trial and actual route metadata. 4096 launcher edit not confirmed. No key stored, no paid path, NVIDIA synthetic/nonconfidential only. A02 STOP, HOLD, $0.
