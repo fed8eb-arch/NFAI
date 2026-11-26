@@ -311,3 +311,7 @@ Founder relayed Kimi Code 2.8.0 transcript: synthetic_pagination.py 59 lines and
 ### 25.11.2026 — Claude startup model selection
 
 Founder supplied startup banner Claude Code 2.1.327, nvidia/nvidia/nemotron-3.5-super-vl-120b-a12b, NFAI-Free-Engine after MAX launcher patch. Startup model selection PASS based on relayed banner; no new direct file/hash check. Original Combo remains separate per prescribed patch. Next persistent Kimi launcher using same verified environment variables and interactive secret input; no private MCP import; no additional stress tests. A01/A10 OPEN, A02 STOP, HOLD, $0.
+
+### 25.11.2026 — Kimi persistent launcher startup
+
+Founder relayed Windows PowerShell creation of Start_NFAI_Kimi_Max.ps1: FILE_EXISTS, SYNTAX, READBACK all PASS; masked NVIDIA key prompt; Kimi Code 2.8.0 startup banner exact moonshotai/kimi-k3.1-pro, thinking on, isolated tests/kimi-pilot. Prior missing launcher corrected; Claude startup already confirmed separately. These are user-supplied verification logs, no direct Windows access. API key not embedded in supplied launcher; entered on each launch. Configured context 1048576 and thinking effort max, no explicit extra output cap; effective API ceiling/reasoning effort and auto-compaction not established. No additional stress tests per founder; resume B.2 existing synthetic work, preserve NVIDIA nonconfidential/synthetic-only boundary, no private MCP import. A01/A10 OPEN, A02 STOP, training HOLD, $0.
