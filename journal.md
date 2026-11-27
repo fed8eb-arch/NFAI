@@ -373,3 +373,7 @@ KEEP: оба рабочих каталога, хранилища ключей, C
 ### 26.11.2026 — manual orchestration, B.2 source review
 
 Founder authorized continuing through manual relay; provided 235-line synthetic git_reader.py and Windows-reported SHA256 EEB9229503F86E7E15DE287796A77ABCDF9AD87B346A616628D507CC164EA9B8. Static comparison against existing contract 87ba024: REWORK, pagination/basic EOF and argv/timeout present; content loss from stdout.strip()/text mode, incorrect raw blob hash, symlink check after resolve, no mandatory continuation revision/final HEAD recheck, incomplete tree/path/graph/worktree guards, no blob cap or freshness; error details unsanitized. No independent raw file hash or execution; no source published. Next bounded synthetic core fix and temp-Git regression, existing authorized free session only, no private inputs, no live MCP patch before Chat 09 acceptance. A01/A10 OPEN, A02 STOP, training HOLD, PR1 no merge, $0.
+
+## 26.11.2026 · Совместимость очистки с Windows PowerShell 5.1
+
+По выводу Основателя первый Apply остановился до создания recovery ZIP и удаления: `ZipArchiveMode` не загружен. В существующем скрипте `NFAI-Cleanup-20261126.ps1` добавлена явная загрузка `System.IO.Compression` перед `System.IO.Compression.FileSystem`. SHA‑256 текущего скрипта `e4afe179d3d90b10533aba3658fb439d7f871609857d868d8cc6e3d497ff6e43`. Создание, повторное чтение ZIP и проверка SHA‑256 прошли в Windows PowerShell 5.1. Предпросмотр повторно проверил те же 43 файла, 2 100 184 байта. Фактическое удаление ожидает повторного ручного Apply.
